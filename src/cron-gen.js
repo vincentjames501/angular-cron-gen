@@ -111,6 +111,9 @@
                         },
                         hours: 0,
                         minutes: 0
+                    },
+                    advanced: {
+                        expression: null
                     }
                 };
 
@@ -128,8 +131,7 @@
                     options: {
                         templateUrl = DEFAULT_TEMPLATE,
                         cronFormat = 'quartz'
-                    },
-                    ngModel
+                    }
                 } = $scope;
 
                 //Handle tab navigation
@@ -164,7 +166,9 @@
                 $scope.monthDisplay = (monthNumber) => MONTH_LOOKUPS[monthNumber];
 
                 //On model changes, update our state to reflect the user's input
-                $scope.$watch('ngModel', (newCronExpression) => {
+                $scope.$watch('ngModel', (cron) => {
+                    state.advanced.expression = cron;
+
                     if (state.state === States.DIRTY) {
                         state.state = States.CLEAN;
                         return;
@@ -172,46 +176,46 @@
                         state.state = States.CLEAN;
                     }
 
-                    const segments = newCronExpression.split(' ');
+                    const segments = cron.split(' ');
                     if (segments.length === 6 || segments.length === 7) {
                         const [, minutes, hours, dayOfMonth, month, dayOfWeek] = segments;
-                        if (newCronExpression.match(/0 0\/\d+ \* 1\/1 \* \? \*/)) {
+                        if (cron.match(/0 0\/\d+ \* 1\/1 \* \? \*/)) {
                             state.activeTab = 'minutes';
                             state.minutes.minutes = parseInt(minutes.substring(2));
-                        } else if (newCronExpression.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
+                        } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
                             state.activeTab = 'hourly';
                             state.hourly.subTab = 'every';
                             state.hourly.every.hours = parseInt(hours.substring(2));
-                        } else if (newCronExpression.match(/0 \d+ \d+ 1\/1 \* \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ 1\/1 \* \? \*/)) {
                             state.activeTab = 'hourly';
                             state.hourly.subTab = 'specific';
                             state.hourly.specific.hours = parseInt(hours);
                             state.hourly.specific.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ 1\/\d+ \* \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ 1\/\d+ \* \? \*/)) {
                             state.activeTab = 'daily';
                             state.daily.subTab = 'everyDays';
                             state.daily.everyDays.days = parseInt(dayOfMonth.substring(2));
                             state.daily.hours = parseInt(hours);
                             state.daily.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \? \* MON\-FRI \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \? \* MON\-FRI \*/)) {
                             state.activeTab = 'daily';
                             state.daily.subTab = 'everyWeekDay';
                             state.daily.hours = parseInt(hours);
                             state.daily.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
                             state.activeTab = 'weekly';
                             selectOptions.days.forEach(weekDay => state.weekly[weekDay] = false);
                             dayOfWeek.split(',').forEach(weekDay => state.weekly[weekDay] = true);
                             state.weekly.hours = parseInt(hours);
                             state.weekly.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \d+ 1\/\d+ \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \d+ 1\/\d+ \? \*/)) {
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificDay';
                             state.monthly.specificDay.day = parseInt(dayOfMonth);
                             state.monthly.specificDay.months = parseInt(month.substring(2));
                             state.monthly.hours = parseInt(hours);
                             state.monthly.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             const [day, monthWeek] = dayOfWeek.split('#');
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificWeekDay';
@@ -220,14 +224,14 @@
                             state.monthly.specificWeekDay.months = parseInt(month.substring(2));
                             state.monthly.hours = parseInt(hours);
                             state.monthly.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \d+ \d+ \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \d+ \d+ \? \*/)) {
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthDay';
                             state.yearly.specificMonthDay.month = parseInt(month);
                             state.yearly.specificMonthDay.day = parseInt(dayOfMonth);
                             state.yearly.hours = parseInt(hours);
                             state.yearly.minutes = parseInt(minutes);
-                        } else if (newCronExpression.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             const [day, monthWeek] = dayOfWeek.split('#');
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthWeek';
@@ -237,7 +241,8 @@
                             state.yearly.hours = parseInt(hours);
                             state.yearly.minutes = parseInt(minutes);
                         } else {
-                            //todo show advanced tab
+                            state.activeTab = 'advanced';
+                            state.advanced.expression = cron;
                         }
                     } else {
                         throw 'Unsupported cron expression. Expression must be 6 or 7 segments';
@@ -304,6 +309,9 @@
                                 default:
                                     throw 'Invalid cron yearly subtab selection';
                             }
+                            break;
+                        case 'advanced':
+                            $scope.ngModel = state.advanced.expression;
                             break;
                         default:
                             throw 'Invalid cron active tab selection'

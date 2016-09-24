@@ -53,6 +53,15 @@
                 Yearly
             </a>
         </li>
+        <li role="presentation" ng-class="{'active': state.activeTab === 'advanced'}">
+            <a href="#"
+               aria-controls="advanced"
+               role="tab"
+               data-toggle="tab"
+               ng-click="setActiveTab($event, state, 'advanced', ngDisabled)">
+                Advanced
+            </a>
+        </li>
     </ul>
     <div class="cron-gen-container container">
         <div class="row">
@@ -368,6 +377,16 @@
                                 ng-model="state.yearly.minutes"
                                 ng-options="minute as padNumber(minute) for minute in selectOptions.minutes">
                         </select>
+                    </div>
+                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'advanced'}">
+                        Cron Expression
+                        <input type="text"
+                               ng-disabled="ngDisabled"
+                               ng-change="regenerateCron(state)"
+                               ng-model="state.advanced.expression"
+                               ng-required="state.activeTab === 'advanced'">
+
+                        <p>More details about how to create these expressions can be found <a href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html" target="_blank">here</a>.</p>
                     </div>
                 </div>
             </div>
