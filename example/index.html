@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+    <!-- angular -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+
+    <!-- lib -->
+    <script src="../build/cron-gen.min.js"></script>
+    <link href='../build/cron-gen.min.css' rel='stylesheet'/>
+
+    <!-- example app -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <script src="app.js"></script>
+    <link href='app.css' rel='stylesheet'/>
+    <link href='http://fonts.googleapis.com/css?family=Oxygen:300,400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body ng-app="ExampleApp" ng-controller="ExampleCtrl">
+<div class="jumbotron">
+    <h1>Cron Generator</h1>
+    <p>A cron expression generator for AngularJS.</p>
+    <p>
+        <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-primary btn-lg">
+            <i class="glyphicon glyphicon-download"></i>&nbsp;&nbsp;Download
+        </a>
+        <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-default btn-lg">
+            <i class="glyphicon glyphicon-random"></i>&nbsp;&nbsp;Fork on GitHub
+        </a>
+    </p>
+</div>
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="row container">
+            <div class="col-xs-12">
+                <h3>Demo</h3>
+            </div>
+        </div>
+        <hr/>
+        <div class="row container">
+            <div class="col-xs-12">
+                <cron-gen ng-model="cronExpression" options="cronOptions"></cron-gen>
+            </div>
+        </div>
+        <hr/>
+        <div class="row container">
+            <div class="col-xs-12">
+                Generated Cron Expression:
+                <span class="text-success"><b>{{cronExpression}}</b></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-body">
+        <div class="row container">
+            <div class="col-xs-12">
+                <h3>Usage</h3>
+            </div>
+        </div>
+        <hr/>
+        <div class="row container">
+            <div class="col-xs-12">
+
+                <pre>&lt;cron-gen ng-model="cronExpression"
+          ng-disabled="isCronDisabled"
+          options="cronOptions"&gt;
+&lt;/cron-gen&gt;</pre>
+
+                <pre>angular.module('ExampleApp', ['angular-cron-gen'])
+  .controller('ExampleCtrl', ['$scope', function ($scope) {
+    $scope.cronExpression = '0 8 9 9 1/8 ? *';
+    $scope.cronOptions = {};
+    $scope.isCronDisabled = false;
+  }]);</pre>
+
+            </div>
+        </div>
+
+        <div class="row container">
+            <div class="col-xs-12">
+                <h3>Options</h3>
+            </div>
+        </div>
+        <hr/>
+        <div class="row container">
+            <div class="col-xs-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Options</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>Default</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>templateUrl</td>
+                        <td>Allows you to override the default template</td>
+                        <td>String</td>
+                        <td>The default template</td>
+                    </tr>
+                    <tr>
+                        <td>cronFormat</td>
+                        <td>The desired cron format. Currently only "quartz" is accepted</td>
+                        <td>String</td>
+                        <td>"quartz"</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous">
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous">
+</script>
+</html>

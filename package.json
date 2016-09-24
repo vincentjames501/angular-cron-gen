@@ -1,0 +1,40 @@
+{
+  "name": "angular-cron-gen",
+  "version": "0.0.1",
+  "description": "A cron expression generator for AngularJS.",
+  "main": "index.js",
+  "style": "build/cron-gen.css",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vincentjames501/angular-cron-gen.git"
+  },
+  "keywords": [
+    "angular",
+    "angularjs",
+    "cron",
+    "quartz"
+  ],
+  "author": "Vincent Pizzo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vincentjames501/angular-cron-gen/issues"
+  },
+  "homepage": "https://vincentjames.github.io/angular-cron-gen",
+  "devDependencies": {
+    "add-stream": "^1.0.0",
+    "babel-preset-es2015": "^6.14.0",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.1.0",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-uglifycss": "^1.0.6"
+  }
+}
