@@ -3,6 +3,8 @@ angular-cron-gen
 
 A basic way to for users to graphically build a cron expression.
 
+Demo can be found [here](https://vincentjames501.github.io/angular-cron-gen/).
+
 **Requirements:** AngularJS 1.5+
 
 ## Usage:
