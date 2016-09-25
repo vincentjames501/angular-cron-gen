@@ -39,7 +39,12 @@
         <hr/>
         <div class="row container">
             <div class="col-xs-12">
-                <cron-gen ng-model="cronExpression" options="cronOptions"></cron-gen>
+                <form name="cronForm">
+                    <cron-gen ng-model="cronExpression"
+                              options="cronOptions"
+                              name="cron">
+                    </cron-gen>
+                </form>
             </div>
         </div>
         <hr/>
@@ -47,6 +52,11 @@
             <div class="col-xs-12">
                 Generated Cron Expression:
                 <span class="text-success"><b>{{cronExpression}}</b></span>
+            </div>
+            <div class="col-xs-12">
+                Is Valid:
+                <span class="text-success" ng-show="cronForm.cron.$valid"><b>True</b></span>
+                <span class="text-danger" ng-show="cronForm.cron.$invalid"><b>False</b></span>
             </div>
         </div>
     </div>
