@@ -60,8 +60,22 @@
             replace: true,
             restrict: 'E',
             link($scope, elem, attrs, [ngModelCtrl,,formCtrl]) {
+                //Extract our options
+                const {
+                    options: {
+                        templateUrl = DEFAULT_TEMPLATE,
+                        cronFormat = 'quartz',
+                        formInputClass = 'form-control-static',
+                        formSelectClass = 'form-control-static',
+                        formRadioClass = 'form-control-static'
+                    } = {}
+                } = $scope;
+
                 //Define our directive state
                 const state = $scope.state = {
+                    formInputClass,
+                    formSelectClass,
+                    formRadioClass,
                     state: States.INIT,
                     activeTab: 'minutes',
                     minutes: {
@@ -137,14 +151,6 @@
                     monthWeeks: [1, 2, 3, 4],
                     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
                 };
-
-                //Extract our options
-                const {
-                    options: {
-                        templateUrl = DEFAULT_TEMPLATE,
-                        cronFormat = 'quartz'
-                    }
-                } = $scope;
 
                 //If possible, add our cron expression validator to our form
                 if (formCtrl && attrs.name) {

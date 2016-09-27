@@ -1,5 +1,5 @@
 <div class="cron-gen-main" ng-cloak>
-    <ul class="nav nav-tabs" role="tablist">
+    <ul class="nav nav-tabs tab-nav" role="tablist">
         <li ng-class="{'active': state.activeTab === 'minutes'}" role="presentation">
             <a href="#"
                aria-controls="minutes"
@@ -76,7 +76,8 @@
                                ng-disabled="ngDisabled"
                                ng-change="regenerateCron(state)"
                                ng-model="state.minutes.minutes"
-                               ng-required="state.activeTab === 'minutes'">
+                               ng-required="state.activeTab === 'minutes'"
+                               ng-class="state.formInputClass">
                         minute(s)
                     </div>
                     <div class="tab-pane" ng-class="{'active': state.activeTab === 'hourly'}">
@@ -87,6 +88,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.hourly.subTab"
+                                   ng-class="state.formRadioClass"
                                    checked="checked">
                             Every
                             <input class="hours"
@@ -96,7 +98,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.hourly.every.hours"
-                                   ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'every'">
+                                   ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'every'"
+                                   ng-class="state.formInputClass">
                             hour(s)
                         </div>
                         <div class="well well-small">
@@ -105,6 +108,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.hourly.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="hourly-radio">
                             At
                             <select class="hours"
@@ -112,14 +116,16 @@
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.hourly.specific.hours"
                                     ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'">
+                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
+                                    ng-class="state.formSelectClass">
                             </select>
                             <select class="minutes"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.hourly.specific.minutes"
                                     ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'">
+                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
+                                    ng-class="state.formSelectClass">
                             </select>
                         </div>
                     </div>
@@ -131,6 +137,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.daily.subTab"
+                                   ng-class="state.formRadioClass"
                                    checked="checked">
                             Every
                             <input class="days"
@@ -140,7 +147,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.daily.everyDays.days"
-                                   ng-required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'">
+                                   ng-required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
+                                   ng-class="state.formInputClass">
                             day(s)
                         </div>
                         <div class="well well-small">
@@ -149,6 +157,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.daily.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="daily-radio">
                             Every week day
                         </div>
@@ -159,14 +168,16 @@
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'daily'"
                                 ng-model="state.daily.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours">
+                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
+                                ng-class="state.formSelectClass">
                         </select>
                         <select class="minutes"
                                 ng-disabled="ngDisabled"
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'daily'"
                                 ng-model="state.daily.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes">
+                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
                         </select>
                     </div>
                     <div class="tab-pane" ng-class="{'active': state.activeTab === 'weekly'}">
@@ -175,39 +186,46 @@
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.MON">
+                                       ng-model="state.weekly.MON"
+                                       ng-class="state.formInputClass">
                                 Monday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.WED">
+                                       ng-model="state.weekly.WED"
+                                       ng-class="state.formInputClass">
                                 Wednesday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.FRI">
+                                       ng-model="state.weekly.FRI"
+                                       ng-class="state.formInputClass">
                                 Friday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.SUN">
+                                       ng-model="state.weekly.SUN"
+                                       ng-class="state.formInputClass">
                                 Sunday
                             </div>
                             <div class="span6 col-sm-6">
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.TUE">
+                                       ng-model="state.weekly.TUE"
+                                       ng-class="state.formInputClass">
                                 Tuesday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.THU">
+                                       ng-model="state.weekly.THU"
+                                       ng-class="state.formInputClass">
                                 Thursday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
-                                       ng-model="state.weekly.SAT">
+                                       ng-model="state.weekly.SAT"
+                                       ng-class="state.formInputClass">
                                 Saturday
                             </div>
                             <br><br><br><br>
@@ -218,14 +236,16 @@
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'weekly'"
                                 ng-model="state.weekly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours">
+                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
+                                ng-class="state.formSelectClass">
                         </select>
                         <select class="minutes"
                                 ng-disabled="ngDisabled"
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'weekly'"
                                 ng-model="state.weekly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes">
+                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
                         </select>
                     </div>
                     <div class="tab-pane" ng-class="{'active': state.activeTab === 'monthly'}">
@@ -235,6 +255,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="monthly-radio"
                                    checked="checked">
                             Day
@@ -245,7 +266,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificDay.day"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'">
+                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
+                                   ng-class="state.formInputClass">
                             of every
                             <input class="months-small"
                                    type="number"
@@ -254,7 +276,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificDay.months"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'">
+                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
+                                   ng-class="state.formInputClass">
                             month(s)
                         </div>
                         <div class="well well-small">
@@ -263,20 +286,23 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="monthly-radio">
                             <select class="day-order-in-month"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.monthly.specificWeekDay.monthWeek"
                                     ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
-                                    ng-options="monthWeek as monthWeekDisplay(monthWeek) for monthWeek in selectOptions.monthWeeks">
+                                    ng-options="monthWeek as monthWeekDisplay(monthWeek) for monthWeek in selectOptions.monthWeeks"
+                                    ng-class="state.formSelectClass">
                             </select>
                             <select class="week-days"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.monthly.specificWeekDay.day"
                                     ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
-                                    ng-options="day as dayDisplay(day) for day in selectOptions.days">
+                                    ng-options="day as dayDisplay(day) for day in selectOptions.days"
+                                    ng-class="state.formSelectClass">
                             </select>
                             of every
                             <input class="months-small"
@@ -286,7 +312,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificWeekDay.months"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'">
+                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
+                                   ng-class="state.formInputClass">
                             month(s)
                         </div>
                         Start time
@@ -295,14 +322,16 @@
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'monthly'"
                                 ng-model="state.monthly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours">
+                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
+                                ng-class="state.formSelectClass">
                         </select>
                         <select class="minutes"
                                 ng-disabled="ngDisabled"
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'monthly'"
                                 ng-model="state.monthly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes">
+                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
                         </select>
                     </div>
                     <div class="tab-pane" ng-class="{'active': state.activeTab === 'yearly'}">
@@ -312,6 +341,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.yearly.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="yearly-radio">
                             Every
                             <select class="months"
@@ -319,7 +349,8 @@
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthDay.month"
                                     ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
-                                    ng-options="month as monthDisplay(month) for month in selectOptions.months">
+                                    ng-options="month as monthDisplay(month) for month in selectOptions.months"
+                                    ng-class="state.formSelectClass">
                             </select>
                             in day
                             <input class="days"
@@ -329,7 +360,8 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.yearly.specificMonthDay.day"
-                                   ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'">
+                                   ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
+                                   ng-class="state.formInputClass">
                         </div>
                         <div class="well well-small">
                             <input type="radio"
@@ -337,6 +369,7 @@
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.yearly.subTab"
+                                   ng-class="state.formRadioClass"
                                    name="yearly-radio">
                             The
                             <select class="day-order-in-month"
@@ -344,14 +377,16 @@
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.monthWeek"
                                     ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthWeek'"
-                                    ng-options="monthWeek as monthWeekDisplay(monthWeek) for monthWeek in selectOptions.monthWeeks">
+                                    ng-options="monthWeek as monthWeekDisplay(monthWeek) for monthWeek in selectOptions.monthWeeks"
+                                    ng-class="state.formSelectClass">
                             </select>
                             <select class="week-days"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.day"
                                     ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthWeek'"
-                                    ng-options="day as dayDisplay(day) for day in selectOptions.days">
+                                    ng-options="day as dayDisplay(day) for day in selectOptions.days"
+                                    ng-class="state.formSelectClass">
                             </select>
                             of
                             <select class="months"
@@ -359,7 +394,8 @@
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.month"
                                     ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthWeek'"
-                                    ng-options="month as monthDisplay(month) for month in selectOptions.months">
+                                    ng-options="month as monthDisplay(month) for month in selectOptions.months"
+                                    ng-class="state.formSelectClass">
                             </select>
                         </div>
                         Start time
@@ -368,14 +404,16 @@
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'yearly'"
                                 ng-model="state.yearly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours">
+                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
+                                ng-class="state.formSelectClass">
                         </select>
                         <select class="minutes"
                                 ng-disabled="ngDisabled"
                                 ng-change="regenerateCron(state)"
                                 ng-required="state.activeTab === 'yearly'"
                                 ng-model="state.yearly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes">
+                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
                         </select>
                     </div>
                     <div class="tab-pane" ng-class="{'active': state.activeTab === 'advanced'}">
@@ -384,9 +422,12 @@
                                ng-disabled="ngDisabled"
                                ng-change="regenerateCron(state)"
                                ng-model="state.advanced.expression"
-                               ng-required="state.activeTab === 'advanced'">
+                               ng-required="state.activeTab === 'advanced'"
+                               ng-class="state.formInputClass">
 
-                        <p>More details about how to create these expressions can be found <a href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html" target="_blank">here</a>.</p>
+                        <p>More details about how to create these expressions can be found <a
+                                href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html"
+                                target="_blank">here</a>.</p>
                     </div>
                 </div>
             </div>
