@@ -45,8 +45,18 @@ angular.module('myApp', ['angular-cron-gen'])
     $scope.cronExpression = '0 0 0/3 1/1 * ? *';
     $scope.isCronDisabled = false;
     $scope.cronOptions = {
-      templateUrl: 'your custom template', // Defaults to a bootstrap 3 template
-      cronFormat: 'cron format' // Currently only compatible with 'quartz'
+      templateUrl: 'your optional, custom template', // Defaults to a bootstrap 3 template
+      cronFormat: 'quartz', // Currently only compatible with 'quartz'
+      formInputClass = 'form-control-static', // Form input class override
+      formSelectClass = 'form-control-static', // Select class override
+      formRadioClass = 'form-control-static', // Radio class override
+      hideMinutesTab = false, // Whether to hide the minutes tab
+      hideHourlyTab = false, // Whether to hide the hourly tab
+      hideDailyTab = false, // Whether to hide the daily tab
+      hideWeeklyTab = false, // Whether to hide the weekly tab
+      hideMonthlyTab = false, // Whether to hide the monthly tab
+      hideYearlyTab = false, // Whether to hide the yearly tab
+      hideAdvancedTab = true // Whether to hide the advanced tab
     };
   }])
 ```

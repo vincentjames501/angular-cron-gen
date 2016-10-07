@@ -1,18 +1,20 @@
 <!doctype html>
 <html>
 <head>
+    <title>Angular Cron Gen</title>
+
     <!-- angular -->
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 
     <!-- lib -->
     <script src="../build/cron-gen.min.js"></script>
-    <link href='../build/cron-gen.min.css' rel='stylesheet'/>
+    <link href="../build/cron-gen.min.css' rel='stylesheet"/>
 
     <!-- example app -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <script src="app.js"></script>
-    <link href='app.css' rel='stylesheet'/>
-    <link href='http://fonts.googleapis.com/css?family=Oxygen:300,400,700' rel='stylesheet' type='text/css'>
+    <link href="app.css" rel="stylesheet"/>
+    <link href="http://fonts.googleapis.com/css?family=Oxygen:300,400,700" rel="stylesheet" type="text/css">
 </head>
 
 <body ng-app="ExampleApp" ng-controller="ExampleCtrl">
@@ -117,6 +119,66 @@
                         <td>The desired cron format. Currently only "quartz" is accepted</td>
                         <td>String</td>
                         <td>"quartz"</td>
+                    </tr>
+                    <tr>
+                        <td>formInputClass</td>
+                        <td>The input class override</td>
+                        <td>String</td>
+                        <td>"form-control-static"</td>
+                    </tr>
+                    <tr>
+                        <td>formSelectClass</td>
+                        <td>The select class override</td>
+                        <td>String</td>
+                        <td>"form-control-static"</td>
+                    </tr>
+                    <tr>
+                        <td>formRadioClass</td>
+                        <td>The radio class override</td>
+                        <td>String</td>
+                        <td>"form-control-static"</td>
+                    </tr>
+                    <tr>
+                        <td>hideMinutesTab</td>
+                        <td>Whether the minutes tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideHourlyTab</td>
+                        <td>Whether the hourly tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideDailyTab</td>
+                        <td>Whether the daily tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideWeeklyTab</td>
+                        <td>Whether the weekly tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideMonthlyTab</td>
+                        <td>Whether the monthly tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideYearlyTab</td>
+                        <td>Whether the yearly tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideAdvancedTab</td>
+                        <td>Whether the advanced tab should be hidden</td>
+                        <td>boolean</td>
+                        <td>true</td>
                     </tr>
                     </tbody>
                 </table>

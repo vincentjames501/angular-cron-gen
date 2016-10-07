@@ -1,6 +1,9 @@
+<!doctype html>
 <div class="cron-gen-main" ng-cloak>
     <ul class="nav nav-tabs tab-nav" role="tablist">
-        <li ng-class="{'active': state.activeTab === 'minutes'}" role="presentation">
+        <li ng-class="{'active': state.activeTab === 'minutes'}"
+            ng-show="!state.minutes.isHidden"
+            role="presentation">
             <a href="#"
                aria-controls="minutes"
                role="tab"
@@ -9,7 +12,9 @@
                 Minutes
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'hourly'}">
+        <li role="presentation"
+            ng-show="!state.hourly.isHidden"
+            ng-class="{'active': state.activeTab === 'hourly'}">
             <a href="#"
                aria-controls="hourly"
                role="tab"
@@ -18,7 +23,9 @@
                 Hourly
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'daily'}">
+        <li role="presentation"
+            ng-show="!state.daily.isHidden"
+            ng-class="{'active': state.activeTab === 'daily'}">
             <a href="#"
                aria-controls="daily"
                role="tab"
@@ -27,7 +34,9 @@
                 Daily
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'weekly'}">
+        <li role="presentation"
+            ng-show="!state.weekly.isHidden"
+            ng-class="{'active': state.activeTab === 'weekly'}">
             <a href="#" aria-controls="weekly"
                role="tab"
                data-toggle="tab"
@@ -35,7 +44,9 @@
                 Weekly
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'monthly'}">
+        <li role="presentation"
+            ng-show="!state.monthly.isHidden"
+            ng-class="{'active': state.activeTab === 'monthly'}">
             <a href="#"
                aria-controls="monthly"
                role="tab"
@@ -44,7 +55,9 @@
                 Monthly
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'yearly'}">
+        <li role="presentation"
+            ng-show="!state.yearly.isHidden"
+            ng-class="{'active': state.activeTab === 'yearly'}">
             <a href="#"
                aria-controls="yearly"
                role="tab"
@@ -53,7 +66,9 @@
                 Yearly
             </a>
         </li>
-        <li role="presentation" ng-class="{'active': state.activeTab === 'advanced'}">
+        <li role="presentation"
+            ng-show="!state.advanced.isHidden"
+            ng-class="{'active': state.activeTab === 'advanced'}">
             <a href="#"
                aria-controls="advanced"
                role="tab"
@@ -67,7 +82,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="tab-content">
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'minutes'}">
+                    <div class="tab-pane"
+                         ng-show="!state.minutes.isHidden"
+                         ng-class="{'active': state.activeTab === 'minutes'}">
                         Every
                         <input class="minutes"
                                type="number"
@@ -80,7 +97,9 @@
                                ng-class="state.formInputClass">
                         minute(s)
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'hourly'}">
+                    <div class="tab-pane"
+                         ng-show="!state.hourly.isHidden"
+                         ng-class="{'active': state.activeTab === 'hourly'}">
                         <div class="well well-small">
                             <input type="radio"
                                    value="every"
@@ -129,7 +148,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'daily'}">
+                    <div class="tab-pane"
+                         ng-show="!state.daily.isHidden"
+                         ng-class="{'active': state.activeTab === 'daily'}">
                         <div class="well well-small">
                             <input type="radio"
                                    value="everyDays"
@@ -180,7 +201,9 @@
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'weekly'}">
+                    <div class="tab-pane"
+                         ng-show="!state.weekly.isHidden"
+                         ng-class="{'active': state.activeTab === 'weekly'}">
                         <div class="well well-small">
                             <div class="span6 col-sm-6">
                                 <input type="checkbox"
@@ -248,7 +271,9 @@
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'monthly'}">
+                    <div class="tab-pane"
+                         ng-show="!state.monthly.isHidden"
+                         ng-class="{'active': state.activeTab === 'monthly'}">
                         <div class="well well-small">
                             <input type="radio"
                                    value="specificDay"
@@ -334,7 +359,9 @@
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'yearly'}">
+                    <div class="tab-pane"
+                         ng-show="!state.yearly.isHidden"
+                         ng-class="{'active': state.activeTab === 'yearly'}">
                         <div class="well well-small">
                             <input type="radio"
                                    value="specificMonthDay"
@@ -416,7 +443,9 @@
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
-                    <div class="tab-pane" ng-class="{'active': state.activeTab === 'advanced'}">
+                    <div class="tab-pane"
+                         ng-show="!state.advanced.isHidden"
+                         ng-class="{'active': state.activeTab === 'advanced'}">
                         Cron Expression
                         <input type="text"
                                ng-disabled="ngDisabled"

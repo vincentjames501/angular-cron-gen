@@ -67,7 +67,14 @@
                         cronFormat = 'quartz',
                         formInputClass = 'form-control-static',
                         formSelectClass = 'form-control-static',
-                        formRadioClass = 'form-control-static'
+                        formRadioClass = 'form-control-static',
+                        hideMinutesTab = false,
+                        hideHourlyTab = false,
+                        hideDailyTab = false,
+                        hideWeeklyTab = false,
+                        hideMonthlyTab = false,
+                        hideYearlyTab = false,
+                        hideAdvancedTab = true
                     } = {}
                 } = $scope;
 
@@ -77,11 +84,30 @@
                     formSelectClass,
                     formRadioClass,
                     state: States.INIT,
-                    activeTab: 'minutes',
+                    activeTab: (() => {
+                        if (!hideMinutesTab) {
+                            return 'minutes';
+                        } else if (!hideHourlyTab) {
+                            return 'hourly';
+                        } else if (!hideDailyTab) {
+                            return 'daily';
+                        } else if (!hideWeeklyTab) {
+                            return 'weekly';
+                        } else if (!hideMonthlyTab) {
+                            return 'monthly';
+                        } else if (!hideYearlyTab) {
+                            return 'yearly';
+                        } else if (!hideAdvancedTab) {
+                            return 'advanced';
+                        }
+                        throw 'No tabs available to make active';
+                    })(),
                     minutes: {
+                        isHidden: hideMinutesTab,
                         minutes: 1
                     },
                     hourly: {
+                        isHidden: hideHourlyTab,
                         subTab: 'every',
                         every: {
                             hours: 1
@@ -92,6 +118,7 @@
                         }
                     },
                     daily: {
+                        isHidden: hideDailyTab,
                         subTab: 'everyDays',
                         everyDays: {
                             days: 1
@@ -100,6 +127,7 @@
                         minutes: 0
                     },
                     weekly: {
+                        isHidden: hideWeeklyTab,
                         MON: true,
                         TUE: false,
                         WED: false,
@@ -111,6 +139,7 @@
                         minutes: 0
                     },
                     monthly: {
+                        isHidden: hideMonthlyTab,
                         subTab: 'specificDay',
                         specificDay: {
                             day: 1,
@@ -125,6 +154,7 @@
                         minutes: 0
                     },
                     yearly: {
+                        isHidden: hideYearlyTab,
                         subTab: 'specificMonthDay',
                         specificMonthDay: {
                             month: 1,
@@ -139,6 +169,7 @@
                         minutes: 0
                     },
                     advanced: {
+                        isHidden: hideAdvancedTab,
                         expression: null
                     }
                 };
@@ -337,7 +368,7 @@
                             $scope.ngModel = state.advanced.expression;
                             break;
                         default:
-                            throw 'Invalid cron active tab selection'
+                            throw 'Invalid cron active tab selection';
                     }
                 };
             }
