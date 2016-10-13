@@ -191,8 +191,8 @@
                 //Handle tab navigation
                 $scope.setActiveTab = ($event, state, tab, isDisabled) => {
                     $event.preventDefault();
-                    state.activeTab = tab;
                     if (!isDisabled) {
+                        state.activeTab = tab;
                         regenerateCron(state);
                     }
                 };
