@@ -34,6 +34,8 @@ gulp.task('src', () => {
         .pipe(babel({
             presets: ['es2015']
         }))
+        .pipe(concat('cron-gen.js'))
+        .pipe(gulp.dest('build'))
         .pipe(concat('cron-gen.min.js'))
         .pipe(uglify())
         .pipe(sourcemaps.write('.'))
