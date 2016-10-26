@@ -54,7 +54,9 @@
             scope: {
                 ngModel: '=',
                 ngDisabled: '=',
-                options: '='
+                options: '=',
+                cronFormat: '@',
+                templateUrl: '@'
             },
             require: ['ngModel', '?ngDisabled', '^?form'],
             replace: true,
@@ -63,8 +65,6 @@
                 //Extract our options
                 const {
                     options: {
-                        templateUrl = DEFAULT_TEMPLATE,
-                        cronFormat = 'quartz',
                         formInputClass = 'form-control-static',
                         formSelectClass = 'form-control-static',
                         formRadioClass = 'form-control-static',
@@ -75,7 +75,9 @@
                         hideMonthlyTab = false,
                         hideYearlyTab = false,
                         hideAdvancedTab = true
-                    } = {}
+                    } = {},
+                    cronFormat = 'quartz',
+                    templateUrl = DEFAULT_TEMPLATE
                 } = $scope;
 
                 //Define our directive state
@@ -301,6 +303,31 @@
                     } else {
                         throw 'Unsupported cron expression. Expression must be 6 or 7 segments';
                     }
+                });
+
+                // Watch for option changes
+                $scope.$watch('options', ({
+                    formInputClass = 'form-control-static',
+                    formSelectClass = 'form-control-static',
+                    formRadioClass = 'form-control-static',
+                    hideMinutesTab = false,
+                    hideHourlyTab = false,
+                    hideDailyTab = false,
+                    hideWeeklyTab = false,
+                    hideMonthlyTab = false,
+                    hideYearlyTab = false,
+                    hideAdvancedTab = true
+                } = {}) => {
+                    state.formInputClass = formInputClass;
+                    state.formSelectClass = formSelectClass;
+                    state.formRadioClass = formRadioClass;
+                    state.minutes.isHidden = hideMinutesTab;
+                    state.hourly.isHidden = hideHourlyTab;
+                    state.daily.isHidden = hideDailyTab;
+                    state.weekly.isHidden = hideWeeklyTab;
+                    state.monthly.isHidden = hideMonthlyTab;
+                    state.yearly.isHidden = hideYearlyTab;
+                    state.advanced.isHidden = hideAdvancedTab;
                 });
 
                 //On an input change, regenerate our cron/model

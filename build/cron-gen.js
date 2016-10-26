@@ -61,7 +61,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             scope: {
                 ngModel: '=',
                 ngDisabled: '=',
-                options: '='
+                options: '=',
+                cronFormat: '@',
+                templateUrl: '@'
             },
             require: ['ngModel', '?ngDisabled', '^?form'],
             replace: true,
@@ -75,10 +77,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 //Extract our options
                 var _$scope$options = $scope.options;
                 _$scope$options = _$scope$options === undefined ? {} : _$scope$options;
-                var _$scope$options$templ = _$scope$options.templateUrl;
-                var templateUrl = _$scope$options$templ === undefined ? DEFAULT_TEMPLATE : _$scope$options$templ;
-                var _$scope$options$cronF = _$scope$options.cronFormat;
-                var cronFormat = _$scope$options$cronF === undefined ? 'quartz' : _$scope$options$cronF;
                 var _$scope$options$formI = _$scope$options.formInputClass;
                 var formInputClass = _$scope$options$formI === undefined ? 'form-control-static' : _$scope$options$formI;
                 var _$scope$options$formS = _$scope$options.formSelectClass;
@@ -99,6 +97,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 var hideYearlyTab = _$scope$options$hideY === undefined ? false : _$scope$options$hideY;
                 var _$scope$options$hideA = _$scope$options.hideAdvancedTab;
                 var hideAdvancedTab = _$scope$options$hideA === undefined ? true : _$scope$options$hideA;
+                var _$scope$cronFormat = $scope.cronFormat;
+                var cronFormat = _$scope$cronFormat === undefined ? 'quartz' : _$scope$cronFormat;
+                var _$scope$templateUrl = $scope.templateUrl;
+                var templateUrl = _$scope$templateUrl === undefined ? DEFAULT_TEMPLATE : _$scope$templateUrl;
 
                 //Define our directive state
 
@@ -357,6 +359,43 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     } else {
                         throw 'Unsupported cron expression. Expression must be 6 or 7 segments';
                     }
+                });
+
+                // Watch for option changes
+                $scope.$watch('options', function () {
+                    var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+                    var _ref3$formInputClass = _ref3.formInputClass;
+                    var formInputClass = _ref3$formInputClass === undefined ? 'form-control-static' : _ref3$formInputClass;
+                    var _ref3$formSelectClass = _ref3.formSelectClass;
+                    var formSelectClass = _ref3$formSelectClass === undefined ? 'form-control-static' : _ref3$formSelectClass;
+                    var _ref3$formRadioClass = _ref3.formRadioClass;
+                    var formRadioClass = _ref3$formRadioClass === undefined ? 'form-control-static' : _ref3$formRadioClass;
+                    var _ref3$hideMinutesTab = _ref3.hideMinutesTab;
+                    var hideMinutesTab = _ref3$hideMinutesTab === undefined ? false : _ref3$hideMinutesTab;
+                    var _ref3$hideHourlyTab = _ref3.hideHourlyTab;
+                    var hideHourlyTab = _ref3$hideHourlyTab === undefined ? false : _ref3$hideHourlyTab;
+                    var _ref3$hideDailyTab = _ref3.hideDailyTab;
+                    var hideDailyTab = _ref3$hideDailyTab === undefined ? false : _ref3$hideDailyTab;
+                    var _ref3$hideWeeklyTab = _ref3.hideWeeklyTab;
+                    var hideWeeklyTab = _ref3$hideWeeklyTab === undefined ? false : _ref3$hideWeeklyTab;
+                    var _ref3$hideMonthlyTab = _ref3.hideMonthlyTab;
+                    var hideMonthlyTab = _ref3$hideMonthlyTab === undefined ? false : _ref3$hideMonthlyTab;
+                    var _ref3$hideYearlyTab = _ref3.hideYearlyTab;
+                    var hideYearlyTab = _ref3$hideYearlyTab === undefined ? false : _ref3$hideYearlyTab;
+                    var _ref3$hideAdvancedTab = _ref3.hideAdvancedTab;
+                    var hideAdvancedTab = _ref3$hideAdvancedTab === undefined ? true : _ref3$hideAdvancedTab;
+
+                    state.formInputClass = formInputClass;
+                    state.formSelectClass = formSelectClass;
+                    state.formRadioClass = formRadioClass;
+                    state.minutes.isHidden = hideMinutesTab;
+                    state.hourly.isHidden = hideHourlyTab;
+                    state.daily.isHidden = hideDailyTab;
+                    state.weekly.isHidden = hideWeeklyTab;
+                    state.monthly.isHidden = hideMonthlyTab;
+                    state.yearly.isHidden = hideYearlyTab;
+                    state.advanced.isHidden = hideAdvancedTab;
                 });
 
                 //On an input change, regenerate our cron/model

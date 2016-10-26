@@ -77,6 +77,8 @@
 
                 <pre>&lt;cron-gen ng-model="cronExpression"
           ng-disabled="isCronDisabled"
+          template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
+          cron-format="quartz (Currently only compatible with 'quartz')"
           options="cronOptions"&gt;
 &lt;/cron-gen&gt;</pre>
 
@@ -108,18 +110,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>templateUrl</td>
-                        <td>Allows you to override the default template</td>
-                        <td>String</td>
-                        <td>The default template</td>
-                    </tr>
-                    <tr>
-                        <td>cronFormat</td>
-                        <td>The desired cron format. Currently only "quartz" is accepted</td>
-                        <td>String</td>
-                        <td>"quartz"</td>
-                    </tr>
                     <tr>
                         <td>formInputClass</td>
                         <td>The input class override</td>

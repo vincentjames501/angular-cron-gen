@@ -36,7 +36,12 @@ $ npm install angular-cron-gen
 ## Options
 
 ```html
-<cron-gen ng-model="cronExpression" options="cronOptions" ng-disabled="isCronDisabled"></cron-gen>
+<cron-gen ng-model="cronExpression" 
+          options="cronOptions" 
+          template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
+          cron-format="quartz (Currently only compatible with 'quartz')"
+          ng-disabled="isCronDisabled">
+</cron-gen>
 ```
 
 ```js
@@ -45,8 +50,6 @@ angular.module('myApp', ['angular-cron-gen'])
     $scope.cronExpression = '0 0 0/3 1/1 * ? *';
     $scope.isCronDisabled = false;
     $scope.cronOptions = {
-      templateUrl: 'your optional, custom template', // Defaults to a bootstrap 3 template
-      cronFormat: 'quartz', // Currently only compatible with 'quartz'
       formInputClass = 'form-control-static', // Form input class override
       formSelectClass = 'form-control-static', // Select class override
       formRadioClass = 'form-control-static', // Radio class override
