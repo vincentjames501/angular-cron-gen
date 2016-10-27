@@ -39,7 +39,8 @@ $ npm install angular-cron-gen
 <cron-gen ng-model="cronExpression" 
           options="cronOptions" 
           template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
-          cron-format="quartz (Currently only compatible with 'quartz')"
+          cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
+          use-24-hour-time="true|false (Defaults to 'true')"
           ng-disabled="isCronDisabled">
 </cron-gen>
 ```

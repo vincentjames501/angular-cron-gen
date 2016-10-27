@@ -56,7 +56,8 @@
                 ngDisabled: '=',
                 options: '=',
                 cronFormat: '@',
-                templateUrl: '@'
+                templateUrl: '@',
+                use24HourTime: '@'
             },
             require: ['ngModel', '?ngDisabled', '^?form'],
             replace: true,
@@ -74,14 +75,18 @@
                         hideWeeklyTab = false,
                         hideMonthlyTab = false,
                         hideYearlyTab = false,
-                        hideAdvancedTab = true
+                        hideAdvancedTab = true,
                     } = {},
                     cronFormat = 'quartz',
-                    templateUrl = DEFAULT_TEMPLATE
+                    templateUrl = DEFAULT_TEMPLATE,
+                    use24HourTime = 'true'
                 } = $scope;
+
+                const showAs24HourTime = use24HourTime === 'true';
 
                 //Define our directive state
                 const state = $scope.state = {
+                    use24HourTime: showAs24HourTime,
                     formInputClass,
                     formSelectClass,
                     formRadioClass,
@@ -115,8 +120,9 @@
                             hours: 1
                         },
                         specific: {
-                            hours: 0,
-                            minutes: 0
+                            hours: showAs24HourTime ? 0 : 1,
+                            minutes: 0,
+                            hourType: showAs24HourTime ? null : 'AM'
                         }
                     },
                     daily: {
@@ -125,8 +131,9 @@
                         everyDays: {
                             days: 1
                         },
-                        hours: 0,
-                        minutes: 0
+                        hours: showAs24HourTime ? 0 : 1,
+                        minutes: 0,
+                        hourType: showAs24HourTime ? null : 'AM'
                     },
                     weekly: {
                         isHidden: hideWeeklyTab,
@@ -137,8 +144,9 @@
                         FRI: false,
                         SAT: false,
                         SUN: false,
-                        hours: 0,
-                        minutes: 0
+                        hours: showAs24HourTime ? 0 : 1,
+                        minutes: 0,
+                        hourType: showAs24HourTime ? null : 'AM'
                     },
                     monthly: {
                         isHidden: hideMonthlyTab,
@@ -152,8 +160,9 @@
                             day: 'MON',
                             months: 1
                         },
-                        hours: 0,
-                        minutes: 0
+                        hours: showAs24HourTime ? 0 : 1,
+                        minutes: 0,
+                        hourType: showAs24HourTime ? null : 'AM'
                     },
                     yearly: {
                         isHidden: hideYearlyTab,
@@ -167,8 +176,9 @@
                             day: 'MON',
                             month: 1
                         },
-                        hours: 0,
-                        minutes: 0
+                        hours: showAs24HourTime ? 0 : 1,
+                        minutes: 0,
+                        hourType: showAs24HourTime ? null : 'AM'
                     },
                     advanced: {
                         isHidden: hideAdvancedTab,
@@ -178,11 +188,12 @@
 
                 //Select options for ng-options
                 const selectOptions = $scope.selectOptions = {
-                    hours: [...new Array(24).keys()],
+                    hours: state.use24HourTime ? [...new Array(24).keys()] : [...new Array(12).keys()].map(x => x + 1),
                     minutes: [...new Array(60).keys()],
                     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                     monthWeeks: [1, 2, 3, 4],
-                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+                    hourTypes: ['AM', 'PM']
                 };
 
                 //If possible, add our cron expression validator to our form
@@ -221,6 +232,19 @@
                 $scope.monthWeekDisplay = (monthWeekNumber) => MONTH_WEEK_LOOKUPS[monthWeekNumber];
                 $scope.monthDisplay = (monthNumber) => MONTH_LOOKUPS[monthNumber];
 
+                function processHour(hours) {
+                    if (state.use24HourTime) {
+                        console.log(hours);
+                        return hours;
+                    } else {
+                        return ((hours + 11) % 12 + 1);
+                    }
+                }
+
+                function getHourType(hours) {
+                    return state.use24HourTime ? null : (hours >= 12 ? 'PM' : 'AM');
+                }
+
                 //On model changes, update our state to reflect the user's input
                 $scope.$watch('ngModel', (cron) => {
                     state.advanced.expression = cron;
@@ -241,35 +265,45 @@
                         } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
                             state.activeTab = 'hourly';
                             state.hourly.subTab = 'every';
-                            state.hourly.every.hours = parseInt(hours.substring(2));
+                            state.hourly.every.hours = processHour(parseInt(hours.substring(2)));
                         } else if (cron.match(/0 \d+ \d+ 1\/1 \* \? \*/)) {
                             state.activeTab = 'hourly';
                             state.hourly.subTab = 'specific';
-                            state.hourly.specific.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.hourly.specific.hours = processHour(parsedHours);
+                            state.hourly.specific.hourType = getHourType(parsedHours);
                             state.hourly.specific.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ 1\/\d+ \* \? \*/)) {
                             state.activeTab = 'daily';
                             state.daily.subTab = 'everyDays';
                             state.daily.everyDays.days = parseInt(dayOfMonth.substring(2));
-                            state.daily.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.daily.hours = processHour(parsedHours);
+                            state.daily.hourType = getHourType(parsedHours);
                             state.daily.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? \* MON\-FRI \*/)) {
                             state.activeTab = 'daily';
                             state.daily.subTab = 'everyWeekDay';
-                            state.daily.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.daily.hours = processHour(parsedHours);
+                            state.daily.hourType = getHourType(parsedHours);
                             state.daily.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
                             state.activeTab = 'weekly';
                             selectOptions.days.forEach(weekDay => state.weekly[weekDay] = false);
                             dayOfWeek.split(',').forEach(weekDay => state.weekly[weekDay] = true);
-                            state.weekly.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.weekly.hours = processHour(parsedHours);
+                            state.weekly.hourType = getHourType(parsedHours);
                             state.weekly.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \d+ 1\/\d+ \? \*/)) {
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificDay';
                             state.monthly.specificDay.day = parseInt(dayOfMonth);
                             state.monthly.specificDay.months = parseInt(month.substring(2));
-                            state.monthly.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.monthly.hours = processHour(parsedHours);
+                            state.monthly.hourType = getHourType(parsedHours);
                             state.monthly.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             const [day, monthWeek] = dayOfWeek.split('#');
@@ -278,14 +312,18 @@
                             state.monthly.specificWeekDay.monthWeek = parseInt(monthWeek);
                             state.monthly.specificWeekDay.day = day;
                             state.monthly.specificWeekDay.months = parseInt(month.substring(2));
-                            state.monthly.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.monthly.hours = processHour(parsedHours);
+                            state.monthly.hourType = getHourType(parsedHours);
                             state.monthly.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \d+ \d+ \? \*/)) {
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthDay';
                             state.yearly.specificMonthDay.month = parseInt(month);
                             state.yearly.specificMonthDay.day = parseInt(dayOfMonth);
-                            state.yearly.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.yearly.hours = processHour(parsedHours);
+                            state.yearly.hourType = processHour(parsedHours);
                             state.yearly.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             const [day, monthWeek] = dayOfWeek.split('#');
@@ -294,7 +332,9 @@
                             state.yearly.specificMonthWeek.monthWeek = parseInt(monthWeek);
                             state.yearly.specificMonthWeek.day = day;
                             state.yearly.specificMonthWeek.month = parseInt(month);
-                            state.yearly.hours = parseInt(hours);
+                            const parsedHours = parseInt(hours);
+                            state.yearly.hours = processHour(parsedHours);
+                            state.yearly.hourType = getHourType(parsedHours);
                             state.yearly.minutes = parseInt(minutes);
                         } else {
                             state.activeTab = 'advanced';
@@ -304,6 +344,15 @@
                         throw 'Unsupported cron expression. Expression must be 6 or 7 segments';
                     }
                 });
+
+                function hourToCron(hour, hourType) {
+                    console.log('hourToCron(' + hour + ',' + hourType + ')');
+                    if (state.use24HourTime) {
+                        return hour;
+                    } else {
+                        return hourType === 'AM' ? (hour === 12 ? 0 : hour) : (hour === 12 ? 23 : hour + 12);
+                    }
+                }
 
                 // Watch for option changes
                 $scope.$watch('options', ({
@@ -316,7 +365,7 @@
                     hideWeeklyTab = false,
                     hideMonthlyTab = false,
                     hideYearlyTab = false,
-                    hideAdvancedTab = true
+                    hideAdvancedTab = true,
                 } = {}) => {
                     state.formInputClass = formInputClass;
                     state.formSelectClass = formSelectClass;
@@ -332,6 +381,7 @@
 
                 //On an input change, regenerate our cron/model
                 const regenerateCron = $scope.regenerateCron = (state) => {
+                    console.log('regen');
                     state.state = States.DIRTY;
                     switch (state.activeTab) {
                         case 'minutes':
@@ -343,7 +393,7 @@
                                     $scope.ngModel = `0 0 0/${state.hourly.every.hours} 1/1 * ? *`;
                                     break;
                                 case 'specific':
-                                    $scope.ngModel = `0 ${state.hourly.specific.minutes} ${state.hourly.specific.hours} 1/1 * ? *`;
+                                    $scope.ngModel = `0 ${state.hourly.specific.minutes} ${hourToCron(state.hourly.specific.hours, state.hourly.specific.hourType)} 1/1 * ? *`;
                                     break;
                                 default:
                                     throw 'Invalid cron hourly subtab selection';
@@ -352,10 +402,10 @@
                         case 'daily':
                             switch (state.daily.subTab) {
                                 case 'everyDays':
-                                    $scope.ngModel = `0 ${state.daily.minutes} ${state.daily.hours} 1/${state.daily.everyDays.days} * ? *`;
+                                    $scope.ngModel = `0 ${state.daily.minutes} ${hourToCron(state.daily.hours, state.daily.hourType)} 1/${state.daily.everyDays.days} * ? *`;
                                     break;
                                 case 'everyWeekDay':
-                                    $scope.ngModel = `0 ${state.daily.minutes} ${state.daily.hours} ? * MON-FRI *`;
+                                    $scope.ngModel = `0 ${state.daily.minutes} ${hourToCron(state.daily.hours, state.daily.hourType)} ? * MON-FRI *`;
                                     break;
                                 default:
                                     throw 'Invalid cron daily subtab selection';
@@ -365,15 +415,15 @@
                             const days = selectOptions.days
                                 .reduce((acc, day) => state.weekly[day] ? acc.concat([day]) : acc, [])
                                 .join(',');
-                            $scope.ngModel = `0 ${state.weekly.minutes} ${state.weekly.hours} ? * ${days} *`;
+                            $scope.ngModel = `0 ${state.weekly.minutes} ${hourToCron(state.weekly.hours, state.weekly.hourType)} ? * ${days} *`;
                             break;
                         case 'monthly':
                             switch (state.monthly.subTab) {
                                 case 'specificDay':
-                                    $scope.ngModel = `0 ${state.monthly.minutes} ${state.monthly.hours} ${state.monthly.specificDay.day} 1/${state.monthly.specificDay.months} ? *`;
+                                    $scope.ngModel = `0 ${state.monthly.minutes} ${hourToCron(state.monthly.hours, state.monthly.hourType)} ${state.monthly.specificDay.day} 1/${state.monthly.specificDay.months} ? *`;
                                     break;
                                 case 'specificWeekDay':
-                                    $scope.ngModel = `0 ${state.monthly.minutes} ${state.monthly.hours} ? 1/${state.monthly.specificWeekDay.months} ${state.monthly.specificWeekDay.day}#${state.monthly.specificWeekDay.monthWeek} *`;
+                                    $scope.ngModel = `0 ${state.monthly.minutes} ${hourToCron(state.monthly.hours, state.monthly.hourType)} ? 1/${state.monthly.specificWeekDay.months} ${state.monthly.specificWeekDay.day}#${state.monthly.specificWeekDay.monthWeek} *`;
                                     break;
                                 default:
                                     throw 'Invalid cron monthly subtab selection';
@@ -382,10 +432,10 @@
                         case 'yearly':
                             switch (state.yearly.subTab) {
                                 case 'specificMonthDay':
-                                    $scope.ngModel = `0 ${state.yearly.minutes} ${state.yearly.hours} ${state.yearly.specificMonthDay.day} ${state.yearly.specificMonthDay.month} ? *`;
+                                    $scope.ngModel = `0 ${state.yearly.minutes} ${hourToCron(state.yearly.hours, state.yearly.hourType)} ${state.yearly.specificMonthDay.day} ${state.yearly.specificMonthDay.month} ? *`;
                                     break;
                                 case 'specificMonthWeek':
-                                    $scope.ngModel = `0 ${state.yearly.minutes} ${state.yearly.hours} ? ${state.yearly.specificMonthWeek.month} ${state.yearly.specificMonthWeek.day}#${state.yearly.specificMonthWeek.monthWeek} *`;
+                                    $scope.ngModel = `0 ${state.yearly.minutes} ${hourToCron(state.yearly.hours, state.yearly.hourType)} ? ${state.yearly.specificMonthWeek.month} ${state.yearly.specificMonthWeek.day}#${state.yearly.specificMonthWeek.monthWeek} *`;
                                     break;
                                 default:
                                     throw 'Invalid cron yearly subtab selection';

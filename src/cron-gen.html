@@ -146,6 +146,15 @@
                                     ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
                                     ng-class="state.formSelectClass">
                             </select>
+                            <select class="hour-types"
+                                    ng-show="!state.use24HourTime"
+                                    ng-disabled="ngDisabled"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.hourly.specific.hourType"
+                                    ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
+                                    ng-class="state.formSelectClass">
+                            </select>
                         </div>
                     </div>
                     <div class="tab-pane"
@@ -198,6 +207,15 @@
                                 ng-required="state.activeTab === 'daily'"
                                 ng-model="state.daily.minutes"
                                 ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
+                        </select>
+                        <select class="hour-types"
+                                ng-show="!state.use24HourTime"
+                                ng-disabled="ngDisabled"
+                                ng-change="regenerateCron(state)"
+                                ng-model="state.daily.hourType"
+                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                                ng-required="state.activeTab === 'daily'"
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
@@ -268,6 +286,15 @@
                                 ng-required="state.activeTab === 'weekly'"
                                 ng-model="state.weekly.minutes"
                                 ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
+                        </select>
+                        <select class="hour-types"
+                                ng-show="!state.use24HourTime"
+                                ng-disabled="ngDisabled"
+                                ng-change="regenerateCron(state)"
+                                ng-model="state.weekly.hourType"
+                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                                ng-required="state.activeTab === 'weekly'"
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>
@@ -358,6 +385,15 @@
                                 ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
                                 ng-class="state.formSelectClass">
                         </select>
+                        <select class="hour-types"
+                                ng-show="!state.use24HourTime"
+                                ng-disabled="ngDisabled"
+                                ng-change="regenerateCron(state)"
+                                ng-model="state.monthly.hourType"
+                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                                ng-required="state.activeTab === 'monthly'"
+                                ng-class="state.formSelectClass">
+                        </select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.yearly.isHidden"
@@ -440,6 +476,15 @@
                                 ng-required="state.activeTab === 'yearly'"
                                 ng-model="state.yearly.minutes"
                                 ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
+                        </select>
+                        <select class="hour-types"
+                                ng-show="!state.use24HourTime"
+                                ng-disabled="ngDisabled"
+                                ng-change="regenerateCron(state)"
+                                ng-model="state.yearly.hourType"
+                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                                ng-required="state.activeTab === 'yearly'"
                                 ng-class="state.formSelectClass">
                         </select>
                     </div>

@@ -44,6 +44,7 @@
                 <form name="cronForm">
                     <cron-gen ng-model="cronExpression"
                               options="cronOptions"
+                              use-24-hour-time="true"
                               name="cron">
                     </cron-gen>
                 </form>
@@ -78,7 +79,8 @@
                 <pre>&lt;cron-gen ng-model="cronExpression"
           ng-disabled="isCronDisabled"
           template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
-          cron-format="quartz (Currently only compatible with 'quartz')"
+          cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
+          use-24-hour-time="true|false (Defaults to 'true')"
           options="cronOptions"&gt;
 &lt;/cron-gen&gt;</pre>
 
