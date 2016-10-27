@@ -1,6 +1,6 @@
 {
   "name": "angular-cron-gen",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A cron expression generator for AngularJS.",
   "main": "index.js",
   "style": "build/cron-gen.min.css",
