@@ -234,7 +234,6 @@
 
                 function processHour(hours) {
                     if (state.use24HourTime) {
-                        console.log(hours);
                         return hours;
                     } else {
                         return ((hours + 11) % 12 + 1);
