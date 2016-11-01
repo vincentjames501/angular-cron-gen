@@ -57,11 +57,13 @@
                 required: '=',
                 model: '=',
                 selectClass: '=',
-                use24HourTime: '='
+                use24HourTime: '=',
+                name: '@'
             },
             template: `
                 <div class="inline-block">
                     <select class="hours"
+                            name="{{name}}Hours"
                             ng-disabled="disabled"
                             ng-change="onChange()"
                             ng-required="required"
@@ -70,6 +72,7 @@
                             ng-class="selectClass">
                     </select>
                     <select class="minutes"
+                            name="{{name}}Minutes"
                             ng-disabled="disabled"
                             ng-change="onChange()"
                             ng-required="required"
@@ -78,6 +81,7 @@
                             ng-class="selectClass">
                     </select>
                     <select class="hour-types"
+                            name="{{name}}HourType"
                             ng-show="!use24HourTime"
                             ng-disabled="disabled"
                             ng-change="onChange()"

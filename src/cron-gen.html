@@ -90,6 +90,7 @@
                                type="number"
                                min="1"
                                max="59"
+                               name="minutesMinutes"
                                ng-disabled="ngDisabled"
                                ng-change="regenerateCron(state)"
                                ng-model="state.minutes.minutes"
@@ -114,6 +115,7 @@
                                    type="number"
                                    min="1"
                                    max="23"
+                                   name="hourlyEveryHours"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.hourly.every.hours"
@@ -133,6 +135,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="hourlySpecific"
                                     required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
                                     model="state.hourly.specific"
                                     select-class="state.formSelectClass"
@@ -157,6 +160,7 @@
                                    type="number"
                                    min="1"
                                    max="31"
+                                   name="dailyEveryDaysDays"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.daily.everyDays.days"
@@ -166,6 +170,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="dailyEveryDays"
                                     required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
                                     model="state.daily.everyDays"
                                     select-class="state.formSelectClass"
@@ -184,6 +189,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="dailyEveryWeekDay"
                                     required="state.activeTab === 'daily' && state.daily.subTab === 'everyWeekDay'"
                                     model="state.daily.everyWeekDay"
                                     select-class="state.formSelectClass"
@@ -197,24 +203,28 @@
                         <div class="well well-small">
                             <div class="span6 col-sm-6">
                                 <input type="checkbox"
+                                       name="weeklyMON"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.MON"
                                        ng-class="state.formCheckboxClass">
                                 Monday<br>
                                 <input type="checkbox"
+                                       name="weeklyWED"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.WED"
                                        ng-class="state.formCheckboxClass">
                                 Wednesday<br>
                                 <input type="checkbox"
+                                       name="weeklyFRI"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.FRI"
                                        ng-class="state.formCheckboxClass">
                                 Friday<br>
                                 <input type="checkbox"
+                                       name="weeklySUN"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.SUN"
@@ -223,18 +233,21 @@
                             </div>
                             <div class="span6 col-sm-6">
                                 <input type="checkbox"
+                                       name="weeklyTUE"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.TUE"
                                        ng-class="state.formCheckboxClass">
                                 Tuesday<br>
                                 <input type="checkbox"
+                                       name="weeklyTHU"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.THU"
                                        ng-class="state.formCheckboxClass">
                                 Thursday<br>
                                 <input type="checkbox"
+                                       name="weeklySAT"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.SAT"
@@ -247,6 +260,7 @@
                         <cron-gen-time-select
                                 disabled="ngDisabled"
                                 on-change="regenerateCron(state)"
+                                name="weekly"
                                 required="state.activeTab === 'weekly'"
                                 model="state.weekly"
                                 select-class="state.formSelectClass"
@@ -270,6 +284,7 @@
                                    type="number"
                                    min="1"
                                    max="31"
+                                   name="monthlySpecificDayDay"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificDay.day"
@@ -280,6 +295,7 @@
                                    type="number"
                                    min="1"
                                    max="11"
+                                   name="monthlySpecificDayMonths"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificDay.months"
@@ -289,6 +305,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="monthlySpecificDay"
                                     required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
                                     model="state.monthly.specificDay"
                                     select-class="state.formSelectClass"
@@ -304,6 +321,7 @@
                                    ng-class="state.formRadioClass"
                                    name="monthly-radio">
                             <select class="day-order-in-month"
+                                    name="monthlySpecificWeekDayMonthWeek"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.monthly.specificWeekDay.monthWeek"
@@ -312,6 +330,7 @@
                                     ng-class="state.formSelectClass">
                             </select>
                             <select class="week-days"
+                                    name="monthlySpecificWeekDayDay"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.monthly.specificWeekDay.day"
@@ -324,6 +343,7 @@
                                    type="number"
                                    min="1"
                                    max="11"
+                                   name="monthlySpecificWeekDayMonths"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.monthly.specificWeekDay.months"
@@ -333,6 +353,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="monthlySpecificWeekDay"
                                     required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
                                     model="state.monthly.specificWeekDay"
                                     select-class="state.formSelectClass"
@@ -354,6 +375,7 @@
                                    name="yearly-radio">
                             Every
                             <select class="months"
+                                    name="yearlySpecificMonthDayMonth"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthDay.month"
@@ -366,6 +388,7 @@
                                    type="number"
                                    min="1"
                                    max="31"
+                                   name="yearlySpecificMonthDayDay"
                                    ng-disabled="ngDisabled"
                                    ng-change="regenerateCron(state)"
                                    ng-model="state.yearly.specificMonthDay.day"
@@ -376,6 +399,7 @@
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
                                     required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
+                                    name="yearlySpecificMonthDay"
                                     model="state.yearly.specificMonthDay"
                                     select-class="state.formSelectClass"
                                     use-24-hour-time="state.use24HourTime">
@@ -391,6 +415,7 @@
                                    name="yearly-radio">
                             The
                             <select class="day-order-in-month"
+                                    name="yearlySpecificMonthWeekMonthWeek"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.monthWeek"
@@ -399,6 +424,7 @@
                                     ng-class="state.formSelectClass">
                             </select>
                             <select class="week-days"
+                                    name="yearlySpecificMonthWeekMonthDay"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.day"
@@ -408,6 +434,7 @@
                             </select>
                             of
                             <select class="months"
+                                    name="yearlySpecificMonthWeekMontMonth"
                                     ng-disabled="ngDisabled"
                                     ng-change="regenerateCron(state)"
                                     ng-model="state.yearly.specificMonthWeek.month"
@@ -419,6 +446,7 @@
                             <cron-gen-time-select
                                     disabled="ngDisabled"
                                     on-change="regenerateCron(state)"
+                                    name="yearlySpecificMonthWeek"
                                     required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthWeek'"
                                     model="state.yearly.specificMonthWeek"
                                     select-class="state.formSelectClass"
@@ -432,6 +460,7 @@
                         Cron Expression
                         <input type="text"
                                class="advanced-cron-gen-input"
+                               name="advancedExpression"
                                ng-disabled="ngDisabled"
                                ng-change="regenerateCron(state)"
                                ng-model="state.advanced.expression"
