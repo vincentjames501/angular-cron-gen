@@ -52,19 +52,19 @@
         }))
         .directive('cronGenTimeSelect', [() => ({
             scope: {
-                disabled: '=',
+                isDisabled: '=',
                 onChange: '&',
                 required: '=',
                 model: '=',
                 selectClass: '=',
                 use24HourTime: '=',
-                name: '@'
+                namePrefix: '@'
             },
             template: `
                 <div class="inline-block">
                     <select class="hours"
-                            name="{{name}}Hours"
-                            ng-disabled="disabled"
+                            name="{{namePrefix}}Hours"
+                            ng-disabled="isDisabled"
                             ng-change="onChange()"
                             ng-required="required"
                             ng-model="model.hours"
@@ -72,8 +72,8 @@
                             ng-class="selectClass">
                     </select>
                     <select class="minutes"
-                            name="{{name}}Minutes"
-                            ng-disabled="disabled"
+                            name="{{namePrefix}}Minutes"
+                            ng-disabled="isDisabled"
                             ng-change="onChange()"
                             ng-required="required"
                             ng-model="model.minutes"
@@ -81,9 +81,9 @@
                             ng-class="selectClass">
                     </select>
                     <select class="hour-types"
-                            name="{{name}}HourType"
+                            name="{{namePrefix}}HourType"
                             ng-show="!use24HourTime"
-                            ng-disabled="disabled"
+                            ng-disabled="isDisabled"
                             ng-change="onChange()"
                             ng-model="model.hourType"
                             ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
