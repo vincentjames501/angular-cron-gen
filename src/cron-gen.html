@@ -162,7 +162,15 @@
                                    ng-model="state.daily.everyDays.days"
                                    ng-required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
                                    ng-class="state.formInputClass">
-                            day(s)
+                            day(s) starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
+                                    model="state.daily.everyDays"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
                             <input type="radio"
@@ -172,18 +180,16 @@
                                    ng-model="state.daily.subTab"
                                    ng-class="state.formRadioClass"
                                    name="daily-radio">
-                            Every week day (Monday through Friday)
+                            Every week day (Monday through Friday) starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'daily' && state.daily.subTab === 'everyWeekDay'"
+                                    model="state.daily.everyWeekDay"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
-
-                        Start time
-                        <cron-gen-time-select
-                                disabled="ngDisabled"
-                                on-change="regenerateCron(state)"
-                                required="state.activeTab === 'daily'"
-                                model="state.daily"
-                                select-class="state.formSelectClass"
-                                use-24-hour-time="state.use24HourTime">
-                        </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.weekly.isHidden"
@@ -194,25 +200,25 @@
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.MON"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Monday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.WED"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Wednesday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.FRI"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Friday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.SUN"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Sunday
                             </div>
                             <div class="span6 col-sm-6">
@@ -220,19 +226,19 @@
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.TUE"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Tuesday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.THU"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Thursday<br>
                                 <input type="checkbox"
                                        ng-disabled="ngDisabled"
                                        ng-change="regenerateCron(state)"
                                        ng-model="state.weekly.SAT"
-                                       ng-class="state.formInputClass">
+                                       ng-class="state.formCheckboxClass">
                                 Saturday
                             </div>
                             <br><br><br><br>
@@ -279,7 +285,15 @@
                                    ng-model="state.monthly.specificDay.months"
                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
                                    ng-class="state.formInputClass">
-                            month(s)
+                            month(s) starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
+                                    model="state.monthly.specificDay"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
                             <input type="radio"
@@ -315,18 +329,16 @@
                                    ng-model="state.monthly.specificWeekDay.months"
                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
                                    ng-class="state.formInputClass">
-                            month(s)
+                            month(s) starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
+                                    model="state.monthly.specificWeekDay"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
-
-                        Start time
-                        <cron-gen-time-select
-                                disabled="ngDisabled"
-                                on-change="regenerateCron(state)"
-                                required="state.activeTab === 'monthly'"
-                                model="state.monthly"
-                                select-class="state.formSelectClass"
-                                use-24-hour-time="state.use24HourTime">
-                        </cron-gen-time-select>
 
                     </div>
                     <div class="tab-pane"
@@ -359,6 +371,15 @@
                                    ng-model="state.yearly.specificMonthDay.day"
                                    ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
                                    ng-class="state.formInputClass">
+                            starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
+                                    model="state.yearly.specificMonthDay"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
                             <input type="radio"
@@ -394,22 +415,23 @@
                                     ng-options="month as monthDisplay(month) for month in selectOptions.months"
                                     ng-class="state.formSelectClass">
                             </select>
+                            starting at
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthWeek'"
+                                    model="state.yearly.specificMonthWeek"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
-                        Start time
-                        <cron-gen-time-select
-                                disabled="ngDisabled"
-                                on-change="regenerateCron(state)"
-                                required="state.activeTab === 'yearly'"
-                                model="state.yearly"
-                                select-class="state.formSelectClass"
-                                use-24-hour-time="state.use24HourTime">
-                        </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.advanced.isHidden"
                          ng-class="{'active': state.activeTab === 'advanced'}">
                         Cron Expression
                         <input type="text"
+                               class="advanced-cron-gen-input"
                                ng-disabled="ngDisabled"
                                ng-change="regenerateCron(state)"
                                ng-model="state.advanced.expression"

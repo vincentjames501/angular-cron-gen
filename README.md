@@ -51,9 +51,10 @@ angular.module('myApp', ['angular-cron-gen'])
     $scope.cronExpression = '0 0 0/3 1/1 * ? *';
     $scope.isCronDisabled = false;
     $scope.cronOptions = {
-      formInputClass = 'form-control-static', // Form input class override
-      formSelectClass = 'form-control-static', // Select class override
-      formRadioClass = 'form-control-static', // Radio class override
+      formInputClass = 'form-control cron-gen-input', // Form input class override
+      formSelectClass = 'form-control cron-gen-select', // Select class override
+      formRadioClass = 'form-control-static cron-gen-radio', // Radio class override
+      formCheckboxClass = 'form-control-static cron-gen-checkbox', // Radio class override
       hideMinutesTab = false, // Whether to hide the minutes tab
       hideHourlyTab = false, // Whether to hide the hourly tab
       hideDailyTab = false, // Whether to hide the daily tab
