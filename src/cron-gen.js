@@ -349,7 +349,7 @@
                     if (state.use24HourTime) {
                         return hour;
                     } else {
-                        return hourType === 'AM' ? (hour === 12 ? 0 : hour) : (hour === 12 ? 23 : hour + 12);
+                        return hourType === 'AM' ? (hour === 12 ? 0 : hour) : (hour === 12 ? 12 : hour + 12);
                     }
                 }
 
