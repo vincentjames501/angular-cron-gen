@@ -130,31 +130,14 @@
                                    ng-class="state.formRadioClass"
                                    name="hourly-radio">
                             At
-                            <select class="hours"
-                                    ng-disabled="ngDisabled"
-                                    ng-change="regenerateCron(state)"
-                                    ng-model="state.hourly.specific.hours"
-                                    ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
-                                    ng-class="state.formSelectClass">
-                            </select>
-                            <select class="minutes"
-                                    ng-disabled="ngDisabled"
-                                    ng-change="regenerateCron(state)"
-                                    ng-model="state.hourly.specific.minutes"
-                                    ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
-                                    ng-class="state.formSelectClass">
-                            </select>
-                            <select class="hour-types"
-                                    ng-show="!state.use24HourTime"
-                                    ng-disabled="ngDisabled"
-                                    ng-change="regenerateCron(state)"
-                                    ng-model="state.hourly.specific.hourType"
-                                    ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
-                                    ng-class="state.formSelectClass">
-                            </select>
+                            <cron-gen-time-select
+                                    disabled="ngDisabled"
+                                    on-change="regenerateCron(state)"
+                                    required="state.activeTab === 'hourly' && state.hourly.subTab === 'specific'"
+                                    model="state.hourly.specific"
+                                    select-class="state.formSelectClass"
+                                    use-24-hour-time="state.use24HourTime">
+                            </cron-gen-time-select>
                         </div>
                     </div>
                     <div class="tab-pane"
@@ -193,31 +176,14 @@
                         </div>
 
                         Start time
-                        <select class="hours"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'daily'"
-                                ng-model="state.daily.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="minutes"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'daily'"
-                                ng-model="state.daily.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="hour-types"
-                                ng-show="!state.use24HourTime"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-model="state.daily.hourType"
-                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                                ng-required="state.activeTab === 'daily'"
-                                ng-class="state.formSelectClass">
-                        </select>
+                        <cron-gen-time-select
+                                disabled="ngDisabled"
+                                on-change="regenerateCron(state)"
+                                required="state.activeTab === 'daily'"
+                                model="state.daily"
+                                select-class="state.formSelectClass"
+                                use-24-hour-time="state.use24HourTime">
+                        </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.weekly.isHidden"
@@ -272,31 +238,14 @@
                             <br><br><br><br>
                         </div>
                         Start time
-                        <select class="hours"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'weekly'"
-                                ng-model="state.weekly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="minutes"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'weekly'"
-                                ng-model="state.weekly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="hour-types"
-                                ng-show="!state.use24HourTime"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-model="state.weekly.hourType"
-                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                                ng-required="state.activeTab === 'weekly'"
-                                ng-class="state.formSelectClass">
-                        </select>
+                        <cron-gen-time-select
+                                disabled="ngDisabled"
+                                on-change="regenerateCron(state)"
+                                required="state.activeTab === 'weekly'"
+                                model="state.weekly"
+                                select-class="state.formSelectClass"
+                                use-24-hour-time="state.use24HourTime">
+                        </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.monthly.isHidden"
@@ -368,32 +317,17 @@
                                    ng-class="state.formInputClass">
                             month(s)
                         </div>
+
                         Start time
-                        <select class="hours"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'monthly'"
-                                ng-model="state.monthly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="minutes"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'monthly'"
-                                ng-model="state.monthly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="hour-types"
-                                ng-show="!state.use24HourTime"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-model="state.monthly.hourType"
-                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                                ng-required="state.activeTab === 'monthly'"
-                                ng-class="state.formSelectClass">
-                        </select>
+                        <cron-gen-time-select
+                                disabled="ngDisabled"
+                                on-change="regenerateCron(state)"
+                                required="state.activeTab === 'monthly'"
+                                model="state.monthly"
+                                select-class="state.formSelectClass"
+                                use-24-hour-time="state.use24HourTime">
+                        </cron-gen-time-select>
+
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.yearly.isHidden"
@@ -462,31 +396,14 @@
                             </select>
                         </div>
                         Start time
-                        <select class="hours"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'yearly'"
-                                ng-model="state.yearly.hours"
-                                ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="minutes"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-required="state.activeTab === 'yearly'"
-                                ng-model="state.yearly.minutes"
-                                ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
-                                ng-class="state.formSelectClass">
-                        </select>
-                        <select class="hour-types"
-                                ng-show="!state.use24HourTime"
-                                ng-disabled="ngDisabled"
-                                ng-change="regenerateCron(state)"
-                                ng-model="state.yearly.hourType"
-                                ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                                ng-required="state.activeTab === 'yearly'"
-                                ng-class="state.formSelectClass">
-                        </select>
+                        <cron-gen-time-select
+                                disabled="ngDisabled"
+                                on-change="regenerateCron(state)"
+                                required="state.activeTab === 'yearly'"
+                                model="state.yearly"
+                                select-class="state.formSelectClass"
+                                use-24-hour-time="state.use24HourTime">
+                        </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
                          ng-show="!state.advanced.isHidden"

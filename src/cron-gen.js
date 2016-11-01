@@ -50,6 +50,57 @@
                 }
             }
         }))
+        .directive('cronGenTimeSelect', [() => ({
+            scope: {
+                disabled: '=',
+                onChange: '&',
+                required: '=',
+                model: '=',
+                selectClass: '=',
+                use24HourTime: '='
+            },
+            template: `
+                <div class="time-select-wrapper">
+                    <select class="hours"
+                            ng-disabled="disabled"
+                            ng-change="onChange()"
+                            ng-required="required"
+                            ng-model="model.hours"
+                            ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
+                            ng-class="selectClass">
+                    </select>
+                    <select class="minutes"
+                            ng-disabled="disabled"
+                            ng-change="onChange()"
+                            ng-required="required"
+                            ng-model="model.minutes"
+                            ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
+                            ng-class="selectClass">
+                    </select>
+                    <select class="hour-types"
+                            ng-show="!use24HourTime"
+                            ng-disabled="disabled"
+                            ng-change="onChange()"
+                            ng-model="model.hourType"
+                            ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
+                            ng-required="required"
+                            ng-class="selectClass">
+                    </select>
+                </div>`,
+            replace: true,
+            restrict: 'E',
+            link($scope) {
+                //Utility functions
+                $scope.padNumber = (number) => `${number}`.length === 1 ? `0${number}` : `${number}`;
+
+                //Select options
+                $scope.selectOptions = {
+                    hours: $scope.use24HourTime ? [...new Array(24).keys()] : [...new Array(12).keys()].map(x => x + 1),
+                    minutes: [...new Array(60).keys()],
+                    hourTypes: ['AM', 'PM']
+                };
+            }
+        })])
         .directive('cronGen', ['$templateRequest', '$sce', '$compile', '$log', 'cronValidationService', ($templateRequest, $sce, $compile, $log, cronValidationService) => ({
             scope: {
                 ngModel: '=',
@@ -188,12 +239,9 @@
 
                 //Select options for ng-options
                 const selectOptions = $scope.selectOptions = {
-                    hours: state.use24HourTime ? [...new Array(24).keys()] : [...new Array(12).keys()].map(x => x + 1),
-                    minutes: [...new Array(60).keys()],
                     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                     monthWeeks: [1, 2, 3, 4],
-                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-                    hourTypes: ['AM', 'PM']
+                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
                 };
 
                 //If possible, add our cron expression validator to our form
@@ -227,7 +275,6 @@
                     );
 
                 //Utility Functions
-                $scope.padNumber = (number) => `${number}`.length === 1 ? `0${number}` : `${number}`;
                 $scope.dayDisplay = (day) => DAY_LOOKUPS[day];
                 $scope.monthWeekDisplay = (monthWeekNumber) => MONTH_WEEK_LOOKUPS[monthWeekNumber];
                 $scope.monthDisplay = (monthNumber) => MONTH_LOOKUPS[monthNumber];
