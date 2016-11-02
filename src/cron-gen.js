@@ -54,7 +54,7 @@
             scope: {
                 isDisabled: '=',
                 onChange: '&',
-                required: '=',
+                isRequired: '=',
                 model: '=',
                 selectClass: '=',
                 use24HourTime: '=',
@@ -66,7 +66,7 @@
                             name="{{namePrefix}}Hours"
                             ng-disabled="isDisabled"
                             ng-change="onChange()"
-                            ng-required="required"
+                            ng-required="isRequired"
                             ng-model="model.hours"
                             ng-options="hour as padNumber(hour) for hour in selectOptions.hours"
                             ng-class="selectClass">
@@ -75,7 +75,7 @@
                             name="{{namePrefix}}Minutes"
                             ng-disabled="isDisabled"
                             ng-change="onChange()"
-                            ng-required="required"
+                            ng-required="isRequired"
                             ng-model="model.minutes"
                             ng-options="minute as padNumber(minute) for minute in selectOptions.minutes"
                             ng-class="selectClass">
@@ -87,7 +87,7 @@
                             ng-change="onChange()"
                             ng-model="model.hourType"
                             ng-options="hourType as hourType for hourType in selectOptions.hourTypes"
-                            ng-required="required"
+                            ng-required="isRequired"
                             ng-class="selectClass">
                     </select>
                 </div>`,
