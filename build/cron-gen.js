@@ -411,7 +411,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             state.yearly.specificMonthDay.day = parseInt(dayOfMonth);
                             var _parsedHours6 = parseInt(hours);
                             state.yearly.specificMonthDay.hours = processHour(_parsedHours6);
-                            state.yearly.specificMonthDay.hourType = processHour(_parsedHours6);
+                            state.yearly.specificMonthDay.hourType = getHourType(_parsedHours6);
                             state.yearly.specificMonthDay.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             var _dayOfWeek$split3 = dayOfWeek.split('#');

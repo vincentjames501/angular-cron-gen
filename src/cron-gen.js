@@ -386,7 +386,7 @@
                             state.yearly.specificMonthDay.day = parseInt(dayOfMonth);
                             const parsedHours = parseInt(hours);
                             state.yearly.specificMonthDay.hours = processHour(parsedHours);
-                            state.yearly.specificMonthDay.hourType = processHour(parsedHours);
+                            state.yearly.specificMonthDay.hourType = getHourType(parsedHours);
                             state.yearly.specificMonthDay.minutes = parseInt(minutes);
                         } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
                             const [day, monthWeek] = dayOfWeek.split('#');
