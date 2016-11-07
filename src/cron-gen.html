@@ -276,17 +276,16 @@
                                    ng-class="state.formRadioClass"
                                    name="monthly-radio"
                                    checked="checked">
-                            Day
-                            <input class="days"
-                                   type="number"
-                                   min="1"
-                                   max="31"
-                                   name="monthlySpecificDayDay"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.monthly.specificDay.day"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
-                                   ng-class="state.formInputClass">
+                            On the
+                            <select class="month-days"
+                                    name="monthlySpecificDayDay"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.monthly.specificDay.day"
+                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
+                                    ng-options="monthDaysWithLast as monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in selectOptions.monthDaysWithLasts"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             of every
                             <select class="months-small"
                                     name="monthlySpecificDayMonths"
@@ -378,17 +377,16 @@
                                     ng-options="month as monthDisplay(month) for month in selectOptions.months"
                                     ng-class="state.formSelectClass">
                             </select>
-                            in day
-                            <input class="days"
-                                   type="number"
-                                   min="1"
-                                   max="31"
-                                   name="yearlySpecificMonthDayDay"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthDay'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.yearly.specificMonthDay.day"
-                                   ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
-                                   ng-class="state.formInputClass">
+                            on the
+                            <select class="month-days"
+                                    name="yearlySpecificMonthDayDay"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthDay'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.yearly.specificMonthDay.day"
+                                    ng-required="state.activeTab === 'yearly' && state.yearly.subTab === 'specificMonthDay'"
+                                    ng-options="monthDaysWithLast as monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in selectOptions.monthDaysWithLasts"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             starting at
                             <cron-gen-time-select
                                     is-disabled="ngDisabled || state.activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthDay'"

@@ -41,7 +41,7 @@
     const QUARTZ_REGEX = /^\s*($|#|\w+\s*=|(\?|\*|(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?(?:,(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?)*)\s+(\?|\*|(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?(?:,(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?)*)\s+(\?|\*|(?:[01]?\d|2[0-3])(?:(?:-|\/|\,)(?:[01]?\d|2[0-3]))?(?:,(?:[01]?\d|2[0-3])(?:(?:-|\/|\,)(?:[01]?\d|2[0-3]))?)*)\s+(\?|\*|(?:0?[1-9]|[12]\d|3[01])(?:(?:-|\/|\,)(?:0?[1-9]|[12]\d|3[01]))?(?:,(?:0?[1-9]|[12]\d|3[01])(?:(?:-|\/|\,)(?:0?[1-9]|[12]\d|3[01]))?)*)\s+(\?|\*|(?:[1-9]|1[012])(?:(?:-|\/|\,)(?:[1-9]|1[012]))?(?:L|W)?(?:,(?:[1-9]|1[012])(?:(?:-|\/|\,)(?:[1-9]|1[012]))?(?:L|W)?)*|\?|\*|(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:-)(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?(?:,(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:-)(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?)*)\s+(\?|\*|(?:[1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-|\/|\,|#)(?:[1-5]))?(?:L)?(?:,(?:[1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-|\/|\,|#)(?:[1-5]))?(?:L)?)*|\?|\*|(?:MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-)(?:MON|TUE|WED|THU|FRI|SAT|SUN))?(?:,(?:MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-)(?:MON|TUE|WED|THU|FRI|SAT|SUN))?)*)(|\s)+(\?|\*|(?:|\d{4})(?:(?:-|\/|\,)(?:|\d{4}))?(?:,(?:|\d{4})(?:(?:-|\/|\,)(?:|\d{4}))?)*))$/;
 
     angular.module('angular-cron-gen', [])
-        .factory('cronValidationService', () => ({
+        .factory('cronGenService', () => ({
             isValid(cronFormat, expression) {
                 const formattedExpression = expression.toUpperCase();
                 switch (cronFormat) {
@@ -49,6 +49,26 @@
                         return !!formattedExpression.match(QUARTZ_REGEX);
                     default:
                         throw `Desired cron format (${cronFormat}) is not available`;
+                }
+            },
+            appendInt(number) {
+                const value = `${number}`;
+                if (value.length > 1) {
+                    const secondToLastDigit = value.charAt(value.length - 2);
+                    if (secondToLastDigit === '1') {
+                        return "th";
+                    }
+                }
+                const lastDigit = value.charAt(value.length - 1);
+                switch (lastDigit) {
+                    case '1':
+                        return "st";
+                    case '2':
+                        return "nd";
+                    case '3':
+                        return "rd";
+                    default:
+                        return "th";
                 }
             }
         }))
@@ -107,7 +127,7 @@
                 };
             }
         })])
-        .directive('cronGen', ['$templateRequest', '$sce', '$compile', '$log', 'cronValidationService', ($templateRequest, $sce, $compile, $log, cronValidationService) => ({
+        .directive('cronGen', ['$templateRequest', '$sce', '$compile', '$log', 'cronGenService', ($templateRequest, $sce, $compile, $log, cronGenService) => ({
             scope: {
                 ngModel: '=',
                 ngDisabled: '=',
@@ -216,7 +236,7 @@
                         isHidden: hideMonthlyTab,
                         subTab: 'specificDay',
                         specificDay: {
-                            day: 1,
+                            day: '1',
                             months: 1,
                             hours: showAs24HourTime ? 0 : 1,
                             minutes: 0,
@@ -236,7 +256,7 @@
                         subTab: 'specificMonthDay',
                         specificMonthDay: {
                             month: 1,
-                            day: 1,
+                            day: '1',
                             hours: showAs24HourTime ? 0 : 1,
                             minutes: 0,
                             hourType: showAs24HourTime ? null : 'AM'
@@ -263,12 +283,13 @@
                     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
                     minutes: [...new Array(59).keys()].map(x => x + 1),
                     hours: [...new Array(23).keys()].map(x => x + 1),
-                    monthDays: [...new Array(31).keys()].map(x => x + 1)
+                    monthDays: [...new Array(31).keys()].map(x => x + 1),
+                    monthDaysWithLasts: ['1W', ...[...new Array(31).keys()].map(x => `${x + 1}`), 'LW', 'L']
                 };
 
                 //If possible, add our cron expression validator to our form
                 if (formCtrl && attrs.name) {
-                    ngModelCtrl.$validators.testCronExpr = expression => cronValidationService.isValid(cronFormat, expression);
+                    ngModelCtrl.$validators.testCronExpr = expression => cronGenService.isValid(cronFormat, expression);
                 }
 
                 //Handle tab navigation
@@ -300,6 +321,17 @@
                 $scope.dayDisplay = (day) => DAY_LOOKUPS[day];
                 $scope.monthWeekDisplay = (monthWeekNumber) => MONTH_WEEK_LOOKUPS[monthWeekNumber];
                 $scope.monthDisplay = (monthNumber) => MONTH_LOOKUPS[monthNumber];
+                $scope.monthDayDisplay = (monthDay) => {
+                    if (monthDay === 'L') {
+                        return 'Last Day';
+                    } else if (monthDay === 'LW') {
+                        return 'Last Weekday';
+                    } else if (monthDay === '1W') {
+                        return 'First Weekday';
+                    } else {
+                        return `${monthDay}${cronGenService.appendInt(monthDay)} Day`;
+                    }
+                };
 
                 function processHour(hours) {
                     if (state.use24HourTime) {
@@ -364,10 +396,10 @@
                             state.weekly.hours = processHour(parsedHours);
                             state.weekly.hourType = getHourType(parsedHours);
                             state.weekly.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \d+ 1\/\d+ \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ (\d+|L|LW|1W) 1\/\d+ \? \*/)) {
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificDay';
-                            state.monthly.specificDay.day = parseInt(dayOfMonth);
+                            state.monthly.specificDay.day = dayOfMonth;
                             state.monthly.specificDay.months = parseInt(month.substring(2));
                             const parsedHours = parseInt(hours);
                             state.monthly.specificDay.hours = processHour(parsedHours);
@@ -385,11 +417,11 @@
                             state.monthly.specificWeekDay.hours = processHour(parsedHours);
                             state.monthly.specificWeekDay.hourType = getHourType(parsedHours);
                             state.monthly.specificWeekDay.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \d+ \d+ \? \*/)) {
+                        } else if (cron.match(/0 \d+ \d+ (\d+|L|LW|1W) \d+ \? \*/)) {
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthDay';
                             state.yearly.specificMonthDay.month = parseInt(month);
-                            state.yearly.specificMonthDay.day = parseInt(dayOfMonth);
+                            state.yearly.specificMonthDay.day = dayOfMonth;
                             const parsedHours = parseInt(hours);
                             state.yearly.specificMonthDay.hours = processHour(parsedHours);
                             state.yearly.specificMonthDay.hourType = getHourType(parsedHours);
