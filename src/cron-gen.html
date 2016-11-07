@@ -154,16 +154,15 @@
                                    ng-class="state.formRadioClass"
                                    checked="checked">
                             Every
-                            <input class="days"
-                                   type="number"
-                                   min="1"
-                                   max="31"
-                                   name="dailyEveryDaysDays"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'daily' || state.daily.subTab !== 'everyDays'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.daily.everyDays.days"
-                                   ng-required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
-                                   ng-class="state.formInputClass">
+                            <select class="days"
+                                    name="dailyEveryDaysDays"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'daily' || state.daily.subTab !== 'everyDays'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.daily.everyDays.days"
+                                    ng-required="state.activeTab === 'daily' && state.daily.subTab === 'everyDays'"
+                                    ng-options="monthDay as monthDay for monthDay in selectOptions.monthDays"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             day(s) starting at
                             <cron-gen-time-select
                                     is-disabled="ngDisabled || state.activeTab !== 'daily' || state.daily.subTab !== 'everyDays'"
