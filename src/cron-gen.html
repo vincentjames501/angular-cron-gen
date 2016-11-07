@@ -110,16 +110,15 @@
                                    ng-class="state.formRadioClass"
                                    checked="checked">
                             Every
-                            <input class="hours"
-                                   type="number"
-                                   min="1"
-                                   max="23"
-                                   name="hourlyEveryHours"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'hourly' || state.hourly.subTab !== 'every'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.hourly.every.hours"
-                                   ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'every'"
-                                   ng-class="state.formInputClass">
+                            <select class="hours"
+                                    name="hourlyEveryHours"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'hourly' || state.hourly.subTab !== 'every'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.hourly.every.hours"
+                                    ng-required="state.activeTab === 'hourly' && state.hourly.subTab === 'every'"
+                                    ng-options="hour as hour for hour in selectOptions.hours"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             hour(s)
                         </div>
                         <div class="well well-small">
