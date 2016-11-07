@@ -18,10 +18,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         'SAT': 'Saturday'
     };
     var MONTH_WEEK_LOOKUPS = {
-        '1': 'First',
-        '2': 'Second',
-        '3': 'Third',
-        '4': 'Fourth'
+        '#1': 'First',
+        '#2': 'Second',
+        '#3': 'Third',
+        '#4': 'Fourth',
+        '#5': 'Fifth',
+        'L': 'Last'
     };
     var MONTH_LOOKUPS = {
         '1': 'January',
@@ -221,7 +223,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             hourType: showAs24HourTime ? null : 'AM'
                         },
                         specificWeekDay: {
-                            monthWeek: 1,
+                            monthWeek: '#1',
                             day: 'MON',
                             months: 1,
                             hours: showAs24HourTime ? 0 : 1,
@@ -240,7 +242,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             hourType: showAs24HourTime ? null : 'AM'
                         },
                         specificMonthWeek: {
-                            monthWeek: 1,
+                            monthWeek: '#1',
                             day: 'MON',
                             month: 1,
                             hours: showAs24HourTime ? 0 : 1,
@@ -257,7 +259,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                 //Select options for ng-options
                 var selectOptions = $scope.selectOptions = {
                     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    monthWeeks: [1, 2, 3, 4],
+                    monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
                     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
                 };
 
@@ -387,17 +389,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             state.monthly.specificDay.hours = processHour(_parsedHours4);
                             state.monthly.specificDay.hourType = getHourType(_parsedHours4);
                             state.monthly.specificDay.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
-                            var _dayOfWeek$split = dayOfWeek.split('#');
-
-                            var _dayOfWeek$split2 = _slicedToArray(_dayOfWeek$split, 2);
-
-                            var day = _dayOfWeek$split2[0];
-                            var monthWeek = _dayOfWeek$split2[1];
-
+                        } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
+                            var day = dayOfWeek.substr(0, 3);
+                            var monthWeek = dayOfWeek.substr(3);
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificWeekDay';
-                            state.monthly.specificWeekDay.monthWeek = parseInt(monthWeek);
+                            state.monthly.specificWeekDay.monthWeek = monthWeek;
                             state.monthly.specificWeekDay.day = day;
                             state.monthly.specificWeekDay.months = parseInt(month.substring(2));
                             var _parsedHours5 = parseInt(hours);
@@ -413,17 +410,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                             state.yearly.specificMonthDay.hours = processHour(_parsedHours6);
                             state.yearly.specificMonthDay.hourType = getHourType(_parsedHours6);
                             state.yearly.specificMonthDay.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
-                            var _dayOfWeek$split3 = dayOfWeek.split('#');
-
-                            var _dayOfWeek$split4 = _slicedToArray(_dayOfWeek$split3, 2);
-
-                            var _day = _dayOfWeek$split4[0];
-                            var _monthWeek = _dayOfWeek$split4[1];
-
+                        } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
+                            var _day = dayOfWeek.substr(0, 3);
+                            var _monthWeek = dayOfWeek.substr(3);
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthWeek';
-                            state.yearly.specificMonthWeek.monthWeek = parseInt(_monthWeek);
+                            state.yearly.specificMonthWeek.monthWeek = _monthWeek;
                             state.yearly.specificMonthWeek.day = _day;
                             state.yearly.specificMonthWeek.month = parseInt(month);
                             var _parsedHours7 = parseInt(hours);
@@ -530,7 +522,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                     $scope.ngModel = '0 ' + state.monthly.specificDay.minutes + ' ' + hourToCron(state.monthly.specificDay.hours, state.monthly.specificDay.hourType) + ' ' + state.monthly.specificDay.day + ' 1/' + state.monthly.specificDay.months + ' ? *';
                                     break;
                                 case 'specificWeekDay':
-                                    $scope.ngModel = '0 ' + state.monthly.specificWeekDay.minutes + ' ' + hourToCron(state.monthly.specificWeekDay.hours, state.monthly.specificWeekDay.hourType) + ' ? 1/' + state.monthly.specificWeekDay.months + ' ' + state.monthly.specificWeekDay.day + '#' + state.monthly.specificWeekDay.monthWeek + ' *';
+                                    $scope.ngModel = '0 ' + state.monthly.specificWeekDay.minutes + ' ' + hourToCron(state.monthly.specificWeekDay.hours, state.monthly.specificWeekDay.hourType) + ' ? 1/' + state.monthly.specificWeekDay.months + ' ' + state.monthly.specificWeekDay.day + state.monthly.specificWeekDay.monthWeek + ' *';
                                     break;
                                 default:
                                     throw 'Invalid cron monthly subtab selection';
@@ -542,7 +534,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                                     $scope.ngModel = '0 ' + state.yearly.specificMonthDay.minutes + ' ' + hourToCron(state.yearly.specificMonthDay.hours, state.yearly.specificMonthDay.hourType) + ' ' + state.yearly.specificMonthDay.day + ' ' + state.yearly.specificMonthDay.month + ' ? *';
                                     break;
                                 case 'specificMonthWeek':
-                                    $scope.ngModel = '0 ' + state.yearly.specificMonthWeek.minutes + ' ' + hourToCron(state.yearly.specificMonthWeek.hours, state.yearly.specificMonthWeek.hourType) + ' ? ' + state.yearly.specificMonthWeek.month + ' ' + state.yearly.specificMonthWeek.day + '#' + state.yearly.specificMonthWeek.monthWeek + ' *';
+                                    $scope.ngModel = '0 ' + state.yearly.specificMonthWeek.minutes + ' ' + hourToCron(state.yearly.specificMonthWeek.hours, state.yearly.specificMonthWeek.hourType) + ' ? ' + state.yearly.specificMonthWeek.month + ' ' + state.yearly.specificMonthWeek.day + state.yearly.specificMonthWeek.monthWeek + ' *';
                                     break;
                                 default:
                                     throw 'Invalid cron yearly subtab selection';

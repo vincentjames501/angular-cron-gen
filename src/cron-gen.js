@@ -12,10 +12,12 @@
         'SAT': 'Saturday'
     };
     const MONTH_WEEK_LOOKUPS = {
-        '1': 'First',
-        '2': 'Second',
-        '3': 'Third',
-        '4': 'Fourth'
+        '#1': 'First',
+        '#2': 'Second',
+        '#3': 'Third',
+        '#4': 'Fourth',
+        '#5': 'Fifth',
+        'L': 'Last'
     };
     const MONTH_LOOKUPS = {
         '1': 'January',
@@ -221,7 +223,7 @@
                             hourType: showAs24HourTime ? null : 'AM'
                         },
                         specificWeekDay: {
-                            monthWeek: 1,
+                            monthWeek: '#1',
                             day: 'MON',
                             months: 1,
                             hours: showAs24HourTime ? 0 : 1,
@@ -240,7 +242,7 @@
                             hourType: showAs24HourTime ? null : 'AM'
                         },
                         specificMonthWeek: {
-                            monthWeek: 1,
+                            monthWeek: '#1',
                             day: 'MON',
                             month: 1,
                             hours: showAs24HourTime ? 0 : 1,
@@ -257,7 +259,7 @@
                 //Select options for ng-options
                 const selectOptions = $scope.selectOptions = {
                     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    monthWeeks: [1, 2, 3, 4],
+                    monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
                     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
                 };
 
@@ -368,11 +370,12 @@
                             state.monthly.specificDay.hours = processHour(parsedHours);
                             state.monthly.specificDay.hourType = getHourType(parsedHours);
                             state.monthly.specificDay.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
-                            const [day, monthWeek] = dayOfWeek.split('#');
+                        } else if (cron.match(/0 \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
+                            const day = dayOfWeek.substr(0, 3);
+                            const monthWeek = dayOfWeek.substr(3);
                             state.activeTab = 'monthly';
                             state.monthly.subTab = 'specificWeekDay';
-                            state.monthly.specificWeekDay.monthWeek = parseInt(monthWeek);
+                            state.monthly.specificWeekDay.monthWeek = monthWeek;
                             state.monthly.specificWeekDay.day = day;
                             state.monthly.specificWeekDay.months = parseInt(month.substring(2));
                             const parsedHours = parseInt(hours);
@@ -388,11 +391,12 @@
                             state.yearly.specificMonthDay.hours = processHour(parsedHours);
                             state.yearly.specificMonthDay.hourType = getHourType(parsedHours);
                             state.yearly.specificMonthDay.minutes = parseInt(minutes);
-                        } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)#(1|2|3|4) \*/)) {
-                            const [day, monthWeek] = dayOfWeek.split('#');
+                        } else if (cron.match(/0 \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
+                            const day = dayOfWeek.substr(0, 3);
+                            const monthWeek = dayOfWeek.substr(3);
                             state.activeTab = 'yearly';
                             state.yearly.subTab = 'specificMonthWeek';
-                            state.yearly.specificMonthWeek.monthWeek = parseInt(monthWeek);
+                            state.yearly.specificMonthWeek.monthWeek = monthWeek;
                             state.yearly.specificMonthWeek.day = day;
                             state.yearly.specificMonthWeek.month = parseInt(month);
                             const parsedHours = parseInt(hours);
@@ -486,7 +490,7 @@
                                     $scope.ngModel = `0 ${state.monthly.specificDay.minutes} ${hourToCron(state.monthly.specificDay.hours, state.monthly.specificDay.hourType)} ${state.monthly.specificDay.day} 1/${state.monthly.specificDay.months} ? *`;
                                     break;
                                 case 'specificWeekDay':
-                                    $scope.ngModel = `0 ${state.monthly.specificWeekDay.minutes} ${hourToCron(state.monthly.specificWeekDay.hours, state.monthly.specificWeekDay.hourType)} ? 1/${state.monthly.specificWeekDay.months} ${state.monthly.specificWeekDay.day}#${state.monthly.specificWeekDay.monthWeek} *`;
+                                    $scope.ngModel = `0 ${state.monthly.specificWeekDay.minutes} ${hourToCron(state.monthly.specificWeekDay.hours, state.monthly.specificWeekDay.hourType)} ? 1/${state.monthly.specificWeekDay.months} ${state.monthly.specificWeekDay.day}${state.monthly.specificWeekDay.monthWeek} *`;
                                     break;
                                 default:
                                     throw 'Invalid cron monthly subtab selection';
@@ -498,7 +502,7 @@
                                     $scope.ngModel = `0 ${state.yearly.specificMonthDay.minutes} ${hourToCron(state.yearly.specificMonthDay.hours, state.yearly.specificMonthDay.hourType)} ${state.yearly.specificMonthDay.day} ${state.yearly.specificMonthDay.month} ? *`;
                                     break;
                                 case 'specificMonthWeek':
-                                    $scope.ngModel = `0 ${state.yearly.specificMonthWeek.minutes} ${hourToCron(state.yearly.specificMonthWeek.hours, state.yearly.specificMonthWeek.hourType)} ? ${state.yearly.specificMonthWeek.month} ${state.yearly.specificMonthWeek.day}#${state.yearly.specificMonthWeek.monthWeek} *`;
+                                    $scope.ngModel = `0 ${state.yearly.specificMonthWeek.minutes} ${hourToCron(state.yearly.specificMonthWeek.hours, state.yearly.specificMonthWeek.hourType)} ? ${state.yearly.specificMonthWeek.month} ${state.yearly.specificMonthWeek.day}${state.yearly.specificMonthWeek.monthWeek} *`;
                                     break;
                                 default:
                                     throw 'Invalid cron yearly subtab selection';
