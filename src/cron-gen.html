@@ -86,16 +86,15 @@
                          ng-show="!state.minutes.isHidden"
                          ng-class="{'active': state.activeTab === 'minutes'}">
                         Every
-                        <input class="minutes"
-                               type="number"
-                               min="1"
-                               max="59"
-                               name="minutesMinutes"
-                               ng-disabled="ngDisabled || state.activeTab !== 'minutes'"
-                               ng-change="regenerateCron(state)"
-                               ng-model="state.minutes.minutes"
-                               ng-required="state.activeTab === 'minutes'"
-                               ng-class="state.formInputClass">
+                        <select class="minutes"
+                                name="minutesMinutes"
+                                ng-disabled="ngDisabled || state.activeTab !== 'minutes'"
+                                ng-change="regenerateCron(state)"
+                                ng-model="state.minutes.minutes"
+                                ng-required="state.activeTab === 'minutes'"
+                                ng-options="minute as minute for minute in selectOptions.minutes"
+                                ng-class="state.formSelectClass">
+                        </select>
                         minute(s)
                     </div>
                     <div class="tab-pane"

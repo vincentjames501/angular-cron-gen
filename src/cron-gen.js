@@ -260,7 +260,8 @@
                 const selectOptions = $scope.selectOptions = {
                     months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
-                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+                    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+                    minutes: [...new Array(59).keys()].map(x => x + 1)
                 };
 
                 //If possible, add our cron expression validator to our form
