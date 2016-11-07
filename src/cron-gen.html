@@ -288,16 +288,15 @@
                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
                                    ng-class="state.formInputClass">
                             of every
-                            <input class="months-small"
-                                   type="number"
-                                   min="1"
-                                   max="11"
-                                   name="monthlySpecificDayMonths"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.monthly.specificDay.months"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
-                                   ng-class="state.formInputClass">
+                            <select class="months-small"
+                                    name="monthlySpecificDayMonths"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.monthly.specificDay.months"
+                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificDay'"
+                                    ng-options="month as month for month in selectOptions.months"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             month(s) starting at
                             <cron-gen-time-select
                                     is-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'"
@@ -336,16 +335,15 @@
                                     ng-class="state.formSelectClass">
                             </select>
                             of every
-                            <input class="months-small"
-                                   type="number"
-                                   min="1"
-                                   max="11"
-                                   name="monthlySpecificWeekDayMonths"
-                                   ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
-                                   ng-change="regenerateCron(state)"
-                                   ng-model="state.monthly.specificWeekDay.months"
-                                   ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
-                                   ng-class="state.formInputClass">
+                            <select class="months-small"
+                                    name="monthlySpecificWeekDayMonths"
+                                    ng-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
+                                    ng-change="regenerateCron(state)"
+                                    ng-model="state.monthly.specificWeekDay.months"
+                                    ng-required="state.activeTab === 'monthly' && state.monthly.subTab === 'specificWeekDay'"
+                                    ng-options="month as month for month in selectOptions.months"
+                                    ng-class="state.formSelectClass">
+                            </select>
                             month(s) starting at
                             <cron-gen-time-select
                                     is-disabled="ngDisabled || state.activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'"
