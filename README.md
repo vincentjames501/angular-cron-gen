@@ -40,7 +40,6 @@ $ npm install angular-cron-gen
           options="cronOptions" 
           template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
           cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
-          use-24-hour-time="true|false (Defaults to 'true')"
           ng-disabled="isCronDisabled">
 </cron-gen>
 ```
@@ -61,7 +60,9 @@ angular.module('myApp', ['angular-cron-gen'])
       hideWeeklyTab = false, // Whether to hide the weekly tab
       hideMonthlyTab = false, // Whether to hide the monthly tab
       hideYearlyTab = false, // Whether to hide the yearly tab
-      hideAdvancedTab = true // Whether to hide the advanced tab
+      hideAdvancedTab = true, // Whether to hide the advanced tab
+      use24HourTime: false, // Whether to show AM/PM on the time selectors
+      hideSeconds: false // Whether to show/hide the seconds time picker
     };
   }])
 ```

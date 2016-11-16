@@ -7,9 +7,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 
     <!-- lib -->
-    <!--<script src="../build/cron-gen.min.js"></script>-->
-    <script src="../build/cron-gen.module.js"></script>
-    <script src="../build/templates.js"></script>
+    <script src="../build/cron-gen.min.js"></script>
+    <!--<script src="../build/cron-gen.module.js"></script>-->
+    <!--<script src="../build/templates.js"></script>-->
     <link href="../build/cron-gen.min.css" rel="stylesheet"/>
 
     <!-- example app -->
@@ -82,14 +82,15 @@
           ng-disabled="isCronDisabled"
           template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
           cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
-          use-24-hour-time="true|false (Defaults to 'true')"
           options="cronOptions"&gt;
 &lt;/cron-gen&gt;</pre>
 
                 <pre>angular.module('ExampleApp', ['angular-cron-gen'])
   .controller('ExampleCtrl', ['$scope', function ($scope) {
     $scope.cronExpression = '0 8 9 9 1/8 ? *';
-    $scope.cronOptions = {};
+    $scope.cronOptions = {
+      hideAdvancedTab: false
+    };
     $scope.isCronDisabled = false;
   }]);</pre>
 
@@ -179,6 +180,18 @@
                         <td>Whether the advanced tab should be hidden</td>
                         <td>boolean</td>
                         <td>true</td>
+                    </tr>
+                    <tr>
+                        <td>use24HourTime</td>
+                        <td>Whether to show AM/PM on the time selectors</td>
+                        <td>boolean</td>
+                        <td>false</td>
+                    </tr>
+                    <tr>
+                        <td>hideSeconds</td>
+                        <td>Whether to show/hide the seconds time picker</td>
+                        <td>boolean</td>
+                        <td>false</td>
                     </tr>
                     </tbody>
                 </table>
