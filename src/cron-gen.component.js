@@ -35,7 +35,8 @@ const SELECT_OPTIONS = {
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
     minutes: [...new Array(59).keys()].map(x => x + 1),
-    seconds: [...new Array(59).keys()],
+    fullMinutes: [...new Array(60).keys()],
+    seconds: [...new Array(60).keys()],
     hours: [...new Array(23).keys()].map(x => x + 1),
     monthDays: [...new Array(31).keys()].map(x => x + 1),
     monthDaysWithLasts: ['1W', ...[...new Array(31).keys()].map(x => `${x + 1}`), 'LW', 'L']
@@ -81,16 +82,9 @@ export class CronGenComponent {
                     seconds: 0
                 },
                 hourly: {
-                    subTab: 'every',
-                    every: {
-                        hours: 1
-                    },
-                    specific: {
-                        hours: this.parsedOptions.use24HourTime ? 0 : 1,
-                        minutes: 0,
-                        seconds: 0,
-                        hourType: this.parsedOptions.use24HourTime ? null : 'AM'
-                    }
+                    hours: 1,
+                    minutes: 0,
+                    seconds: 0
                 },
                 daily: {
                     subTab: 'everyDays',
@@ -218,6 +212,14 @@ export class CronGenComponent {
         }
     }
 
+    minuteSecondDisplay(number) {
+        if (number === 0) {
+            return 'Every';
+        } else {
+            return `The ${number}${this.cronGenService.appendInt(number)}`;
+        }
+    }
+
     processHour(hours) {
         if (this.parsedOptions.use24HourTime) {
             return hours;
@@ -263,16 +265,7 @@ export class CronGenComponent {
                 this.ngModel = `${this.state.minutes.seconds} 0/${this.state.minutes.minutes} * 1/1 * ? *`;
                 break;
             case 'hourly':
-                switch (this.state.hourly.subTab) {
-                    case 'every':
-                        this.ngModel = `0 0 0/${this.state.hourly.every.hours} 1/1 * ? *`;
-                        break;
-                    case 'specific':
-                        this.ngModel = `${this.state.hourly.specific.seconds} ${this.state.hourly.specific.minutes} ${this.hourToCron(this.state.hourly.specific.hours, this.state.hourly.specific.hourType)} 1/1 * ? *`;
-                        break;
-                    default:
-                        throw 'Invalid cron hourly subtab selection';
-                }
+                this.ngModel = `${this.state.hourly.seconds} ${this.state.hourly.minutes} 0/${this.state.hourly.hours} 1/1 * ? *`;
                 break;
             case 'daily':
                 switch (this.state.daily.subTab) {
@@ -341,18 +334,11 @@ export class CronGenComponent {
                 this.activeTab = 'minutes';
                 this.state.minutes.minutes = parseInt(minutes.substring(2));
                 this.state.minutes.seconds = parseInt(seconds);
-            } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
+            } else if (cron.match(/\d+ \d+ 0\/\d+ 1\/1 \* \? \*/)) {
                 this.activeTab = 'hourly';
-                this.state.hourly.subTab = 'every';
-                this.state.hourly.every.hours = this.processHour(parseInt(hours.substring(2)));
-            } else if (cron.match(/\d+ \d+ \d+ 1\/1 \* \? \*/)) {
-                this.activeTab = 'hourly';
-                this.state.hourly.subTab = 'specific';
-                const parsedHours = parseInt(hours);
-                this.state.hourly.specific.hours = this.processHour(parsedHours);
-                this.state.hourly.specific.hourType = this.getHourType(parsedHours);
-                this.state.hourly.specific.minutes = parseInt(minutes);
-                this.state.hourly.specific.seconds = parseInt(seconds);
+                this.state.hourly.hours = parseInt(hours.substring(2));
+                this.state.hourly.minutes = parseInt(minutes);
+                this.state.hourly.seconds = parseInt(seconds);
             } else if (cron.match(/\d+ \d+ \d+ 1\/\d+ \* \? \*/)) {
                 this.activeTab = 'daily';
                 this.state.daily.subTab = 'everyDays';

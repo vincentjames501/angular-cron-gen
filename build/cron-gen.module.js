@@ -195,7 +195,8 @@ var SELECT_OPTIONS = {
     minutes: [].concat(toConsumableArray(new Array(59).keys())).map(function (x) {
         return x + 1;
     }),
-    seconds: [].concat(toConsumableArray(new Array(59).keys())),
+    fullMinutes: [].concat(toConsumableArray(new Array(60).keys())),
+    seconds: [].concat(toConsumableArray(new Array(60).keys())),
     hours: [].concat(toConsumableArray(new Array(23).keys())).map(function (x) {
         return x + 1;
     }),
@@ -251,16 +252,9 @@ var CronGenComponent = function () {
                     seconds: 0
                 },
                 hourly: {
-                    subTab: 'every',
-                    every: {
-                        hours: 1
-                    },
-                    specific: {
-                        hours: this.parsedOptions.use24HourTime ? 0 : 1,
-                        minutes: 0,
-                        seconds: 0,
-                        hourType: this.parsedOptions.use24HourTime ? null : 'AM'
-                    }
+                    hours: 1,
+                    minutes: 0,
+                    seconds: 0
                 },
                 daily: {
                     subTab: 'everyDays',
@@ -403,6 +397,15 @@ var CronGenComponent = function () {
             }
         }
     }, {
+        key: 'minuteSecondDisplay',
+        value: function minuteSecondDisplay(number) {
+            if (number === 0) {
+                return 'Every';
+            } else {
+                return 'The ' + number + this.cronGenService.appendInt(number);
+            }
+        }
+    }, {
         key: 'processHour',
         value: function processHour(hours) {
             if (this.parsedOptions.use24HourTime) {
@@ -455,16 +458,7 @@ var CronGenComponent = function () {
                     this.ngModel = this.state.minutes.seconds + ' 0/' + this.state.minutes.minutes + ' * 1/1 * ? *';
                     break;
                 case 'hourly':
-                    switch (this.state.hourly.subTab) {
-                        case 'every':
-                            this.ngModel = '0 0 0/' + this.state.hourly.every.hours + ' 1/1 * ? *';
-                            break;
-                        case 'specific':
-                            this.ngModel = this.state.hourly.specific.seconds + ' ' + this.state.hourly.specific.minutes + ' ' + this.hourToCron(this.state.hourly.specific.hours, this.state.hourly.specific.hourType) + ' 1/1 * ? *';
-                            break;
-                        default:
-                            throw 'Invalid cron hourly subtab selection';
-                    }
+                    this.ngModel = this.state.hourly.seconds + ' ' + this.state.hourly.minutes + ' 0/' + this.state.hourly.hours + ' 1/1 * ? *';
                     break;
                 case 'daily':
                     switch (this.state.daily.subTab) {
@@ -544,33 +538,26 @@ var CronGenComponent = function () {
                     this.activeTab = 'minutes';
                     this.state.minutes.minutes = parseInt(minutes.substring(2));
                     this.state.minutes.seconds = parseInt(seconds);
-                } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
+                } else if (cron.match(/\d+ \d+ 0\/\d+ 1\/1 \* \? \*/)) {
                     this.activeTab = 'hourly';
-                    this.state.hourly.subTab = 'every';
-                    this.state.hourly.every.hours = this.processHour(parseInt(hours.substring(2)));
-                } else if (cron.match(/\d+ \d+ \d+ 1\/1 \* \? \*/)) {
-                    this.activeTab = 'hourly';
-                    this.state.hourly.subTab = 'specific';
-                    var parsedHours = parseInt(hours);
-                    this.state.hourly.specific.hours = this.processHour(parsedHours);
-                    this.state.hourly.specific.hourType = this.getHourType(parsedHours);
-                    this.state.hourly.specific.minutes = parseInt(minutes);
-                    this.state.hourly.specific.seconds = parseInt(seconds);
+                    this.state.hourly.hours = parseInt(hours.substring(2));
+                    this.state.hourly.minutes = parseInt(minutes);
+                    this.state.hourly.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ 1\/\d+ \* \? \*/)) {
                     this.activeTab = 'daily';
                     this.state.daily.subTab = 'everyDays';
                     this.state.daily.everyDays.days = parseInt(dayOfMonth.substring(2));
-                    var _parsedHours = parseInt(hours);
-                    this.state.daily.everyDays.hours = this.processHour(_parsedHours);
-                    this.state.daily.everyDays.hourType = this.getHourType(_parsedHours);
+                    var parsedHours = parseInt(hours);
+                    this.state.daily.everyDays.hours = this.processHour(parsedHours);
+                    this.state.daily.everyDays.hourType = this.getHourType(parsedHours);
                     this.state.daily.everyDays.minutes = parseInt(minutes);
                     this.state.daily.everyDays.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ \? \* MON-FRI \*/)) {
                     this.activeTab = 'daily';
                     this.state.daily.subTab = 'everyWeekDay';
-                    var _parsedHours2 = parseInt(hours);
-                    this.state.daily.everyWeekDay.hours = this.processHour(_parsedHours2);
-                    this.state.daily.everyWeekDay.hourType = this.getHourType(_parsedHours2);
+                    var _parsedHours = parseInt(hours);
+                    this.state.daily.everyWeekDay.hours = this.processHour(_parsedHours);
+                    this.state.daily.everyWeekDay.hourType = this.getHourType(_parsedHours);
                     this.state.daily.everyWeekDay.minutes = parseInt(minutes);
                     this.state.daily.everyWeekDay.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
@@ -581,9 +568,9 @@ var CronGenComponent = function () {
                     dayOfWeek.split(',').forEach(function (weekDay) {
                         return _this4.state.weekly[weekDay] = true;
                     });
-                    var _parsedHours3 = parseInt(hours);
-                    this.state.weekly.hours = this.processHour(_parsedHours3);
-                    this.state.weekly.hourType = this.getHourType(_parsedHours3);
+                    var _parsedHours2 = parseInt(hours);
+                    this.state.weekly.hours = this.processHour(_parsedHours2);
+                    this.state.weekly.hourType = this.getHourType(_parsedHours2);
                     this.state.weekly.minutes = parseInt(minutes);
                     this.state.weekly.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ (\d+|L|LW|1W) 1\/\d+ \? \*/)) {
@@ -591,9 +578,9 @@ var CronGenComponent = function () {
                     this.state.monthly.subTab = 'specificDay';
                     this.state.monthly.specificDay.day = dayOfMonth;
                     this.state.monthly.specificDay.months = parseInt(month.substring(2));
-                    var _parsedHours4 = parseInt(hours);
-                    this.state.monthly.specificDay.hours = this.processHour(_parsedHours4);
-                    this.state.monthly.specificDay.hourType = this.getHourType(_parsedHours4);
+                    var _parsedHours3 = parseInt(hours);
+                    this.state.monthly.specificDay.hours = this.processHour(_parsedHours3);
+                    this.state.monthly.specificDay.hourType = this.getHourType(_parsedHours3);
                     this.state.monthly.specificDay.minutes = parseInt(minutes);
                     this.state.monthly.specificDay.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ \? 1\/\d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
@@ -604,9 +591,9 @@ var CronGenComponent = function () {
                     this.state.monthly.specificWeekDay.monthWeek = monthWeek;
                     this.state.monthly.specificWeekDay.day = day;
                     this.state.monthly.specificWeekDay.months = parseInt(month.substring(2));
-                    var _parsedHours5 = parseInt(hours);
-                    this.state.monthly.specificWeekDay.hours = this.processHour(_parsedHours5);
-                    this.state.monthly.specificWeekDay.hourType = this.getHourType(_parsedHours5);
+                    var _parsedHours4 = parseInt(hours);
+                    this.state.monthly.specificWeekDay.hours = this.processHour(_parsedHours4);
+                    this.state.monthly.specificWeekDay.hourType = this.getHourType(_parsedHours4);
                     this.state.monthly.specificWeekDay.minutes = parseInt(minutes);
                     this.state.monthly.specificWeekDay.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ (\d+|L|LW|1W) \d+ \? \*/)) {
@@ -614,9 +601,9 @@ var CronGenComponent = function () {
                     this.state.yearly.subTab = 'specificMonthDay';
                     this.state.yearly.specificMonthDay.month = parseInt(month);
                     this.state.yearly.specificMonthDay.day = dayOfMonth;
-                    var _parsedHours6 = parseInt(hours);
-                    this.state.yearly.specificMonthDay.hours = this.processHour(_parsedHours6);
-                    this.state.yearly.specificMonthDay.hourType = this.getHourType(_parsedHours6);
+                    var _parsedHours5 = parseInt(hours);
+                    this.state.yearly.specificMonthDay.hours = this.processHour(_parsedHours5);
+                    this.state.yearly.specificMonthDay.hourType = this.getHourType(_parsedHours5);
                     this.state.yearly.specificMonthDay.minutes = parseInt(minutes);
                     this.state.yearly.specificMonthDay.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ \? \d+ (MON|TUE|WED|THU|FRI|SAT|SUN)((#[1-5])|L) \*/)) {
@@ -627,9 +614,9 @@ var CronGenComponent = function () {
                     this.state.yearly.specificMonthWeek.monthWeek = _monthWeek;
                     this.state.yearly.specificMonthWeek.day = _day;
                     this.state.yearly.specificMonthWeek.month = parseInt(month);
-                    var _parsedHours7 = parseInt(hours);
-                    this.state.yearly.specificMonthWeek.hours = this.processHour(_parsedHours7);
-                    this.state.yearly.specificMonthWeek.hourType = this.getHourType(_parsedHours7);
+                    var _parsedHours6 = parseInt(hours);
+                    this.state.yearly.specificMonthWeek.hours = this.processHour(_parsedHours6);
+                    this.state.yearly.specificMonthWeek.hourType = this.getHourType(_parsedHours6);
                     this.state.yearly.specificMonthWeek.minutes = parseInt(minutes);
                     this.state.yearly.specificMonthWeek.seconds = parseInt(seconds);
                 } else {
