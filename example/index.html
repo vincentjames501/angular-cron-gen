@@ -7,7 +7,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 
     <!-- lib -->
-    <script src="../build/cron-gen.min.js"></script>
+    <!--<script src="../build/cron-gen.min.js"></script>-->
+    <script src="../build/cron-gen.module.js"></script>
+    <script src="../build/templates.js"></script>
     <link href="../build/cron-gen.min.css" rel="stylesheet"/>
 
     <!-- example app -->
@@ -43,8 +45,8 @@
             <div class="col-xs-12">
                 <form name="cronForm">
                     <cron-gen ng-model="cronExpression"
+                              ng-disabled="isCronDisabled"
                               options="cronOptions"
-                              use-24-hour-time="false"
                               name="cron">
                     </cron-gen>
                 </form>

@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
 const templateCache = require('gulp-angular-templatecache');
 const concat = require('gulp-concat');
 const addStream = require('add-stream');
@@ -8,6 +7,9 @@ const less = require('gulp-less');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const clean = require('gulp-clean');
+const rollup = require('gulp-rollup');
+const rollupBabel = require("rollup-plugin-babel");
+const ngAnnotate = require('gulp-ng-annotate');
 
 gulp.task('clean', () => {
     return gulp.src('build/*', {read: false})
@@ -23,18 +25,24 @@ gulp.task('less', () => {
 });
 
 gulp.task('src', () => {
-    return gulp.src('src/cron-gen.js')
-        .pipe(addStream.obj(() => gulp.src('src/cron-gen.html')
+    return gulp.src('src/**/*.js')
+        .pipe(sourcemaps.init())
+        .pipe(rollup({
+            format: 'iife',
+            plugins: [
+                rollupBabel({
+                    presets: [['es2015', {modules: false}]],
+                    plugins: ['external-helpers']
+                })
+            ],
+            entry: 'src/cron-gen.module.js'
+        }))
+        .pipe(ngAnnotate())
+        .pipe(addStream.obj(() => gulp.src('src/templates/*.html')
             .pipe(templateCache({
                 root: 'angular-cron-gen',
                 module: 'angular-cron-gen'
             }))))
-        .pipe(concat('app.js'))
-        .pipe(sourcemaps.init())
-        .pipe(babel({
-            presets: ['es2015']
-        }))
-        .pipe(concat('cron-gen.js'))
         .pipe(gulp.dest('build'))
         .pipe(concat('cron-gen.min.js'))
         .pipe(uglify())
