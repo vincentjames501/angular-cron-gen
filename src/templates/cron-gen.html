@@ -137,7 +137,8 @@
                                     is-required="$ctrl.activeTab === 'hourly' && $ctrl.state.hourly.subTab === 'specific'"
                                     model="$ctrl.state.hourly.specific"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                     </div>
@@ -171,7 +172,8 @@
                                     is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyDays'"
                                     model="$ctrl.state.daily.everyDays"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
@@ -190,7 +192,8 @@
                                     is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyWeekDay'"
                                     model="$ctrl.state.daily.everyWeekDay"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                     </div>
@@ -261,7 +264,8 @@
                                 is-required="$ctrl.activeTab === 'weekly'"
                                 model="$ctrl.state.weekly"
                                 select-class="$ctrl.parsedOptions.formSelectClass"
-                                use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                hide-seconds="$ctrl.parsedOptions.hideSeconds">
                         </cron-gen-time-select>
                     </div>
                     <div class="tab-pane"
@@ -304,7 +308,8 @@
                                     is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
                                     model="$ctrl.state.monthly.specificDay"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
@@ -351,7 +356,8 @@
                                     is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
                                     model="$ctrl.state.monthly.specificWeekDay"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
 
@@ -395,7 +401,8 @@
                                     name-prefix="yearlySpecificMonthDay"
                                     model="$ctrl.state.yearly.specificMonthDay"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                         <div class="well well-small">
@@ -443,7 +450,8 @@
                                     is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
                                     model="$ctrl.state.yearly.specificMonthWeek"
                                     select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime">
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
                             </cron-gen-time-select>
                         </div>
                     </div>

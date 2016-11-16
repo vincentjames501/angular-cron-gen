@@ -3,6 +3,7 @@ export class CronGenTimeSelect {
         'ngInject';
         this.selectOptions = {
             minutes: [...new Array(60).keys()],
+            seconds: [...new Array(60).keys()],
             hourTypes: ['AM', 'PM']
         };
         $scope.$watch('$ctrl.use24HourTime', () => {
