@@ -96,6 +96,18 @@
                                 ng-class="$ctrl.parsedOptions.formSelectClass">
                         </select>
                         minute(s)
+                        <span ng-show="!$ctrl.parsedOptions.hideSeconds">on the</span>
+                            <select class="minutes"
+                                    name="minutesSeconds"
+                                    ng-show="!$ctrl.parsedOptions.hideSeconds"
+                                    ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
+                                    ng-change="$ctrl.regenerateCron()"
+                                    ng-model="$ctrl.state.minutes.seconds"
+                                    ng-required="$ctrl.activeTab === 'minutes'"
+                                    ng-options="second as ('' + second + $ctrl.cronGenService.appendInt(second)) for second in $ctrl.selectOptions.seconds"
+                                    ng-class="$ctrl.parsedOptions.formSelectClass">
+                            </select>
+                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">second</span>
                     </div>
                     <div class="tab-pane"
                          ng-show="!$ctrl.parsedOptions.hideHourlyTab"

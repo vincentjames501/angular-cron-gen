@@ -34,4 +34,8 @@ export class CronGenService {
                 return "th";
         }
     }
+
+    padNumber(number) {
+        return `${number}`.length === 1 ? `0${number}` : `${number}`;
+    }
 }

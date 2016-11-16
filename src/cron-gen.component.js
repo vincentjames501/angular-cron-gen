@@ -35,6 +35,7 @@ const SELECT_OPTIONS = {
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
     minutes: [...new Array(59).keys()].map(x => x + 1),
+    seconds: [...new Array(59).keys()],
     hours: [...new Array(23).keys()].map(x => x + 1),
     monthDays: [...new Array(31).keys()].map(x => x + 1),
     monthDaysWithLasts: ['1W', ...[...new Array(31).keys()].map(x => `${x + 1}`), 'LW', 'L']
@@ -76,7 +77,8 @@ export class CronGenComponent {
             selectOptions: SELECT_OPTIONS,
             state: {
                 minutes: {
-                    minutes: 1
+                    minutes: 1,
+                    seconds: 0
                 },
                 hourly: {
                     subTab: 'every',
@@ -258,7 +260,7 @@ export class CronGenComponent {
         this.currentState = States.DIRTY;
         switch (this.activeTab) {
             case 'minutes':
-                this.ngModel = `0 0/${this.state.minutes.minutes} * 1/1 * ? *`;
+                this.ngModel = `${this.state.minutes.seconds} 0/${this.state.minutes.minutes} * 1/1 * ? *`;
                 break;
             case 'hourly':
                 switch (this.state.hourly.subTab) {
@@ -335,9 +337,10 @@ export class CronGenComponent {
         const segments = cron.split(' ');
         if (segments.length === 6 || segments.length === 7) {
             const [seconds, minutes, hours, dayOfMonth, month, dayOfWeek] = segments;
-            if (cron.match(/0 0\/\d+ \* 1\/1 \* \? \*/)) {
+            if (cron.match(/\d+ 0\/\d+ \* 1\/1 \* \? \*/)) {
                 this.activeTab = 'minutes';
                 this.state.minutes.minutes = parseInt(minutes.substring(2));
+                this.state.minutes.seconds = parseInt(seconds);
             } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
                 this.activeTab = 'hourly';
                 this.state.hourly.subTab = 'every';

@@ -195,6 +195,7 @@ var SELECT_OPTIONS = {
     minutes: [].concat(toConsumableArray(new Array(59).keys())).map(function (x) {
         return x + 1;
     }),
+    seconds: [].concat(toConsumableArray(new Array(59).keys())),
     hours: [].concat(toConsumableArray(new Array(23).keys())).map(function (x) {
         return x + 1;
     }),
@@ -246,7 +247,8 @@ var CronGenComponent = function () {
             selectOptions: SELECT_OPTIONS,
             state: {
                 minutes: {
-                    minutes: 1
+                    minutes: 1,
+                    seconds: 0
                 },
                 hourly: {
                     subTab: 'every',
@@ -450,7 +452,7 @@ var CronGenComponent = function () {
             this.currentState = States.DIRTY;
             switch (this.activeTab) {
                 case 'minutes':
-                    this.ngModel = '0 0/' + this.state.minutes.minutes + ' * 1/1 * ? *';
+                    this.ngModel = this.state.minutes.seconds + ' 0/' + this.state.minutes.minutes + ' * 1/1 * ? *';
                     break;
                 case 'hourly':
                     switch (this.state.hourly.subTab) {
@@ -538,9 +540,10 @@ var CronGenComponent = function () {
                 var month = _segments[4];
                 var dayOfWeek = _segments[5];
 
-                if (cron.match(/0 0\/\d+ \* 1\/1 \* \? \*/)) {
+                if (cron.match(/\d+ 0\/\d+ \* 1\/1 \* \? \*/)) {
                     this.activeTab = 'minutes';
                     this.state.minutes.minutes = parseInt(minutes.substring(2));
+                    this.state.minutes.seconds = parseInt(seconds);
                 } else if (cron.match(/0 0 0\/\d+ 1\/1 \* \? \*/)) {
                     this.activeTab = 'hourly';
                     this.state.hourly.subTab = 'every';
@@ -681,38 +684,36 @@ var CronGenService = function () {
                     return "th";
             }
         }
-    }]);
-    return CronGenService;
-}();
-
-var CronGenTimeSelect = function () {
-    CronGenTimeSelect.$inject = ["$scope"];
-    function CronGenTimeSelect($scope) {
-        'ngInject';
-
-        var _this = this;
-
-        classCallCheck(this, CronGenTimeSelect);
-        this.selectOptions = {
-            minutes: [].concat(toConsumableArray(new Array(60).keys())),
-            seconds: [].concat(toConsumableArray(new Array(60).keys())),
-            hourTypes: ['AM', 'PM']
-        };
-        $scope.$watch('$ctrl.use24HourTime', function () {
-            _this.selectOptions.hours = _this.use24HourTime ? [].concat(toConsumableArray(new Array(24).keys())) : [].concat(toConsumableArray(new Array(12).keys())).map(function (x) {
-                return x + 1;
-            });
-        });
-    }
-
-    createClass(CronGenTimeSelect, [{
+    }, {
         key: 'padNumber',
         value: function padNumber(number) {
             return ('' + number).length === 1 ? '0' + number : '' + number;
         }
     }]);
-    return CronGenTimeSelect;
+    return CronGenService;
 }();
+
+var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
+    'ngInject';
+
+    var _this = this;
+
+    classCallCheck(this, CronGenTimeSelect);
+    this.cronGenService = cronGenService;
+
+    this.selectOptions = {
+        minutes: [].concat(toConsumableArray(new Array(60).keys())),
+        seconds: [].concat(toConsumableArray(new Array(60).keys())),
+        hourTypes: ['AM', 'PM']
+    };
+
+    $scope.$watch('$ctrl.use24HourTime', function () {
+        _this.selectOptions.hours = _this.use24HourTime ? [].concat(toConsumableArray(new Array(24).keys())) : [].concat(toConsumableArray(new Array(12).keys())).map(function (x) {
+            return x + 1;
+        });
+    });
+};
+CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
 
 angular.module('angular-cron-gen', []).service('cronGenService', CronGenService).component('cronGenTimeSelect', {
     bindings: {
