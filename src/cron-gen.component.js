@@ -42,9 +42,9 @@ const SELECT_OPTIONS = {
     monthDaysWithLasts: ['1W', ...[...new Array(31).keys()].map(x => `${x + 1}`), 'LW', 'L']
 };
 const States = {
-    INIT: Symbol('INIT'),
-    DIRTY: Symbol('DIRTY'),
-    CLEAN: Symbol('CLEAN'),
+    INIT: 1,
+    DIRTY: 2,
+    CLEAN: 3,
 };
 
 export class CronGenComponent {
@@ -420,8 +420,3 @@ export class CronGenComponent {
         }
     }
 }
-
-
-
-
-
