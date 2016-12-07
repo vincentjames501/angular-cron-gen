@@ -31,7 +31,7 @@ const MONTH_LOOKUPS = {
     '12': 'December'
 };
 const SELECT_OPTIONS = {
-    months: [...new Array(11).keys()].map(x => x + 1),
+    months: [...new Array(12).keys()].map(x => x + 1),
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
     minutes: [...new Array(59).keys()].map(x => x + 1),

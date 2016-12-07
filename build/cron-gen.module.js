@@ -187,7 +187,7 @@ var MONTH_LOOKUPS = {
     '12': 'December'
 };
 var SELECT_OPTIONS = {
-    months: [].concat(toConsumableArray(new Array(11).keys())).map(function (x) {
+    months: [].concat(toConsumableArray(new Array(12).keys())).map(function (x) {
         return x + 1;
     }),
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
