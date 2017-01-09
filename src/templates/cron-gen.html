@@ -208,52 +208,53 @@
                     <div class="tab-pane"
                          ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
                          ng-class="{'active': $ctrl.activeTab === 'weekly'}">
-                        <div class="well well-small">
-                            <div class="span6 col-sm-6">
+                        <div class="well well-small row">
+                            <div class="col-sm-6">
                                 <input type="checkbox"
                                        name="weeklyMON"
                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
                                        ng-change="$ctrl.regenerateCron()"
                                        ng-model="$ctrl.state.weekly.MON"
                                        ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Monday<br>
-                                <input type="checkbox"
-                                       name="weeklyWED"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.WED"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Wednesday<br>
-                                <input type="checkbox"
-                                       name="weeklyFRI"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.FRI"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Friday<br>
-                                <input type="checkbox"
-                                       name="weeklySUN"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.SUN"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Sunday
+                                Monday
                             </div>
-                            <div class="span6 col-sm-6">
+                            <div class="col-sm-6">
                                 <input type="checkbox"
                                        name="weeklyTUE"
                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
                                        ng-change="$ctrl.regenerateCron()"
                                        ng-model="$ctrl.state.weekly.TUE"
                                        ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Tuesday<br>
+                                Tuesday
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="checkbox"
+                                       name="weeklyWED"
+                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                                       ng-change="$ctrl.regenerateCron()"
+                                       ng-model="$ctrl.state.weekly.WED"
+                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                                Wednesday
+                            </div>
+                            <div class="col-sm-6">
                                 <input type="checkbox"
                                        name="weeklyTHU"
                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
                                        ng-change="$ctrl.regenerateCron()"
                                        ng-model="$ctrl.state.weekly.THU"
                                        ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Thursday<br>
+                                Thursday
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="checkbox"
+                                       name="weeklyFRI"
+                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                                       ng-change="$ctrl.regenerateCron()"
+                                       ng-model="$ctrl.state.weekly.FRI"
+                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                                Friday
+                            </div>
+                            <div class="col-sm-6">
                                 <input type="checkbox"
                                        name="weeklySAT"
                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
@@ -262,7 +263,15 @@
                                        ng-class="$ctrl.parsedOptions.formCheckboxClass">
                                 Saturday
                             </div>
-                            <br><br><br><br>
+                            <div class="col-sm-6">
+                                <input type="checkbox"
+                                       name="weeklySUN"
+                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                                       ng-change="$ctrl.regenerateCron()"
+                                       ng-model="$ctrl.state.weekly.SUN"
+                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                                Sunday
+                            </div>
                         </div>
                         Start time
                         <cron-gen-time-select
