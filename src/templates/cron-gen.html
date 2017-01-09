@@ -97,18 +97,17 @@
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
                             minute(s)
-                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">beginning on</span>
-                            <select class="minute-seconds"
+                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">on second</span>
+                            <select class="seconds"
                                     name="minutesSeconds"
                                     ng-show="!$ctrl.parsedOptions.hideSeconds"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
                                     ng-change="$ctrl.regenerateCron()"
                                     ng-model="$ctrl.state.minutes.seconds"
                                     ng-required="$ctrl.activeTab === 'minutes'"
-                                    ng-options="second as $ctrl.minuteSecondDisplay(second) for second in $ctrl.selectOptions.seconds"
+                                    ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">second</span>
                         </div>
                     </div>
                     <div class="tab-pane"
@@ -125,29 +124,27 @@
                                     ng-options="hour as hour for hour in $ctrl.selectOptions.hours"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            hour(s) beginning on
-                            <select class="minute-seconds"
+                            hour(s) on minute
+                            <select class="minutes"
                                     name="hourlyMinutes"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
                                     ng-change="$ctrl.regenerateCron()"
                                     ng-model="$ctrl.state.hourly.minutes"
                                     ng-required="$ctrl.activeTab === 'hourly'"
-                                    ng-options="minute as $ctrl.minuteSecondDisplay(minute) for minute in $ctrl.selectOptions.fullMinutes"
+                                    ng-options="minute as $ctrl.cronGenService.padNumber(minute) for minute in $ctrl.selectOptions.fullMinutes"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            minute
-                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">and</span>
-                            <select class="minute-seconds"
+                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">and second</span>
+                            <select class="seconds"
                                     name="hourlySeconds"
                                     ng-show="!$ctrl.parsedOptions.hideSeconds"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
                                     ng-change="$ctrl.regenerateCron()"
                                     ng-model="$ctrl.state.hourly.seconds"
                                     ng-required="$ctrl.activeTab === 'hourly'"
-                                    ng-options="second as $ctrl.minuteSecondDisplay(second) for second in $ctrl.selectOptions.seconds"
+                                    ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            <span ng-show="!$ctrl.parsedOptions.hideSeconds">second</span>
                         </div>
                     </div>
                     <div class="tab-pane"
@@ -172,7 +169,7 @@
                                     ng-options="monthDay as monthDay for monthDay in $ctrl.selectOptions.monthDays"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            day(s) starting at
+                            day(s) at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
                                     on-change="$ctrl.regenerateCron()"
@@ -192,7 +189,7 @@
                                    ng-model="$ctrl.state.daily.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="daily-radio">
-                            Every week day (Monday through Friday) starting at
+                            Every week day (Monday through Friday) at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyWeekDay'"
                                     on-change="$ctrl.regenerateCron()"
@@ -317,7 +314,7 @@
                                     ng-options="month as month for month in $ctrl.selectOptions.months"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            month(s) starting at
+                            month(s) at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
                                     on-change="$ctrl.regenerateCron()"
@@ -337,6 +334,7 @@
                                    ng-model="$ctrl.state.monthly.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="monthly-radio">
+                            On the
                             <select class="day-order-in-month"
                                     name="monthlySpecificWeekDayMonthWeek"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
@@ -365,7 +363,7 @@
                                     ng-options="month as month for month in $ctrl.selectOptions.months"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            month(s) starting at
+                            month(s) at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
                                     on-change="$ctrl.regenerateCron()"
@@ -410,7 +408,7 @@
                                     ng-options="monthDaysWithLast as $ctrl.monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in $ctrl.selectOptions.monthDaysWithLasts"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            starting at
+                            at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
                                     on-change="$ctrl.regenerateCron()"
@@ -430,7 +428,7 @@
                                    ng-model="$ctrl.state.yearly.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="yearly-radio">
-                            The
+                            On the
                             <select class="day-order-in-month"
                                     name="yearlySpecificMonthWeekMonthWeek"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
@@ -459,7 +457,7 @@
                                     ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            starting at
+                            at
                             <cron-gen-time-select
                                     is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
                                     on-change="$ctrl.regenerateCron()"

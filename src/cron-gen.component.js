@@ -212,14 +212,6 @@ export class CronGenComponent {
         }
     }
 
-    minuteSecondDisplay(number) {
-        if (number === 0) {
-            return 'Every';
-        } else {
-            return `The ${number}${this.cronGenService.appendInt(number)}`;
-        }
-    }
-
     processHour(hours) {
         if (this.parsedOptions.use24HourTime) {
             return hours;
