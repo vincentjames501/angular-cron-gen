@@ -397,15 +397,6 @@ var CronGenComponent = function () {
             }
         }
     }, {
-        key: 'minuteSecondDisplay',
-        value: function minuteSecondDisplay(number) {
-            if (number === 0) {
-                return 'Every';
-            } else {
-                return 'The ' + number + this.cronGenService.appendInt(number);
-            }
-        }
-    }, {
         key: 'processHour',
         value: function processHour(hours) {
             if (this.parsedOptions.use24HourTime) {
@@ -525,14 +516,13 @@ var CronGenComponent = function () {
 
             var segments = cron.split(' ');
             if (segments.length === 6 || segments.length === 7) {
-                var _segments = slicedToArray(segments, 6);
-
-                var seconds = _segments[0];
-                var minutes = _segments[1];
-                var hours = _segments[2];
-                var dayOfMonth = _segments[3];
-                var month = _segments[4];
-                var dayOfWeek = _segments[5];
+                var _segments = slicedToArray(segments, 6),
+                    seconds = _segments[0],
+                    minutes = _segments[1],
+                    hours = _segments[2],
+                    dayOfMonth = _segments[3],
+                    month = _segments[4],
+                    dayOfWeek = _segments[5];
 
                 if (cron.match(/\d+ 0\/\d+ \* 1\/1 \* \? \*/)) {
                     this.activeTab = 'minutes';
