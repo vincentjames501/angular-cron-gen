@@ -5,13 +5,13 @@ export class CronGenTimeSelect {
         this.cronGenService = cronGenService;
 
         this.selectOptions = {
-            minutes: [...new Array(60).keys()],
-            seconds: [...new Array(60).keys()],
+            minutes: [...new Array(60)].map((val, idx) => idx),
+            seconds: [...new Array(60)].map((val, idx) => idx),
             hourTypes: ['AM', 'PM']
         };
 
         $scope.$watch('$ctrl.use24HourTime', () => {
-            this.selectOptions.hours = this.use24HourTime ? [...new Array(24).keys()] : [...new Array(12).keys()].map(x => x + 1);
+            this.selectOptions.hours = this.use24HourTime ? [...new Array(24)].map((val, idx) => idx) : [...new Array(12)].map((val, idx) => idx + 1);
         });
     }
 }

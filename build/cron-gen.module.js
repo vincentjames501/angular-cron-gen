@@ -31,30 +31,6 @@ var createClass = function () {
 
 
 
-var get = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
 
 
 
@@ -72,27 +48,8 @@ var get = function get(object, property, receiver) {
 
 
 
-var set = function set(object, property, value, receiver) {
-  var desc = Object.getOwnPropertyDescriptor(object, property);
 
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
 
-    if (parent !== null) {
-      set(parent, property, value, receiver);
-    }
-  } else if ("value" in desc && desc.writable) {
-    desc.value = value;
-  } else {
-    var setter = desc.set;
-
-    if (setter !== undefined) {
-      setter.call(receiver, value);
-    }
-  }
-
-  return value;
-};
 
 var slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -187,24 +144,28 @@ var MONTH_LOOKUPS = {
     '12': 'December'
 };
 var SELECT_OPTIONS = {
-    months: [].concat(toConsumableArray(new Array(12).keys())).map(function (x) {
-        return x + 1;
+    months: [].concat(toConsumableArray(new Array(12))).map(function (val, idx) {
+        return idx + 1;
     }),
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-    minutes: [].concat(toConsumableArray(new Array(59).keys())).map(function (x) {
-        return x + 1;
+    minutes: [].concat(toConsumableArray(new Array(59))).map(function (val, idx) {
+        return idx + 1;
     }),
-    fullMinutes: [].concat(toConsumableArray(new Array(60).keys())),
-    seconds: [].concat(toConsumableArray(new Array(60).keys())),
-    hours: [].concat(toConsumableArray(new Array(23).keys())).map(function (x) {
-        return x + 1;
+    fullMinutes: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
+        return idx;
     }),
-    monthDays: [].concat(toConsumableArray(new Array(31).keys())).map(function (x) {
-        return x + 1;
+    seconds: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
+        return idx;
     }),
-    monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31).keys())).map(function (x) {
-        return '' + (x + 1);
+    hours: [].concat(toConsumableArray(new Array(23))).map(function (val, idx) {
+        return idx + 1;
+    }),
+    monthDays: [].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
+        return idx + 1;
+    }),
+    monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
+        return '' + (idx + 1);
     })), ['LW', 'L'])
 };
 var States = {
@@ -332,7 +293,7 @@ var CronGenComponent = function () {
         });
 
         //Validate our opts
-        if (!ACCEPTABLE_CRON_FORMATS.includes(this.cronFormat)) {
+        if (ACCEPTABLE_CRON_FORMATS.indexOf(this.cronFormat) == -1) {
             throw 'Desired cron format (' + this.cronFormat + ') is not available';
         }
 
@@ -679,14 +640,20 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
     this.cronGenService = cronGenService;
 
     this.selectOptions = {
-        minutes: [].concat(toConsumableArray(new Array(60).keys())),
-        seconds: [].concat(toConsumableArray(new Array(60).keys())),
+        minutes: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
+            return idx;
+        }),
+        seconds: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
+            return idx;
+        }),
         hourTypes: ['AM', 'PM']
     };
 
     $scope.$watch('$ctrl.use24HourTime', function () {
-        _this.selectOptions.hours = _this.use24HourTime ? [].concat(toConsumableArray(new Array(24).keys())) : [].concat(toConsumableArray(new Array(12).keys())).map(function (x) {
-            return x + 1;
+        _this.selectOptions.hours = _this.use24HourTime ? [].concat(toConsumableArray(new Array(24))).map(function (val, idx) {
+            return idx;
+        }) : [].concat(toConsumableArray(new Array(12))).map(function (val, idx) {
+            return idx + 1;
         });
     });
 };
@@ -701,9 +668,15 @@ angular.module('angular-cron-gen', []).service('cronGenService', CronGenService)
         selectClass: '<',
         use24HourTime: '<',
         hideSeconds: '<',
-        namePrefix: '@'
+        namePrefix: '@',
+        templateUrl: '@'
     },
-    templateUrl: 'angular-cron-gen/cron-gen-time-select.html',
+    templateUrl: ["$attrs", function templateUrl($attrs) {
+        'ngInject';
+
+        return $attrs.templateUrl || 'angular-cron-gen/cron-gen-time-select.html';
+    }],
+
     controller: CronGenTimeSelect
 }).component('cronGen', {
     bindings: {

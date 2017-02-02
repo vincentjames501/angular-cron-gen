@@ -31,15 +31,15 @@ const MONTH_LOOKUPS = {
     '12': 'December'
 };
 const SELECT_OPTIONS = {
-    months: [...new Array(12).keys()].map(x => x + 1),
+    months: [...new Array(12)].map((val, idx) => idx + 1),
     monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
     days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-    minutes: [...new Array(59).keys()].map(x => x + 1),
-    fullMinutes: [...new Array(60).keys()],
-    seconds: [...new Array(60).keys()],
-    hours: [...new Array(23).keys()].map(x => x + 1),
-    monthDays: [...new Array(31).keys()].map(x => x + 1),
-    monthDaysWithLasts: ['1W', ...[...new Array(31).keys()].map(x => `${x + 1}`), 'LW', 'L']
+    minutes: [...new Array(59)].map((val, idx) => idx + 1),
+    fullMinutes: [...new Array(60)].map((val, idx) => idx),
+    seconds: [...new Array(60)].map((val, idx) => idx),
+    hours: [...new Array(23)].map((val, idx) => idx + 1),
+    monthDays: [...new Array(31)].map((val, idx) => idx + 1),
+    monthDaysWithLasts: ['1W', ...[...new Array(31)].map((val, idx) => `${idx + 1}`), 'LW', 'L']
 };
 const States = {
     INIT: 1,
@@ -162,7 +162,7 @@ export class CronGenComponent {
         });
 
         //Validate our opts
-        if (!ACCEPTABLE_CRON_FORMATS.includes(this.cronFormat)) {
+        if (ACCEPTABLE_CRON_FORMATS.indexOf(this.cronFormat) == -1) {
             throw `Desired cron format (${this.cronFormat}) is not available`;
         }
 
