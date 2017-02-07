@@ -143,31 +143,7 @@ var MONTH_LOOKUPS = {
     '11': 'November',
     '12': 'December'
 };
-var SELECT_OPTIONS = {
-    months: [].concat(toConsumableArray(new Array(12))).map(function (val, idx) {
-        return idx + 1;
-    }),
-    monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
-    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-    minutes: [].concat(toConsumableArray(new Array(59))).map(function (val, idx) {
-        return idx + 1;
-    }),
-    fullMinutes: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
-        return idx;
-    }),
-    seconds: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
-        return idx;
-    }),
-    hours: [].concat(toConsumableArray(new Array(23))).map(function (val, idx) {
-        return idx + 1;
-    }),
-    monthDays: [].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
-        return idx + 1;
-    }),
-    monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
-        return '' + (idx + 1);
-    })), ['LW', 'L'])
-};
+
 var States = {
     INIT: 1,
     DIRTY: 2,
@@ -206,7 +182,7 @@ var CronGenComponent = function () {
                 }
                 throw 'No tabs available to make active';
             }(),
-            selectOptions: SELECT_OPTIONS,
+            selectOptions: cronGenService.selectOptions(),
             state: {
                 minutes: {
                     minutes: 1,
@@ -425,7 +401,7 @@ var CronGenComponent = function () {
                     }
                     break;
                 case 'weekly':
-                    var days = SELECT_OPTIONS.days.reduce(function (acc, day) {
+                    var days = this.selectOptions.days.reduce(function (acc, day) {
                         return _this3.state.weekly[day] ? acc.concat([day]) : acc;
                     }, []).join(',');
                     this.ngModel = this.state.weekly.seconds + ' ' + this.state.weekly.minutes + ' ' + this.hourToCron(this.state.weekly.hours, this.state.weekly.hourType) + ' ? * ' + days + ' *';
@@ -513,7 +489,7 @@ var CronGenComponent = function () {
                     this.state.daily.everyWeekDay.seconds = parseInt(seconds);
                 } else if (cron.match(/\d+ \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
                     this.activeTab = 'weekly';
-                    SELECT_OPTIONS.days.forEach(function (weekDay) {
+                    this.selectOptions.days.forEach(function (weekDay) {
                         return _this4.state.weekly[weekDay] = false;
                     });
                     dayOfWeek.split(',').forEach(function (weekDay) {
@@ -627,6 +603,43 @@ var CronGenService = function () {
         value: function padNumber(number) {
             return ('' + number).length === 1 ? '0' + number : '' + number;
         }
+    }, {
+        key: 'range',
+        value: function range(start, end) {
+            if (typeof end === 'undefined') {
+                end = start;
+                start = 0;
+            }
+
+            if (start < 0 || end < 0) throw 'Range values must be positive values';
+
+            if (end > start) {
+                return [].concat(toConsumableArray(new Array(end - start))).map(function (val, idx) {
+                    return idx + start;
+                });
+            } else if (start < end) {
+                return [].concat(toConsumableArray(new Array(start - end))).map(function (val, idx) {
+                    return end - idx;
+                });
+            } else return new Array();
+        }
+    }, {
+        key: 'selectOptions',
+        value: function selectOptions() {
+            return {
+                months: this.range(1, 12),
+                monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
+                days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+                minutes: this.range(1, 60),
+                fullMinutes: this.range(60),
+                seconds: this.range(60),
+                hours: this.range(1, 23),
+                monthDays: this.range(1, 31),
+                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(28))).map(function (val, idx) {
+                    return '' + (idx + 1);
+                })), ['LW', 'L'])
+            };
+        }
     }]);
     return CronGenService;
 }();
@@ -640,21 +653,13 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
     this.cronGenService = cronGenService;
 
     this.selectOptions = {
-        minutes: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
-            return idx;
-        }),
-        seconds: [].concat(toConsumableArray(new Array(60))).map(function (val, idx) {
-            return idx;
-        }),
+        minutes: cronGenService.range(60),
+        seconds: cronGenService.range(60),
         hourTypes: ['AM', 'PM']
     };
 
     $scope.$watch('$ctrl.use24HourTime', function () {
-        _this.selectOptions.hours = _this.use24HourTime ? [].concat(toConsumableArray(new Array(24))).map(function (val, idx) {
-            return idx;
-        }) : [].concat(toConsumableArray(new Array(12))).map(function (val, idx) {
-            return idx + 1;
-        });
+        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(12);
     });
 };
 CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
@@ -668,15 +673,9 @@ angular.module('angular-cron-gen', []).service('cronGenService', CronGenService)
         selectClass: '<',
         use24HourTime: '<',
         hideSeconds: '<',
-        namePrefix: '@',
-        templateUrl: '@'
+        namePrefix: '@'
     },
-    templateUrl: ["$attrs", function templateUrl($attrs) {
-        'ngInject';
-
-        return $attrs.templateUrl || 'angular-cron-gen/cron-gen-time-select.html';
-    }],
-
+    templateUrl: 'angular-cron-gen/cron-gen-time-select.html',
     controller: CronGenTimeSelect
 }).component('cronGen', {
     bindings: {

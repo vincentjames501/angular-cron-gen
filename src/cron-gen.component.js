@@ -30,17 +30,7 @@ const MONTH_LOOKUPS = {
     '11': 'November',
     '12': 'December'
 };
-const SELECT_OPTIONS = {
-    months: [...new Array(12)].map((val, idx) => idx + 1),
-    monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
-    days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-    minutes: [...new Array(59)].map((val, idx) => idx + 1),
-    fullMinutes: [...new Array(60)].map((val, idx) => idx),
-    seconds: [...new Array(60)].map((val, idx) => idx),
-    hours: [...new Array(23)].map((val, idx) => idx + 1),
-    monthDays: [...new Array(31)].map((val, idx) => idx + 1),
-    monthDaysWithLasts: ['1W', ...[...new Array(31)].map((val, idx) => `${idx + 1}`), 'LW', 'L']
-};
+
 const States = {
     INIT: 1,
     DIRTY: 2,
@@ -75,7 +65,7 @@ export class CronGenComponent {
                 }
                 throw 'No tabs available to make active';
             })(),
-            selectOptions: SELECT_OPTIONS,
+            selectOptions: cronGenService.selectOptions(),
             state: {
                 minutes: {
                     minutes: 1,
@@ -272,7 +262,7 @@ export class CronGenComponent {
                 }
                 break;
             case 'weekly':
-                const days = SELECT_OPTIONS.days
+                const days = this.selectOptions.days
                     .reduce((acc, day) => this.state.weekly[day] ? acc.concat([day]) : acc, [])
                     .join(',');
                 this.ngModel = `${this.state.weekly.seconds} ${this.state.weekly.minutes} ${this.hourToCron(this.state.weekly.hours, this.state.weekly.hourType)} ? * ${days} *`;
@@ -350,7 +340,7 @@ export class CronGenComponent {
                 this.state.daily.everyWeekDay.seconds = parseInt(seconds);
             } else if (cron.match(/\d+ \d+ \d+ \? \* (MON|TUE|WED|THU|FRI|SAT|SUN)(,(MON|TUE|WED|THU|FRI|SAT|SUN))* \*/)) {
                 this.activeTab = 'weekly';
-                SELECT_OPTIONS.days.forEach(weekDay => this.state.weekly[weekDay] = false);
+                this.selectOptions.days.forEach(weekDay => this.state.weekly[weekDay] = false);
                 dayOfWeek.split(',').forEach(weekDay => this.state.weekly[weekDay] = true);
                 const parsedHours = parseInt(hours);
                 this.state.weekly.hours = this.processHour(parsedHours);

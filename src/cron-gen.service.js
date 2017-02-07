@@ -38,4 +38,40 @@ export class CronGenService {
     padNumber(number) {
         return `${number}`.length === 1 ? `0${number}` : `${number}`;
     }
+
+    range(start, end){
+        if(typeof end === 'undefined') {
+            end = start;
+            start = 0;
+        }
+
+        if (start < 0 || end < 0)
+            throw 'Range values must be positive values';
+
+        if (end > start){
+            return [...new Array(end-start)].map(function (val, idx){return idx + start;});
+        }
+        else if (start < end)
+        {
+            return [...new Array(start-end)].map(function (val, idx){return end - idx;});
+        }
+        else
+            return new Array();
+    }
+
+    selectOptions(){
+            return {
+            months: this.range(1, 12),
+            monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
+            days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+            minutes: this.range(1, 60),
+            fullMinutes: this.range(60),
+            seconds: this.range(60),
+            hours: this.range(1, 23),
+            monthDays: this.range(1,31),
+            monthDaysWithLasts: ['1W', ...[...new Array(28)].map((val, idx) => `${idx + 1}`), 'LW', 'L']
+        };
+    }
+
+
 }
