@@ -49,8 +49,7 @@ export class CronGenService {
             throw 'Range values must be positive values';
 
         if (end > start){
-            console.debug('start: ' + start + ' end: ' + end);
-            return [...new Array(end-start)].map(function (val, idx){console.debug(idx);return idx + start;});
+            return [...new Array(end-start)].map(function (val, idx){return idx + start;});
         }
         else if (start < end)
         {

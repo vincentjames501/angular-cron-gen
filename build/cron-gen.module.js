@@ -614,7 +614,6 @@ var CronGenService = function () {
             if (start < 0 || end < 0) throw 'Range values must be positive values';
 
             if (end > start) {
-                console.debug('start: ' + start + ' end: ' + end);
                 return [].concat(toConsumableArray(new Array(end - start))).map(function (val, idx) {
                     console.debug(idx);return idx + start;
                 });
