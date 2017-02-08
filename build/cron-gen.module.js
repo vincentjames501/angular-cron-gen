@@ -607,7 +607,7 @@ var CronGenService = function () {
         key: 'range',
         value: function range(start, end) {
             if (typeof end === 'undefined') {
-                end = start - 1;
+                end = start;
                 start = 0;
             }
 
@@ -615,11 +615,11 @@ var CronGenService = function () {
 
             if (end > start) {
                 console.debug('start: ' + start + ' end: ' + end);
-                return [].concat(toConsumableArray(new Array(end - start + 1))).map(function (val, idx) {
+                return [].concat(toConsumableArray(new Array(end - start))).map(function (val, idx) {
                     console.debug(idx);return idx + start;
                 });
             } else if (start < end) {
-                return [].concat(toConsumableArray(new Array(start - end + 1))).map(function (val, idx) {
+                return [].concat(toConsumableArray(new Array(start - end))).map(function (val, idx) {
                     return end - idx;
                 });
             } else return new Array();
@@ -628,15 +628,15 @@ var CronGenService = function () {
         key: 'selectOptions',
         value: function selectOptions() {
             return {
-                months: this.range(1, 12),
+                months: this.range(1, 13),
                 monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
                 days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-                minutes: this.range(1, 59),
+                minutes: this.range(1, 60),
                 fullMinutes: this.range(60),
                 seconds: this.range(60),
-                hours: this.range(1, 23),
-                monthDays: this.range(1, 31),
-                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(28))).map(function (val, idx) {
+                hours: this.range(1, 24),
+                monthDays: this.range(1, 32),
+                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
                     return '' + (idx + 1);
                 })), ['LW', 'L'])
             };
@@ -660,7 +660,7 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
     };
 
     $scope.$watch('$ctrl.use24HourTime', function () {
-        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(1, 12);
+        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(1, 13);
     });
 };
 CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
