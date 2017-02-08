@@ -615,7 +615,7 @@ var CronGenService = function () {
 
             if (end > start) {
                 return [].concat(toConsumableArray(new Array(end - start))).map(function (val, idx) {
-                    console.debug(idx);return idx + start;
+                    return idx + start;
                 });
             } else if (start < end) {
                 return [].concat(toConsumableArray(new Array(start - end))).map(function (val, idx) {
