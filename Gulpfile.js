@@ -24,7 +24,7 @@ gulp.task('less', () => {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('dev', () => {
+gulp.task('src', () => {
     return gulp.src('src/**/*.js')
         .pipe(sourcemaps.init())
         .pipe(rollup({
@@ -50,29 +50,4 @@ gulp.task('dev', () => {
         .pipe(gulp.dest('build'));
 });
 
-gulp.task('prod', () => {
-    return gulp.src('src/**/*.js')
-        .pipe(rollup({
-            format: 'iife',
-            plugins: [
-                rollupBabel({
-                    presets: [['es2015', {modules: false}]],
-                    plugins: ['external-helpers']
-                })
-            ],
-            entry: 'src/cron-gen.module.js'
-        }))
-        .pipe(ngAnnotate())
-        .pipe(addStream.obj(() => gulp.src('src/templates/*.html')
-            .pipe(templateCache({
-                root: 'angular-cron-gen',
-                module: 'angular-cron-gen'
-            }))))
-        .pipe(gulp.dest('build'))
-        .pipe(concat('cron-gen.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('build'));
-});
-
-gulp.task('default', ['clean', 'dev', 'less']);
-gulp.task('production', ['clean', 'prod', 'less']);
+gulp.task('default', ['clean', 'src', 'less']);
