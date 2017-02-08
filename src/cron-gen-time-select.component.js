@@ -11,7 +11,7 @@ export class CronGenTimeSelect {
         };
 
         $scope.$watch('$ctrl.use24HourTime', () => {
-            this.selectOptions.hours = this.use24HourTime ? this.cronGenService.range(24) : this.cronGenService.range(12);
+            this.selectOptions.hours = this.use24HourTime ? this.cronGenService.range(24) : this.cronGenService.range(1,12);
         });
     }
 }

@@ -41,7 +41,7 @@ export class CronGenService {
 
     range(start, end){
         if(typeof end === 'undefined') {
-            end = start;
+            end = start - 1;
             start = 0;
         }
 
@@ -49,11 +49,12 @@ export class CronGenService {
             throw 'Range values must be positive values';
 
         if (end > start){
-            return [...new Array(end-start)].map(function (val, idx){return idx + start;});
+            console.debug('start: ' + start + ' end: ' + end);
+            return [...new Array(end-start + 1)].map(function (val, idx){console.debug(idx);return idx + start;});
         }
         else if (start < end)
         {
-            return [...new Array(start-end)].map(function (val, idx){return end - idx;});
+            return [...new Array(start-end + 1)].map(function (val, idx){return end - idx;});
         }
         else
             return new Array();
@@ -64,7 +65,7 @@ export class CronGenService {
             months: this.range(1, 12),
             monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
             days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-            minutes: this.range(1, 60),
+            minutes: this.range(1, 59),
             fullMinutes: this.range(60),
             seconds: this.range(60),
             hours: this.range(1, 23),
