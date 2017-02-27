@@ -627,15 +627,15 @@ var CronGenService = function () {
         key: 'selectOptions',
         value: function selectOptions() {
             return {
-                months: this.range(1, 13),
+                months: this.range(1, 12),
                 monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
                 days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
                 minutes: this.range(1, 60),
                 fullMinutes: this.range(60),
                 seconds: this.range(60),
-                hours: this.range(1, 24),
-                monthDays: this.range(1, 32),
-                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
+                hours: this.range(1, 23),
+                monthDays: this.range(1, 31),
+                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(28))).map(function (val, idx) {
                     return '' + (idx + 1);
                 })), ['LW', 'L'])
             };
@@ -659,7 +659,7 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
     };
 
     $scope.$watch('$ctrl.use24HourTime', function () {
-        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(1, 13);
+        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(12);
     });
 };
 CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
