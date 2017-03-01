@@ -31,6 +31,30 @@ var createClass = function () {
 
 
 
+var get = function get(object, property, receiver) {
+  if (object === null) object = Function.prototype;
+  var desc = Object.getOwnPropertyDescriptor(object, property);
+
+  if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);
+
+    if (parent === null) {
+      return undefined;
+    } else {
+      return get(parent, property, receiver);
+    }
+  } else if ("value" in desc) {
+    return desc.value;
+  } else {
+    var getter = desc.get;
+
+    if (getter === undefined) {
+      return undefined;
+    }
+
+    return getter.call(receiver);
+  }
+};
 
 
 
@@ -48,8 +72,27 @@ var createClass = function () {
 
 
 
+var set = function set(object, property, value, receiver) {
+  var desc = Object.getOwnPropertyDescriptor(object, property);
 
+  if (desc === undefined) {
+    var parent = Object.getPrototypeOf(object);
 
+    if (parent !== null) {
+      set(parent, property, value, receiver);
+    }
+  } else if ("value" in desc && desc.writable) {
+    desc.value = value;
+  } else {
+    var setter = desc.set;
+
+    if (setter !== undefined) {
+      setter.call(receiver, value);
+    }
+  }
+
+  return value;
+};
 
 var slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -263,7 +306,7 @@ var CronGenComponent = function () {
                     }
                 },
                 advanced: {
-                    expression: null
+                    expression: '0 15 10 L-2 * ?'
                 }
             }
         });
@@ -441,8 +484,6 @@ var CronGenComponent = function () {
         key: 'handleModelChange',
         value: function handleModelChange(cron) {
             var _this4 = this;
-
-            this.state.advanced.expression = cron;
 
             if (this.currentState === States.DIRTY) {
                 this.currentState = States.CLEAN;

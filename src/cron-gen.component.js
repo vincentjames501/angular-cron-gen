@@ -146,7 +146,7 @@ export class CronGenComponent {
                     }
                 },
                 advanced: {
-                    expression: null
+                    expression: '0 15 10 L-2 * ?'
                 }
             }
         });
@@ -300,8 +300,6 @@ export class CronGenComponent {
     }
 
     handleModelChange(cron) {
-        this.state.advanced.expression = cron;
-
         if (this.currentState === States.DIRTY) {
             this.currentState = States.CLEAN;
             return;
