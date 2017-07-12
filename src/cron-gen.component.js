@@ -1,34 +1,71 @@
 const ACCEPTABLE_CRON_FORMATS = ['quartz'];
 const DAY_LOOKUPS = {
-    'SUN': 'Sunday',
-    'MON': 'Monday',
-    'TUE': 'Tuesday',
-    'WED': 'Wednesday',
-    'THU': 'Thursday',
-    'FRI': 'Friday',
-    'SAT': 'Saturday'
+    'en': {
+        'SUN': 'Sunday',
+        'MON': 'Monday',
+        'TUE': 'Tuesday',
+        'WED': 'Wednesday',
+        'THU': 'Thursday',
+        'FRI': 'Friday',
+        'SAT': 'Saturday'
+    },
+    'it': {
+        'SUN': 'Domenica',
+        'MON': "Lunedi'",
+        'TUE': "Martedi'",
+        'WED': "Mercoledi'",
+        'THU': "Giovedi'",
+        'FRI': "Venerdi'",
+        'SAT': 'Sabato'
+    }
 };
 const MONTH_WEEK_LOOKUPS = {
-    '#1': 'First',
-    '#2': 'Second',
-    '#3': 'Third',
-    '#4': 'Fourth',
-    '#5': 'Fifth',
-    'L': 'Last'
+    'en': {
+        '#1': 'First',
+        '#2': 'Second',
+        '#3': 'Third',
+        '#4': 'Fourth',
+        '#5': 'Fifth',
+        'L': 'Last'
+    },
+    'it': {
+        '#1': 'Primo',
+        '#2': 'Secondo',
+        '#3': 'Terzo',
+        '#4': 'Quarto',
+        '#5': 'Quinto',
+        'L': 'Ultimo'
+    }
 };
 const MONTH_LOOKUPS = {
-    '1': 'January',
-    '2': 'February',
-    '3': 'March',
-    '4': 'April',
-    '5': 'May',
-    '6': 'June',
-    '7': 'July',
-    '8': 'August',
-    '9': 'September',
-    '10': 'October',
-    '11': 'November',
-    '12': 'December'
+    'en': {
+        '1': 'January',
+        '2': 'February',
+        '3': 'March',
+        '4': 'April',
+        '5': 'May',
+        '6': 'June',
+        '7': 'July',
+        '8': 'August',
+        '9': 'September',
+        '10': 'October',
+        '11': 'November',
+        '12': 'December'
+    },
+    'it': {
+        '1': 'Gennaio',
+        '2': 'Febbraio',
+        '3': 'Marzo',
+        '4': 'Aprile',
+        '5': 'Maggio',
+        '6': 'Giugno',
+        '7': 'Luglio',
+        '8': 'Agosto',
+        '9': 'Settembre',
+        '10': 'Ottobre',
+        '11': 'Novembre',
+        '12': 'Dicembre'
+    }
 };
 
 const States = {
@@ -38,10 +75,13 @@ const States = {
 };
 
 export class CronGenComponent {
-    constructor($scope, cronGenService) {
+
+    constructor($scope, $translate, cronGenService) {
         'ngInject';
 
         this.parsedOptions = this.mergeDefaultOptions(this.options);
+
+        $translate.use(this.parsedOptions.language);
 
         angular.extend(this, {
             cronGenService,
@@ -179,15 +219,15 @@ export class CronGenComponent {
     }
 
     dayDisplay(day) {
-        return DAY_LOOKUPS[day];
+        return DAY_LOOKUPS[this.parsedOptions.language][day];
     }
 
     monthWeekDisplay(monthWeekNumber) {
-        return MONTH_WEEK_LOOKUPS[monthWeekNumber];
+        return MONTH_WEEK_LOOKUPS[this.parsedOptions.language][monthWeekNumber];
     }
 
     monthDisplay(monthNumber) {
-        return MONTH_LOOKUPS[monthNumber];
+        return MONTH_LOOKUPS[this.parsedOptions.language][monthNumber];
     }
 
     monthDayDisplay(monthDay) {
@@ -236,7 +276,8 @@ export class CronGenComponent {
             hideYearlyTab: false,
             hideAdvancedTab: true,
             use24HourTime: false,
-            hideSeconds: false
+            hideSeconds: false,
+            language: 'en'
         }, options);
     }
 
