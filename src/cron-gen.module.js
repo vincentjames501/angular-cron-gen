@@ -35,7 +35,15 @@ angular.module('angular-cron-gen', ['pascalprecht.translate'])
                 'OF' : 'of',
                 'CRON_EXPRESSION' : 'Cron Expression',
                 'MORE_DETAILS' : 'More details about how to create these expressions can be found',
-                'HERE' : 'here'
+                'HERE' : 'here',
+                'LAST_DAY' : 'Last day',
+                'LAST_WEEKDAY' : 'Last Weekday',
+                'FIRST_WEEKDAY' : 'First Weekday',
+                'DAY' : 'Day',
+                'FIRST_PREFIX' : 'st',
+                'SECOND_PREFIX' : 'nd',
+                'THIRD_PREFIX' : 'rd',
+                'CARDINAL_PREFIX' : 'th'
             })
             .translations('it', {
                 'MINUTES': 'Minuti',
@@ -67,7 +75,15 @@ angular.module('angular-cron-gen', ['pascalprecht.translate'])
                 'OF' : 'di',
                 'CRON_EXPRESSION' : 'Sintassi Cron',
                 'MORE_DETAILS' : 'Maggiori informazioni sulla sintassi Cron li potete trovare',
-                'HERE' : 'qui'
+                'HERE' : 'qui',
+                'LAST_DAY' : 'Ultimo giorno',
+                'LAST_WEEKDAY' : 'Fine settimana',
+                'FIRST_WEEKDAY' : 'Inizio settimana',
+                'DAY' : 'Giorno',
+                'FIRST_PREFIX' : '',
+                'SECOND_PREFIX' : '',
+                'THIRD_PREFIX' : '',
+                'CARDINAL_PREFIX' : ''
             });
     })
     .service('cronGenService', CronGenService)

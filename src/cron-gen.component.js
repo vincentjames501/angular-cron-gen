@@ -76,7 +76,7 @@ const States = {
 
 export class CronGenComponent {
 
-    constructor($scope, $translate, cronGenService) {
+    constructor($scope, $translate, $filter, cronGenService) {
         'ngInject';
 
         this.parsedOptions = this.mergeDefaultOptions(this.options);
@@ -85,6 +85,7 @@ export class CronGenComponent {
 
         angular.extend(this, {
             cronGenService,
+            filter: $filter,
             cronFormat: 'quartz',
             currentState: States.INIT,
             activeTab: (() => {
@@ -232,13 +233,13 @@ export class CronGenComponent {
 
     monthDayDisplay(monthDay) {
         if (monthDay === 'L') {
-            return 'Last Day';
+            return this.filter('translate')('LAST_DAY');
         } else if (monthDay === 'LW') {
-            return 'Last Weekday';
+            return this.filter('translate')('LAST_WEEKDAY');
         } else if (monthDay === '1W') {
-            return 'First Weekday';
+            return this.filter('translate')('FIRST_WEEKDAY');
         } else {
-            return `${monthDay}${this.cronGenService.appendInt(monthDay)} Day`;
+            return `${monthDay}${this.cronGenService.appendInt(monthDay)} ${this.filter('translate')('DAY')}`;
         }
     }
 
