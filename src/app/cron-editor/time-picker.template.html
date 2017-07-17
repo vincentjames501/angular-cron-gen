@@ -1,0 +1,23 @@
+<!-- hour -->
+<select style="width: 70px; display: inline;" (change)="onChange.emit()" [(ngModel)]="model.hours" [disabled]="disabled"
+  [ngClass]="selectClass">
+  <option *ngFor="let hour of hours" [ngValue]="hour">{{hour}}</option>
+</select>
+
+<!-- minute -->
+<select style="width: 70px; display: inline;" (change)="onChange.emit()" [(ngModel)]="model.minutes" [disabled]="disabled"
+  [ngClass]="selectClass">
+  <option *ngFor="let minute of minutes" [ngValue]="minute">{{minute}}</option>
+</select>
+
+<!-- second -->
+<select style="width: 70px; display: inline;" (change)="onChange.emit()" [(ngModel)]="model.seconds" [disabled]="disabled"
+  *ngIf="!hideSeconds" [ngClass]="selectClass">
+  <option *ngFor="let second of seconds" [ngValue]="second">{{second}}</option>
+</select>
+
+<!-- am/pm -->
+<select style="width: 70px; display: inline;" (change)="onChange.emit()" [(ngModel)]="model.hourType" [disabled]="disabled"
+  *ngIf="!use24HourTime" [ngClass]="selectClass">
+  <option *ngFor="let hourType of hourTypes" [ngValue]="hourType">{{hourType}}</option>
+</select>

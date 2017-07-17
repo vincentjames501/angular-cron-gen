@@ -1,0 +1,16 @@
+export interface ICronOptions {
+    formInputClass: string;
+    formSelectClass: string;
+    formRadioClass: string;
+    formCheckboxClass: string;
+
+    hideMinutesTab: boolean;
+    hideHourlyTab: boolean;
+    hideDailyTab: boolean;
+    hideWeeklyTab: boolean;
+    hideMonthlyTab: boolean;
+    hideYearlyTab: boolean;
+    hideAdvancedTab: boolean;
+    use24HourTime: boolean;
+    hideSeconds: boolean;
+}

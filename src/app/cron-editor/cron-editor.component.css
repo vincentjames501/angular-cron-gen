@@ -1,0 +1,57 @@
+.cron-editor-main .cron-editor-container {
+  margin-top: 10px;
+}
+
+.cron-editor-main .cron-editor-container .cron-editor-radio {
+  width: 20px;
+  display: inline-block;
+}
+
+.cron-editor-main .cron-editor-container .cron-editor-select,
+.cron-editor-main .cron-editor-container .cron-editor-input,
+.cron-editor-main .cron-editor-container .cron-editor-checkbox {
+  display: inline-block;
+}
+
+.cron-editor-main .cron-editor-container .well-time-wrapper {
+  padding-left: 20px;
+}
+
+.cron-editor-main .cron-editor-container .inline-block {
+  display: inline-block;
+}
+
+.cron-editor-main .cron-editor-container .minutes,
+.cron-editor-main .cron-editor-container .hours,
+.cron-editor-main .cron-editor-container .days,
+.cron-editor-main .cron-editor-container .seconds {
+  width: 70px;
+}
+
+.cron-editor-main .cron-editor-container .months {
+  width: 120px;
+}
+
+.cron-editor-main .cron-editor-container .month-days {
+  width: 130px;
+}
+
+.cron-editor-main .cron-editor-container .months-small {
+  width: 60px;
+}
+
+.cron-editor-main .cron-editor-container .day-order-in-month {
+  width: 95px;
+}
+
+.cron-editor-main .cron-editor-container .week-days {
+  width: 120px;
+}
+
+.cron-editor-main .cron-editor-container .advanced-cron-editor-input {
+  width: 200px;
+}
+
+.cron-editor-main .cron-editor-container .hour-types {
+  width: 70px;
+}

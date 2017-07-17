@@ -1,0 +1,21 @@
+<div style="text-align:center">
+  <h1>Angular 2+ Cron expression editor</h1>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <cron-editor [(cron)]="cronExpression" [disabled]="isCronDisabled" [(options)]="cronOptions">Cron here...</cron-editor>
+
+    <div class="row alert alert-info" style="text-align:center">
+      <h3>
+        <b>{{cronExpression}}</b>
+      </h3>
+      <hr/>
+      <input [(ngModel)]="cronExpression" />
+    </div>
+  </div>
+  <div class="col-sm-2"></div>
+</div>

@@ -1,71 +1,28 @@
-angular-cron-gen
-===================
+# CronEditor
 
-A basic way to for users to graphically build a cron expression.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
 
-Demo can be found [here](https://vincentjames501.github.io/angular-cron-gen/).
+## Development server
 
-**Requirements:** AngularJS 1.5+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Usage:
+## Code scaffolding
 
-1. Include the dependency in your app
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
 
-    ```js
-    angular.module('myApp', ['angular-cron-gen'])
-    ```
+## Build
 
-2. Include the supplied JS and CSS file (or create your own CSS to override defaults).
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-    ```html
-    <link rel='stylesheet' href='build/cron-gen.min.css' type='text/css' media='all' />
-    <script type='text/javascript' src='build/cron-gen.min.js'></script>
-    ```
+## Running unit tests
 
-3. That's it -- you're done!
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-#### Via bower:
-```
-$ bower install angular-cron-gen
-```
-#### Via npm:
-```
-$ npm install angular-cron-gen
-```
+## Running end-to-end tests
 
-## Options
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Before running the tests make sure you are serving the app via `ng serve`.
 
-```html
-<cron-gen ng-model="cronExpression" 
-          options="cronOptions" 
-          template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
-          cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
-          ng-disabled="isCronDisabled">
-</cron-gen>
-```
+## Further help
 
-```js
-angular.module('myApp', ['angular-cron-gen'])
-  .controller('myController', ['$scope', ($scope) => {
-    $scope.cronExpression = '0 0 0/3 1/1 * ? *';
-    $scope.isCronDisabled = false;
-    $scope.cronOptions = {
-      formInputClass: 'form-control cron-gen-input', // Form input class override
-      formSelectClass: 'form-control cron-gen-select', // Select class override
-      formRadioClass: 'form-control-static cron-gen-radio', // Radio class override
-      formCheckboxClass: 'form-control-static cron-gen-checkbox', // Radio class override
-      hideMinutesTab: false, // Whether to hide the minutes tab
-      hideHourlyTab: false, // Whether to hide the hourly tab
-      hideDailyTab: false, // Whether to hide the daily tab
-      hideWeeklyTab: false, // Whether to hide the weekly tab
-      hideMonthlyTab: false, // Whether to hide the monthly tab
-      hideYearlyTab: false, // Whether to hide the yearly tab
-      hideAdvancedTab: true, // Whether to hide the advanced tab
-      use24HourTime: false, // Whether to show AM/PM on the time selectors
-      hideSeconds: false // Whether to show/hide the seconds time picker
-    };
-  }])
-```
-
-## License:
-Licensed under the MIT license
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
