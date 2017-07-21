@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "../../../components/cron-editor",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": ["es2016", "dom"]
+  },
+  "files": [
+    "cron-editor.module.ts"
+  ]
+}

@@ -1,16 +1,22 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 /dist
 /tmp
 /out-tsc
-/components
+/aot
+
+# source
+src
 
 # pack
 *.tgz
 
+# test
+e2e
+karma.conf.js
+protractor.conf.js
+
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
 /.idea
@@ -20,6 +26,7 @@
 *.launch
 .settings/
 *.sublime-workspace
+.editor-config
 
 # IDE - VSCode
 .vscode/*
@@ -36,10 +43,16 @@
 npm-debug.log
 testem.log
 /typings
+.gitignore
 
-# e2e
-/e2e/*.js
-/e2e/*.map
+# config
+.angular-cli.json
+tsconfig.json
+tsconfig-release.json
+tsconfig-aot.json
+tslint.json
+gulpfile.js
+.github
 
 # System Files
 .DS_Store
