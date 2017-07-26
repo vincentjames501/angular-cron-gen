@@ -23,11 +23,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "buildlib": "cd src/app/cron-editor & tsc",
-    "pack": "npm run buildlib & npm pack",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+
+    "copyhtml": "cp src/app/cron-editor/*.html ./components/cron-editor/",
+    "buildlib": "tsc --project src/app/cron-editor",
+    "pack": "npm run buildlib & npm run copyhtml & npm pack"
   },
   "private": true,
   "devDependencies": {
@@ -49,6 +51,7 @@
     "bootstrap": "^3.3.7",
     "codelyzer": "~3.1.2",
     "core-js": "^2.4.1",
+    "cp": "^0.2.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
