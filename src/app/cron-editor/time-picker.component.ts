@@ -2,7 +2,7 @@
 
 @Component({
     selector: "time-picker",
-    templateUrl: "./time-picker.template.html"
+    template: require("./time-picker.template.html")
 })
 export class TimePickerComponent implements OnInit {
     @Output() public onChange = new EventEmitter();

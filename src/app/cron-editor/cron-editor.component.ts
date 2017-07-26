@@ -6,7 +6,7 @@ import { DAY_LOOKUPS, MONTH_WEEK_LOOKUPS, MONTH_LOOKUPS, States } from "./enums"
 
 @Component({
     selector: "cron-editor",
-    templateUrl: "./cron-editor.template.html",
+    template: require("./cron-editor.template.html"),
     styleUrls: ['./cron-editor.component.css']
 })
 export class CronGenComponent implements OnInit, OnChanges {
