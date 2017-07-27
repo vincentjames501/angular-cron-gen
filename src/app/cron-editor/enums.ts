@@ -32,8 +32,7 @@ export const MONTH_LOOKUPS = {
     '12': "December"
 };
 
-export enum States {
-    INIT = 1,
-    DIRTY = 2,
-    CLEAN = 3
+export enum EditState {
+    Dirty,
+    Clean
 };
