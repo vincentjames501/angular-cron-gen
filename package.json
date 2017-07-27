@@ -32,7 +32,6 @@
     "buildlib": "tsc --project src/app/cron-editor",
     "pack": "npm run buildlib & npm run copyhtml & npm run copycss & npm pack"
   },
-  "private": true,
   "devDependencies": {
     "@angular/animations": "^4.3.1",
     "@angular/cli": "^1.2.5",
