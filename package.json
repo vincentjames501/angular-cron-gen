@@ -28,8 +28,9 @@
     "e2e": "ng e2e",
 
     "copyhtml": "cp src/app/cron-editor/*.html ./components/cron-editor/",
+    "copycss": "cp src/app/cron-editor/*.css ./components/cron-editor/",
     "buildlib": "tsc --project src/app/cron-editor",
-    "pack": "npm run buildlib & npm run copyhtml & npm pack"
+    "pack": "npm run buildlib & npm run copyhtml & npm run copycss & npm pack"
   },
   "private": true,
   "devDependencies": {

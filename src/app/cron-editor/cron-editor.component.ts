@@ -7,7 +7,7 @@ import { DAY_LOOKUPS, MONTH_WEEK_LOOKUPS, MONTH_LOOKUPS, EditState } from "./enu
 @Component({
     selector: "cron-editor",
     template: require("./cron-editor.template.html"),
-    styleUrls: ['./cron-editor.component.css']
+    styles: [require("./cron-editor.component.css").toString()]
 })
 export class CronGenComponent implements OnInit, OnChanges {
     @Input() public disabled: boolean;
