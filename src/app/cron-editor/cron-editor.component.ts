@@ -23,8 +23,8 @@ export class CronGenComponent implements OnInit, OnChanges {
     @Output() cronChange = new EventEmitter();
 
     public activeTab: string;
-    public selectOptions: any; // TODO: refactor this
-    public state: any; // TODO: refactor this
+    public selectOptions: any;
+    public state: any;
 
     private _cron: string;
     private currentState: EditState;
