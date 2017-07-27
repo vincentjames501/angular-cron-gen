@@ -29,7 +29,7 @@ node_modules
 .editor-config
 
 # IDE - VSCode
-.vscode/*
+.vscode
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
