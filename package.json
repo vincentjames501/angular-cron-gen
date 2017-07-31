@@ -2,7 +2,7 @@
   "name": "cron-editor",
   "description": "A cron expression generator for Angular 2+",
   "author": "Claudiu Constantin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "repository": {
     "type": "git",
