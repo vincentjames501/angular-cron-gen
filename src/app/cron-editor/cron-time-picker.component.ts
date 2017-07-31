@@ -1,8 +1,8 @@
 ﻿import { Component, Input, Output, OnInit, EventEmitter } from "@angular/core";
 
 @Component({
-    selector: "time-picker",
-    template: require("./time-picker.template.html")
+    selector: "cron-time-picker",
+    template: require("./cron-time-picker.template.html")
 })
 export class TimePickerComponent implements OnInit {
     @Output() public onChange = new EventEmitter();
@@ -27,6 +27,6 @@ export class TimePickerComponent implements OnInit {
 
     private range(start: number, end: number): number[] {
         const length = end - start + 1;
-        return Array.apply(null, Array(length)).map((_, i) => i + start);
+        return Array.apply(undefined, Array(length)).map((_, i) => i + start);
     }
 }

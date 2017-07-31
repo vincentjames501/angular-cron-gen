@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICronOptions } from "./cron-editor/ICronOptions";
+import { CronOptions } from "./cron-editor/CronOptions";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import { ICronOptions } from "./cron-editor/ICronOptions";
 export class AppComponent {
   public cronExpression = '4 3 2 12 1/1 ? *';
   public isCronDisabled = false;
-  public cronOptions: ICronOptions = {
+  public cronOptions: CronOptions = {
     formInputClass: 'form-control cron-editor-input',
     formSelectClass: 'form-control cron-editor-select',
     formRadioClass: 'cron-editor-radio',

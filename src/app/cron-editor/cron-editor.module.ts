@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { CronGenComponent } from "./cron-editor.component";
-import { CronGenService } from "./cron-editor.service";
-import { TimePickerComponent } from "./time-picker.component";
+import { CronGenComponent } from './cron-editor.component';
+import { CronGenService } from './cron-editor.service';
+import { TimePickerComponent } from './cron-time-picker.component';
 
 @NgModule({
     imports: [CommonModule, FormsModule],

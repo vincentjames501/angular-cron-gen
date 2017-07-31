@@ -108,19 +108,19 @@
                 </option>
               </select> day(s) at
 
-              <time-picker [disabled]="disabled || activeTab !== 'daily' || state.daily.subTab !== 'everyDays'" (onChange)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'daily' || state.daily.subTab !== 'everyDays'" (onChange)="regenerateCron($event)"
                 [(model)]="state.daily.everyDays" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
 
             <div class="well well-small">
               <input type="radio" name="daily-radio" value="everyWeekDay" [disabled]="disabled" (change)="regenerateCron($event)" [(ngModel)]="state.daily.subTab"
                 [ngClass]="state.formRadioClass"> Every working day at
-              <time-picker [disabled]="disabled || activeTab !== 'daily' || state.daily.subTab !== 'everyWeekDay'" (change)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'daily' || state.daily.subTab !== 'everyWeekDay'" (change)="regenerateCron($event)"
                 [(model)]="state.daily.everyWeekDay" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
           </div>
 
@@ -160,9 +160,9 @@
               <div class="row">
                 <div class="col-sm-6">
                   at
-                  <time-picker [disabled]="disabled || activeTab !== 'weekly'" (change)="regenerateCron($event)" [(model)]="state.weekly" [selectClass]="options.formSelectClass"
-                    [use24HourTime]="options.use24HourTime" [hideSeconds]="options.hideSeconds">
-                  </time-picker>
+                  <cron-time-picker [disabled]="disabled || activeTab !== 'weekly'" (change)="regenerateCron($event)" [(model)]="state.weekly"
+                    [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime" [hideSeconds]="options.hideSeconds">
+                  </cron-time-picker>
                 </div>
               </div>
             </div>
@@ -186,10 +186,10 @@
                   {{month}}
                 </option>
               </select> month(s) at
-              <time-picker [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'" (change)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificDay'" (change)="regenerateCron($event)"
                 [(model)]="state.monthly.specificDay" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
             <div class="well well-small">
               <input type="radio" name="monthly-radio" value="specificWeekDay" [disabled]="disabled" (change)="regenerateCron($event)"
@@ -212,10 +212,10 @@
                   {{month}}
                 </option>
               </select> month(s) at
-              <time-picker [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'" (change)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'monthly' || state.monthly.subTab !== 'specificWeekDay'" (change)="regenerateCron($event)"
                 [(model)]="state.monthly.specificWeekDay" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
           </div>
 
@@ -236,10 +236,10 @@
                   {{monthDayDisplay(monthDaysWithLast)}}
                 </option>
               </select> at
-              <time-picker [disabled]="disabled || activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthDay'" (change)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthDay'" (change)="regenerateCron($event)"
                 [(model)]="state.yearly.specificMonthDay" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
             <div class="well well-small">
               <input type="radio" name="yearly-radio" value="specificMonthWeek" [disabled]="disabled" (change)="regenerateCron($event)"
@@ -262,10 +262,10 @@
                   {{monthDisplay(month)}}
                 </option>
               </select> at
-              <time-picker [disabled]="disabled || activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthWeek'" (change)="regenerateCron($event)"
+              <cron-time-picker [disabled]="disabled || activeTab !== 'yearly' || state.yearly.subTab !== 'specificMonthWeek'" (change)="regenerateCron($event)"
                 [(model)]="state.yearly.specificMonthWeek" [selectClass]="options.formSelectClass" [use24HourTime]="options.use24HourTime"
                 [hideSeconds]="options.hideSeconds">
-              </time-picker>
+              </cron-time-picker>
             </div>
           </div>
 

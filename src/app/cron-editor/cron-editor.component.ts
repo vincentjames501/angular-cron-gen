@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from "@angular/core";
 
 import { CronGenService } from "./cron-editor.service";
-import { ICronOptions } from "./ICronOptions";
+import { CronOptions } from "./CronOptions";
 import { DAY_LOOKUPS, MONTH_WEEK_LOOKUPS, MONTH_LOOKUPS, EditState } from "./enums";
 
 @Component({
@@ -11,12 +11,12 @@ import { DAY_LOOKUPS, MONTH_WEEK_LOOKUPS, MONTH_LOOKUPS, EditState } from "./enu
 })
 export class CronGenComponent implements OnInit, OnChanges {
     @Input() public disabled: boolean;
-    @Input() public options: ICronOptions;
+    @Input() public options: CronOptions;
 
-    @Input() get cron(): string { return this._cron; }
+    @Input() get cron(): string { return this.localCron; }
     set cron(value: string) {
-        this._cron = value;
-        this.cronChange.emit(this._cron);
+        this.localCron = value;
+        this.cronChange.emit(this.localCron);
     }
 
     // the name is an Angular convention, @Input variable name + "Change" suffix
@@ -26,7 +26,7 @@ export class CronGenComponent implements OnInit, OnChanges {
     public selectOptions: any;
     public state: any;
 
-    private _cron: string;
+    private localCron: string;
     private currentState: EditState;
 
     constructor(public cronGenService: CronGenService) {
@@ -145,7 +145,7 @@ export class CronGenComponent implements OnInit, OnChanges {
     }
 
     private getHourType(hours: number) {
-        return this.options.use24HourTime ? null : (hours >= 12 ? "PM" : "AM");
+        return this.options.use24HourTime ? undefined : (hours >= 12 ? "PM" : "AM");
     }
 
     private hourToCron(hour, hourType) {
@@ -289,13 +289,13 @@ export class CronGenComponent implements OnInit, OnChanges {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 },
                 everyWeekDay: {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 }
             },
             weekly: {
@@ -309,7 +309,7 @@ export class CronGenComponent implements OnInit, OnChanges {
                 hours: this.options.use24HourTime ? 0 : 1,
                 minutes: 0,
                 seconds: 0,
-                hourType: this.options.use24HourTime ? null : "AM"
+                hourType: this.options.use24HourTime ? undefined : "AM"
             },
             monthly: {
                 subTab: "specificDay",
@@ -319,7 +319,7 @@ export class CronGenComponent implements OnInit, OnChanges {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 },
                 specificWeekDay: {
                     monthWeek: "#1",
@@ -328,7 +328,7 @@ export class CronGenComponent implements OnInit, OnChanges {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 }
             },
             yearly: {
@@ -339,7 +339,7 @@ export class CronGenComponent implements OnInit, OnChanges {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 },
                 specificMonthWeek: {
                     monthWeek: "#1",
@@ -348,7 +348,7 @@ export class CronGenComponent implements OnInit, OnChanges {
                     hours: this.options.use24HourTime ? 0 : 1,
                     minutes: 0,
                     seconds: 0,
-                    hourType: this.options.use24HourTime ? null : "AM"
+                    hourType: this.options.use24HourTime ? undefined : "AM"
                 }
             },
             advanced: {
