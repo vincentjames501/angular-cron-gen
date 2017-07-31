@@ -36,7 +36,7 @@ export class CronGenService {
             seconds: this.range(0, 59),
             hours: this.range(1, 23),
             monthDays: this.range(1, 31),
-            monthDaysWithLasts: ["1W", ...[...this.range(1, 31).map(item => item.toString())], "LW", "L"],
+            monthDaysWithLasts: ["1W", ...[...this.range(1, 31).map(String)], "LW", "L"],
             hourTypes: ["AM", "PM"]
         };
     }

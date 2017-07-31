@@ -136,19 +136,15 @@ export class CronGenComponent implements OnInit, OnChanges {
         }
     }
 
-    private processHour(hours: number) {
-        if (this.options.use24HourTime) {
-            return hours;
-        } else {
-            return ((hours + 11) % 12 + 1);
-        }
+    private getAmPmHour(hour: number) {
+        return this.options.use24HourTime ? hour : (hour + 11) % 12 + 1;
     }
 
-    private getHourType(hours: number) {
-        return this.options.use24HourTime ? undefined : (hours >= 12 ? "PM" : "AM");
+    private getHourType(hour: number) {
+        return this.options.use24HourTime ? undefined : (hour >= 12 ? "PM" : "AM");
     }
 
-    private hourToCron(hour, hourType) {
+    private hourToCron(hour: number, hourType: string) {
         if (this.options.use24HourTime) {
             return hour;
         } else {
@@ -187,7 +183,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.state.daily.subTab = "everyDays";
             this.state.daily.everyDays.days = parseInt(dayOfMonth.substring(2));
             const parsedHours = parseInt(hours);
-            this.state.daily.everyDays.hours = this.processHour(parsedHours);
+            this.state.daily.everyDays.hours = this.getAmPmHour(parsedHours);
             this.state.daily.everyDays.hourType = this.getHourType(parsedHours);
             this.state.daily.everyDays.minutes = parseInt(minutes);
             this.state.daily.everyDays.seconds = parseInt(seconds);
@@ -196,7 +192,7 @@ export class CronGenComponent implements OnInit, OnChanges {
 
             this.state.daily.subTab = "everyWeekDay";
             const parsedHours = parseInt(hours);
-            this.state.daily.everyWeekDay.hours = this.processHour(parsedHours);
+            this.state.daily.everyWeekDay.hours = this.getAmPmHour(parsedHours);
             this.state.daily.everyWeekDay.hourType = this.getHourType(parsedHours);
             this.state.daily.everyWeekDay.minutes = parseInt(minutes);
             this.state.daily.everyWeekDay.seconds = parseInt(seconds);
@@ -205,7 +201,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.selectOptions.days.forEach(weekDay => this.state.weekly[weekDay] = false);
             dayOfWeek.split(",").forEach(weekDay => this.state.weekly[weekDay] = true);
             const parsedHours = parseInt(hours);
-            this.state.weekly.hours = this.processHour(parsedHours);
+            this.state.weekly.hours = this.getAmPmHour(parsedHours);
             this.state.weekly.hourType = this.getHourType(parsedHours);
             this.state.weekly.minutes = parseInt(minutes);
             this.state.weekly.seconds = parseInt(seconds);
@@ -215,7 +211,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.state.monthly.specificDay.day = dayOfMonth;
             this.state.monthly.specificDay.months = parseInt(month.substring(2));
             const parsedHours = parseInt(hours);
-            this.state.monthly.specificDay.hours = this.processHour(parsedHours);
+            this.state.monthly.specificDay.hours = this.getAmPmHour(parsedHours);
             this.state.monthly.specificDay.hourType = this.getHourType(parsedHours);
             this.state.monthly.specificDay.minutes = parseInt(minutes);
             this.state.monthly.specificDay.seconds = parseInt(seconds);
@@ -228,7 +224,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.state.monthly.specificWeekDay.day = day;
             this.state.monthly.specificWeekDay.months = parseInt(month.substring(2));
             const parsedHours = parseInt(hours);
-            this.state.monthly.specificWeekDay.hours = this.processHour(parsedHours);
+            this.state.monthly.specificWeekDay.hours = this.getAmPmHour(parsedHours);
             this.state.monthly.specificWeekDay.hourType = this.getHourType(parsedHours);
             this.state.monthly.specificWeekDay.minutes = parseInt(minutes);
             this.state.monthly.specificWeekDay.seconds = parseInt(seconds);
@@ -238,7 +234,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.state.yearly.specificMonthDay.month = parseInt(month);
             this.state.yearly.specificMonthDay.day = dayOfMonth;
             const parsedHours = parseInt(hours);
-            this.state.yearly.specificMonthDay.hours = this.processHour(parsedHours);
+            this.state.yearly.specificMonthDay.hours = this.getAmPmHour(parsedHours);
             this.state.yearly.specificMonthDay.hourType = this.getHourType(parsedHours);
             this.state.yearly.specificMonthDay.minutes = parseInt(minutes);
             this.state.yearly.specificMonthDay.seconds = parseInt(seconds);
@@ -251,7 +247,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             this.state.yearly.specificMonthWeek.day = day;
             this.state.yearly.specificMonthWeek.month = parseInt(month);
             const parsedHours = parseInt(hours);
-            this.state.yearly.specificMonthWeek.hours = this.processHour(parsedHours);
+            this.state.yearly.specificMonthWeek.hours = this.getAmPmHour(parsedHours);
             this.state.yearly.specificMonthWeek.hourType = this.getHourType(parsedHours);
             this.state.yearly.specificMonthWeek.minutes = parseInt(minutes);
             this.state.yearly.specificMonthWeek.seconds = parseInt(seconds);
@@ -272,6 +268,8 @@ export class CronGenComponent implements OnInit, OnChanges {
     }
 
     private getDefaultState() {
+        const [defaultHours, defaultMinutes, defaultSeconds] = this.options.defaultTime.split(":").map(Number);
+
         return {
             minutes: {
                 minutes: 1,
@@ -286,16 +284,16 @@ export class CronGenComponent implements OnInit, OnChanges {
                 subTab: "everyDays",
                 everyDays: {
                     days: 1,
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 },
                 everyWeekDay: {
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 }
             },
             weekly: {
@@ -306,29 +304,29 @@ export class CronGenComponent implements OnInit, OnChanges {
                 FRI: false,
                 SAT: false,
                 SUN: false,
-                hours: this.options.use24HourTime ? 0 : 1,
-                minutes: 0,
-                seconds: 0,
-                hourType: this.options.use24HourTime ? undefined : "AM"
+                hours: this.getAmPmHour(defaultHours),
+                minutes: defaultMinutes,
+                seconds: defaultSeconds,
+                hourType: this.getHourType(defaultHours)
             },
             monthly: {
                 subTab: "specificDay",
                 specificDay: {
                     day: 1,
                     months: 1,
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 },
                 specificWeekDay: {
                     monthWeek: "#1",
                     day: "MON",
                     months: 1,
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 }
             },
             yearly: {
@@ -336,19 +334,19 @@ export class CronGenComponent implements OnInit, OnChanges {
                 specificMonthDay: {
                     month: 1,
                     day: "1",
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 },
                 specificMonthWeek: {
                     monthWeek: "#1",
                     day: "MON",
                     month: 1,
-                    hours: this.options.use24HourTime ? 0 : 1,
-                    minutes: 0,
-                    seconds: 0,
-                    hourType: this.options.use24HourTime ? undefined : "AM"
+                    hours: this.getAmPmHour(defaultHours),
+                    minutes: defaultMinutes,
+                    seconds: defaultSeconds,
+                    hourType: this.getHourType(defaultHours)
                 }
             },
             advanced: {
