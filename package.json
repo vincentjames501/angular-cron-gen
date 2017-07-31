@@ -2,7 +2,7 @@
   "name": "cron-editor",
   "description": "A cron expression generator for Angular 2+",
   "author": "Claudiu Constantin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -26,7 +26,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
     "copyhtml": "cp src/app/cron-editor/*.html ./components/cron-editor/",
     "copycss": "cp src/app/cron-editor/*.css ./components/cron-editor/",
     "buildlib": "tsc --project src/app/cron-editor",
