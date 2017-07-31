@@ -40,11 +40,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ```
 
 ```ts
+import { CronOptions } from "cron-editor/cron-editor";
+
 @Component({
     ...
 })
 export class MyComponent {
-   public cronOptions = {
+   public cronOptions: CronOptions = {
        formInputClass: 'form-control cron-editor-input',
        formSelectClass: 'form-control cron-editor-select',
        formRadioClass: 'cron-editor-radio',
