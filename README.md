@@ -52,6 +52,8 @@ export class MyComponent {
        formRadioClass: 'cron-editor-radio',
        formCheckboxClass: 'cron-editor-checkbox',
        
+       defaultTime: "10:00:00",
+
        hideMinutesTab: false,
        hideHourlyTab: false,
        hideDailyTab: false,
