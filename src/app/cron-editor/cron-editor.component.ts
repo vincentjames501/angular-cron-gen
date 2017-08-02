@@ -1,8 +1,7 @@
 import { Component, Input, Output, OnInit, OnChanges, SimpleChanges, EventEmitter } from "@angular/core";
 
-import { CronGenService } from "./cron-editor.service";
 import { CronOptions } from "./CronOptions";
-import { DAY_LOOKUPS, MONTH_WEEK_LOOKUPS, MONTH_LOOKUPS, EditState } from "./enums";
+import { Days, MonthWeeks, Months } from "./enums";
 
 @Component({
     selector: "cron-editor",
@@ -23,17 +22,13 @@ export class CronGenComponent implements OnInit, OnChanges {
     @Output() cronChange = new EventEmitter();
 
     public activeTab: string;
-    public selectOptions: any;
+    public selectOptions = this.getSelectOptions();
     public state: any;
 
     private localCron: string;
-    private currentState: EditState;
-
-    constructor(public cronGenService: CronGenService) {
-    }
+    private isDirty: boolean;
 
     public async ngOnInit() {
-        this.selectOptions = this.cronGenService.selectOptions();
         this.state = this.getDefaultState();
 
         this.handleModelChange(this.cron);
@@ -54,31 +49,32 @@ export class CronGenComponent implements OnInit, OnChanges {
     }
 
     public dayDisplay(day: string): string {
-        return DAY_LOOKUPS[day];
+        return Days[day];
     }
 
     public monthWeekDisplay(monthWeekNumber: number): string {
-        return MONTH_WEEK_LOOKUPS[monthWeekNumber];
+        return MonthWeeks[monthWeekNumber];
     }
 
     public monthDisplay(month: number): string {
-        return MONTH_LOOKUPS[month];
+        return Months[month];
     }
 
-    public monthDayDisplay(monthDay: string): string {
-        if (monthDay === "L") {
+    public monthDayDisplay(month: string): string {
+        if (month === "L") {
             return "Last Day";
-        } else if (monthDay === "LW") {
+        } else if (month === "LW") {
             return "Last Weekday";
-        } else if (monthDay === "1W") {
+        } else if (month === "1W") {
             return "First Weekday";
         } else {
-            return `${monthDay}${this.cronGenService.displayNumber(+monthDay)} day`;
+            return `${month}${this.getOrdinalSuffix(month)} day`;
         }
     }
 
     public regenerateCron() {
-        this.currentState = EditState.Dirty;
+        this.isDirty = true;
+
         switch (this.activeTab) {
             case "minutes":
                 this.cron = `${this.state.minutes.seconds} 0/${this.state.minutes.minutes} * 1/1 * ? *`;
@@ -152,12 +148,12 @@ export class CronGenComponent implements OnInit, OnChanges {
         }
     }
 
-    public handleModelChange(cron: string) {
-        if (this.currentState === EditState.Dirty) {
-            this.currentState = EditState.Clean;
+    private handleModelChange(cron: string) {
+        if (this.isDirty) {
+            this.isDirty = false;
             return;
         } else {
-            this.currentState = EditState.Clean;
+            this.isDirty = false;
         }
 
         if (!this.cronIsValid(cron)) {
@@ -312,7 +308,7 @@ export class CronGenComponent implements OnInit, OnChanges {
             monthly: {
                 subTab: "specificDay",
                 specificDay: {
-                    day: 1,
+                    day: "1",
                     months: 1,
                     hours: this.getAmPmHour(defaultHours),
                     minutes: defaultMinutes,
@@ -353,5 +349,46 @@ export class CronGenComponent implements OnInit, OnChanges {
                 expression: "0 15 10 L-2 * ?"
             }
         };
+    }
+
+    private getOrdinalSuffix(value: string) {
+        if (value.length > 1) {
+            const secondToLastDigit = value.charAt(value.length - 2);
+            if (secondToLastDigit === "1") {
+                return "th";
+            }
+        }
+
+        const lastDigit = value.charAt(value.length - 1);
+        switch (lastDigit) {
+            case "1":
+                return "st";
+            case "2":
+                return "nd";
+            case "3":
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+    private getSelectOptions() {
+        return {
+            months: this.getRange(1, 12),
+            monthWeeks: ["#1", "#2", "#3", "#4", "#5", "L"],
+            days: ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"],
+            minutes: this.getRange(0, 59),
+            fullMinutes: this.getRange(0, 59),
+            seconds: this.getRange(0, 59),
+            hours: this.getRange(1, 23),
+            monthDays: this.getRange(1, 31),
+            monthDaysWithLasts: ["1W", ...[...this.getRange(1, 31).map(String)], "LW", "L"],
+            hourTypes: ["AM", "PM"]
+        };
+    }
+
+    private getRange(start: number, end: number): number[] {
+        const length = end - start + 1;
+        return Array.apply(null, Array(length)).map((_, i) => i + start);
     }
 }

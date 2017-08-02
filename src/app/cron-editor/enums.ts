@@ -1,4 +1,4 @@
-﻿export const DAY_LOOKUPS = {
+﻿export const Days = {
     'SUN': "Sunday",
     'MON': "Monday",
     'TUE': "Tuesday",
@@ -8,7 +8,7 @@
     'SAT': "Saturday"
 };
 
-export const MONTH_WEEK_LOOKUPS = {
+export const MonthWeeks = {
     '#1': "First",
     '#2': "Second",
     '#3': "Third",
@@ -17,22 +17,17 @@ export const MONTH_WEEK_LOOKUPS = {
     'L': "Last"
 };
 
-export const MONTH_LOOKUPS = {
-    '1': "January",
-    '2': "February",
-    '3': "March",
-    '4': "April",
-    '5': "May",
-    '6': "June",
-    '7': "July",
-    '8': "August",
-    '9': "September",
-    '10': "October",
-    '11': "November",
-    '12': "December"
-};
-
-export enum EditState {
-    Dirty,
-    Clean
+export enum Months {
+    January = 1,
+    February,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November,
+    December
 };
