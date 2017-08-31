@@ -31,30 +31,6 @@ var createClass = function () {
 
 
 
-var get = function get(object, property, receiver) {
-  if (object === null) object = Function.prototype;
-  var desc = Object.getOwnPropertyDescriptor(object, property);
-
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
-
-    if (parent === null) {
-      return undefined;
-    } else {
-      return get(parent, property, receiver);
-    }
-  } else if ("value" in desc) {
-    return desc.value;
-  } else {
-    var getter = desc.get;
-
-    if (getter === undefined) {
-      return undefined;
-    }
-
-    return getter.call(receiver);
-  }
-};
 
 
 
@@ -72,27 +48,8 @@ var get = function get(object, property, receiver) {
 
 
 
-var set = function set(object, property, value, receiver) {
-  var desc = Object.getOwnPropertyDescriptor(object, property);
 
-  if (desc === undefined) {
-    var parent = Object.getPrototypeOf(object);
 
-    if (parent !== null) {
-      set(parent, property, value, receiver);
-    }
-  } else if ("value" in desc && desc.writable) {
-    desc.value = value;
-  } else {
-    var setter = desc.set;
-
-    if (setter !== undefined) {
-      setter.call(receiver, value);
-    }
-  }
-
-  return value;
-};
 
 var slicedToArray = function () {
   function sliceIterator(arr, i) {
@@ -156,35 +113,72 @@ var toConsumableArray = function (arr) {
 
 var ACCEPTABLE_CRON_FORMATS = ['quartz'];
 var DAY_LOOKUPS = {
-    'SUN': 'Sunday',
-    'MON': 'Monday',
-    'TUE': 'Tuesday',
-    'WED': 'Wednesday',
-    'THU': 'Thursday',
-    'FRI': 'Friday',
-    'SAT': 'Saturday'
+    'en': {
+        'SUN': 'Sunday',
+        'MON': 'Monday',
+        'TUE': 'Tuesday',
+        'WED': 'Wednesday',
+        'THU': 'Thursday',
+        'FRI': 'Friday',
+        'SAT': 'Saturday'
+    },
+    'it': {
+        'SUN': 'Domenica',
+        'MON': "Lunedi'",
+        'TUE': "Martedi'",
+        'WED': "Mercoledi'",
+        'THU': "Giovedi'",
+        'FRI': "Venerdi'",
+        'SAT': 'Sabato'
+    }
 };
 var MONTH_WEEK_LOOKUPS = {
-    '#1': 'First',
-    '#2': 'Second',
-    '#3': 'Third',
-    '#4': 'Fourth',
-    '#5': 'Fifth',
-    'L': 'Last'
+    'en': {
+        '#1': 'First',
+        '#2': 'Second',
+        '#3': 'Third',
+        '#4': 'Fourth',
+        '#5': 'Fifth',
+        'L': 'Last'
+    },
+    'it': {
+        '#1': 'Primo',
+        '#2': 'Secondo',
+        '#3': 'Terzo',
+        '#4': 'Quarto',
+        '#5': 'Quinto',
+        'L': 'Ultimo'
+    }
 };
 var MONTH_LOOKUPS = {
-    '1': 'January',
-    '2': 'February',
-    '3': 'March',
-    '4': 'April',
-    '5': 'May',
-    '6': 'June',
-    '7': 'July',
-    '8': 'August',
-    '9': 'September',
-    '10': 'October',
-    '11': 'November',
-    '12': 'December'
+    'en': {
+        '1': 'January',
+        '2': 'February',
+        '3': 'March',
+        '4': 'April',
+        '5': 'May',
+        '6': 'June',
+        '7': 'July',
+        '8': 'August',
+        '9': 'September',
+        '10': 'October',
+        '11': 'November',
+        '12': 'December'
+    },
+    'it': {
+        '1': 'Gennaio',
+        '2': 'Febbraio',
+        '3': 'Marzo',
+        '4': 'Aprile',
+        '5': 'Maggio',
+        '6': 'Giugno',
+        '7': 'Luglio',
+        '8': 'Agosto',
+        '9': 'Settembre',
+        '10': 'Ottobre',
+        '11': 'Novembre',
+        '12': 'Dicembre'
+    }
 };
 
 var States = {
@@ -194,8 +188,8 @@ var States = {
 };
 
 var CronGenComponent = function () {
-    CronGenComponent.$inject = ["$scope", "cronGenService"];
-    function CronGenComponent($scope, cronGenService) {
+    CronGenComponent.$inject = ["$scope", "$translate", "$filter", "cronGenService"];
+    function CronGenComponent($scope, $translate, $filter, cronGenService) {
         'ngInject';
 
         var _this = this;
@@ -203,8 +197,11 @@ var CronGenComponent = function () {
         classCallCheck(this, CronGenComponent);
         this.parsedOptions = this.mergeDefaultOptions(this.options);
 
+        $translate.use(this.parsedOptions.language);
+
         angular.extend(this, {
             cronGenService: cronGenService,
+            filter: $filter,
             cronFormat: 'quartz',
             currentState: States.INIT,
             activeTab: function () {
@@ -351,29 +348,29 @@ var CronGenComponent = function () {
     }, {
         key: 'dayDisplay',
         value: function dayDisplay(day) {
-            return DAY_LOOKUPS[day];
+            return DAY_LOOKUPS[this.parsedOptions.language][day];
         }
     }, {
         key: 'monthWeekDisplay',
         value: function monthWeekDisplay(monthWeekNumber) {
-            return MONTH_WEEK_LOOKUPS[monthWeekNumber];
+            return MONTH_WEEK_LOOKUPS[this.parsedOptions.language][monthWeekNumber];
         }
     }, {
         key: 'monthDisplay',
         value: function monthDisplay(monthNumber) {
-            return MONTH_LOOKUPS[monthNumber];
+            return MONTH_LOOKUPS[this.parsedOptions.language][monthNumber];
         }
     }, {
         key: 'monthDayDisplay',
         value: function monthDayDisplay(monthDay) {
             if (monthDay === 'L') {
-                return 'Last Day';
+                return this.filter('translate')('LAST_DAY');
             } else if (monthDay === 'LW') {
-                return 'Last Weekday';
+                return this.filter('translate')('LAST_WEEKDAY');
             } else if (monthDay === '1W') {
-                return 'First Weekday';
+                return this.filter('translate')('FIRST_WEEKDAY');
             } else {
-                return '' + monthDay + this.cronGenService.appendInt(monthDay) + ' Day';
+                return '' + monthDay + this.cronGenService.appendInt(monthDay) + ' ' + this.filter('translate')('DAY');
             }
         }
     }, {
@@ -415,7 +412,8 @@ var CronGenComponent = function () {
                 hideYearlyTab: false,
                 hideAdvancedTab: true,
                 use24HourTime: false,
-                hideSeconds: false
+                hideSeconds: false,
+                language: 'en'
             }, options);
         }
     }, {
@@ -602,8 +600,11 @@ var CronGenComponent = function () {
 var QUARTZ_REGEX = /^\s*($|#|\w+\s*=|(\?|\*|(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?(?:,(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?)*)\s+(\?|\*|(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?(?:,(?:[0-5]?\d)(?:(?:-|\/|\,)(?:[0-5]?\d))?)*)\s+(\?|\*|(?:[01]?\d|2[0-3])(?:(?:-|\/|\,)(?:[01]?\d|2[0-3]))?(?:,(?:[01]?\d|2[0-3])(?:(?:-|\/|\,)(?:[01]?\d|2[0-3]))?)*)\s+(\?|\*|(?:0?[1-9]|[12]\d|3[01])(?:(?:-|\/|\,)(?:0?[1-9]|[12]\d|3[01]))?(?:,(?:0?[1-9]|[12]\d|3[01])(?:(?:-|\/|\,)(?:0?[1-9]|[12]\d|3[01]))?)*)\s+(\?|\*|(?:[1-9]|1[012])(?:(?:-|\/|\,)(?:[1-9]|1[012]))?(?:L|W)?(?:,(?:[1-9]|1[012])(?:(?:-|\/|\,)(?:[1-9]|1[012]))?(?:L|W)?)*|\?|\*|(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:-)(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?(?:,(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:(?:-)(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC))?)*)\s+(\?|\*|(?:[1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-|\/|\,|#)(?:[1-5]))?(?:L)?(?:,(?:[1-7]|MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-|\/|\,|#)(?:[1-5]))?(?:L)?)*|\?|\*|(?:MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-)(?:MON|TUE|WED|THU|FRI|SAT|SUN))?(?:,(?:MON|TUE|WED|THU|FRI|SAT|SUN)(?:(?:-)(?:MON|TUE|WED|THU|FRI|SAT|SUN))?)*)(|\s)+(\?|\*|(?:|\d{4})(?:(?:-|\/|\,)(?:|\d{4}))?(?:,(?:|\d{4})(?:(?:-|\/|\,)(?:|\d{4}))?)*))$/;
 
 var CronGenService = function () {
-    function CronGenService() {
+    CronGenService.$inject = ["$filter"];
+    function CronGenService($filter) {
         classCallCheck(this, CronGenService);
+
+        this.filter = $filter;
     }
 
     createClass(CronGenService, [{
@@ -624,19 +625,19 @@ var CronGenService = function () {
             if (value.length > 1) {
                 var secondToLastDigit = value.charAt(value.length - 2);
                 if (secondToLastDigit === '1') {
-                    return "th";
+                    return this.filter('translate')('CARDINAL_PREFIX');
                 }
             }
             var lastDigit = value.charAt(value.length - 1);
             switch (lastDigit) {
                 case '1':
-                    return "st";
+                    return this.filter('translate')('FIRST_PREFIX');
                 case '2':
-                    return "nd";
+                    return this.filter('translate')('SECOND_PREFIX');
                 case '3':
-                    return "rd";
+                    return this.filter('translate')('THIRD_PREFIX');
                 default:
-                    return "th";
+                    return this.filter('translate')('CARDINAL_PREFIX');
             }
         }
     }, {
@@ -705,7 +706,87 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
 };
 CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
 
-angular.module('angular-cron-gen', []).service('cronGenService', CronGenService).component('cronGenTimeSelect', {
+angular.module('angular-cron-gen', ['pascalprecht.translate']).config(["$translateProvider", function ($translateProvider) {
+    $translateProvider.translations('en', {
+        'MINUTES': 'Minutes',
+        'HOURLY': 'Hourly',
+        'DAILY': 'Daily',
+        'WEEKLY': 'Weekly',
+        'MONTHLY': 'Monthly',
+        'YEARLY': 'Yearly',
+        'ADVANCED': 'Advanced',
+        'EVERY': 'Every',
+        'MINUTE': 'minute(s)',
+        'ON_SECOND': 'on second',
+        'HOUR_ON_MINUTE': 'hour(s) on minute',
+        'AND_SECOND': 'and second',
+        'DAY_AT': 'day(s) at',
+        'EVERY_WEEK_WORKING_DAY': 'Every week day (Monday through Friday) at',
+        'MONDAY': 'Monday',
+        'TUESDAY': 'Tuesday',
+        'WEDNESDAY': 'Wednesday',
+        'THURSDAY': 'Thursday',
+        'FRIDAY': 'Friday',
+        'SATURDAY': 'Saturday',
+        'SUNDAY': 'Sunday',
+        'START_TIME': 'Start time',
+        'ON_THE': 'On the',
+        'OF_EVERY': 'of every',
+        'MONTHS_AT': 'month(s) at',
+        'AT': 'at',
+        'OF': 'of',
+        'CRON_EXPRESSION': 'Cron Expression',
+        'MORE_DETAILS': 'More details about how to create these expressions can be found',
+        'HERE': 'here',
+        'LAST_DAY': 'Last day',
+        'LAST_WEEKDAY': 'Last Weekday',
+        'FIRST_WEEKDAY': 'First Weekday',
+        'DAY': 'Day',
+        'FIRST_PREFIX': 'st',
+        'SECOND_PREFIX': 'nd',
+        'THIRD_PREFIX': 'rd',
+        'CARDINAL_PREFIX': 'th'
+    }).translations('it', {
+        'MINUTES': 'Minuti',
+        'HOURLY': 'Orario',
+        'DAILY': 'Giornaliero',
+        'WEEKLY': 'Settimanale',
+        'MONTHLY': 'Mensile',
+        'YEARLY': 'Annuale',
+        'ADVANCED': 'Avanzato',
+        'EVERY': 'Ogni',
+        'MINUTE': 'minuto/i',
+        'ON_SECOND': 'al secondo',
+        'HOUR_ON_MINUTE': 'ora/e al minuto',
+        'AND_SECOND': 'e secondi',
+        'DAY_AT': 'giorno/i alle',
+        'EVERY_WEEK_WORKING_DAY': "Ogni giorno della settimana (dal Lunedi' al Venerdi') alle",
+        'MONDAY': "Lunedi'",
+        'TUESDAY': "Martedi'",
+        'WEDNESDAY': "Mercoledi'",
+        'THURSDAY': "Giovedi'",
+        'FRIDAY': "Venerdi'",
+        'SATURDAY': 'Sabato',
+        'SUNDAY': 'Domenica',
+        'START_TIME': 'Inizio alle',
+        'ON_THE': 'Il',
+        'OF_EVERY': 'di ogni',
+        'MONTHS_AT': 'mese/i il',
+        'AT': 'il',
+        'OF': 'di',
+        'CRON_EXPRESSION': 'Sintassi Cron',
+        'MORE_DETAILS': 'Maggiori informazioni sulla sintassi Cron li potete trovare',
+        'HERE': 'qui',
+        'LAST_DAY': 'Ultimo giorno',
+        'LAST_WEEKDAY': 'Fine settimana',
+        'FIRST_WEEKDAY': 'Inizio settimana',
+        'DAY': 'Giorno',
+        'FIRST_PREFIX': '',
+        'SECOND_PREFIX': '',
+        'THIRD_PREFIX': '',
+        'CARDINAL_PREFIX': ''
+    });
+}]).service('cronGenService', CronGenService).component('cronGenTimeSelect', {
     bindings: {
         isDisabled: '<',
         onChange: '&',
