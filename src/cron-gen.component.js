@@ -226,8 +226,8 @@ export class CronGenComponent {
         return angular.extend({
             formInputClass: 'form-control cron-gen-input',
             formSelectClass: 'form-control cron-gen-select',
-            formRadioClass: 'form-control-static cron-gen-radio',
-            formCheckboxClass: 'form-control-static cron-gen-checkbox',
+            formRadioClass: 'cron-gen-radio',
+            formCheckboxClass: 'cron-gen-checkbox',
             hideMinutesTab: false,
             hideHourlyTab: false,
             hideDailyTab: false,
