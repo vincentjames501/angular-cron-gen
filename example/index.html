@@ -20,72 +20,75 @@
 </head>
 
 <body ng-app="ExampleApp" ng-controller="ExampleCtrl">
-<div class="jumbotron">
-    <h1>Cron Generator</h1>
-    <p>A cron expression generator for AngularJS.</p>
-    <p>
-        <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-primary btn-lg">
+  <div class="container">
+    <div class="row">
+      <div class="jumbotron">
+        <h1>Cron Generator</h1>
+        <p>A cron expression generator for AngularJS.</p>
+        <p>
+          <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-primary btn-lg">
             <i class="glyphicon glyphicon-download"></i>&nbsp;&nbsp;Download
         </a>
-        <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-default btn-lg">
+          <a href="https://github.com/vincentjames501/angular-cron-gen" class="btn btn-default btn-lg">
             <i class="glyphicon glyphicon-random"></i>&nbsp;&nbsp;Fork on GitHub
         </a>
-    </p>
-</div>
-
-<div class="panel">
-    <div class="panel-body">
-        <div class="row container">
-            <div class="col-xs-12">
-                <h3>Demo</h3>
-            </div>
-        </div>
-        <hr/>
-        <div class="row container">
-            <div class="col-xs-12">
-                <form name="cronForm">
-                    <cron-gen ng-model="cronExpression"
-                              ng-disabled="isCronDisabled"
-                              options="cronOptions"
-                              name="cron">
-                    </cron-gen>
-                </form>
-            </div>
-        </div>
-        <hr/>
-        <div class="row container">
-            <div class="col-xs-12">
-                Generated Cron Expression:
-                <span class="text-success"><b>{{cronExpression}}</b></span>
-            </div>
-            <div class="col-xs-12">
-                Is Valid:
-                <span class="text-success" ng-show="cronForm.cron.$valid"><b>True</b></span>
-                <span class="text-danger" ng-show="cronForm.cron.$invalid"><b>False</b></span>
-            </div>
-        </div>
+        </p>
+      </div>
     </div>
-</div>
 
-<div class="panel">
-    <div class="panel-body">
-        <div class="row container">
+    <div class="row">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="row container">
             <div class="col-xs-12">
-                <h3>Usage</h3>
+              <h3>Demo</h3>
             </div>
+          </div>
+          <hr/>
+          <div class="row container">
+            <div class="col-xs-12">
+              <form name="cronForm">
+                <cron-gen ng-model="cronExpression" ng-disabled="isCronDisabled" options="cronOptions" name="cron">
+                </cron-gen>
+              </form>
+            </div>
+          </div>
+          <hr/>
+          <div class="row container">
+            <div class="col-xs-12">
+              Generated Cron Expression:
+              <span class="text-success"><b>{{cronExpression}}</b></span>
+            </div>
+            <div class="col-xs-12">
+              Is Valid:
+              <span class="text-success" ng-show="cronForm.cron.$valid"><b>True</b></span>
+              <span class="text-danger" ng-show="cronForm.cron.$invalid"><b>False</b></span>
+            </div>
+          </div>
         </div>
-        <hr/>
-        <div class="row container">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="row container">
+            <div class="col-xs-12">
+              <h3>Usage</h3>
+            </div>
+          </div>
+          <hr/>
+          <div class="row container">
             <div class="col-xs-12">
 
-                <pre>&lt;cron-gen ng-model="cronExpression"
+              <pre>&lt;cron-gen ng-model="cronExpression"
           ng-disabled="isCronDisabled"
           template-url="your optional, custom template (Defaults to a bootstrap 3 template)"
           cron-format="quartz (Currently only compatible with 'quartz' and defaults to 'quartz')"
           options="cronOptions"&gt;
 &lt;/cron-gen&gt;</pre>
 
-                <pre>angular.module('ExampleApp', ['angular-cron-gen'])
+              <pre>angular.module('ExampleApp', ['angular-cron-gen'])
   .controller('ExampleCtrl', ['$scope', function ($scope) {
     $scope.cronExpression = '0 8 9 9 1/8 ? *';
     $scope.cronOptions = {
@@ -95,112 +98,112 @@
   }]);</pre>
 
             </div>
-        </div>
+          </div>
 
-        <div class="row container">
+          <div class="row container">
             <div class="col-xs-12">
-                <h3>Options</h3>
+              <h3>Options</h3>
             </div>
-        </div>
-        <hr/>
-        <div class="row container">
+          </div>
+          <hr/>
+          <div class="row container">
             <div class="col-xs-12">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Options</th>
-                        <th>Description</th>
-                        <th>Type</th>
-                        <th>Default</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>formInputClass</td>
-                        <td>The input class override</td>
-                        <td>String</td>
-                        <td>"form-control cron-gen-input"</td>
-                    </tr>
-                    <tr>
-                        <td>formSelectClass</td>
-                        <td>The select class override</td>
-                        <td>String</td>
-                        <td>"form-control cron-gen-select"</td>
-                    </tr>
-                    <tr>
-                        <td>formRadioClass</td>
-                        <td>The radio class override</td>
-                        <td>String</td>
-                        <td>"cron-gen-radio"</td>
-                    </tr>
-                    <tr>
-                        <td>formCheckboxClass</td>
-                        <td>The checkbox class override</td>
-                        <td>String</td>
-                        <td>"cron-gen-checkbox"</td>
-                    </tr>
-                    <tr>
-                        <td>hideMinutesTab</td>
-                        <td>Whether the minutes tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideHourlyTab</td>
-                        <td>Whether the hourly tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideDailyTab</td>
-                        <td>Whether the daily tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideWeeklyTab</td>
-                        <td>Whether the weekly tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideMonthlyTab</td>
-                        <td>Whether the monthly tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideYearlyTab</td>
-                        <td>Whether the yearly tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideAdvancedTab</td>
-                        <td>Whether the advanced tab should be hidden</td>
-                        <td>boolean</td>
-                        <td>true</td>
-                    </tr>
-                    <tr>
-                        <td>use24HourTime</td>
-                        <td>Whether to show AM/PM on the time selectors</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    <tr>
-                        <td>hideSeconds</td>
-                        <td>Whether to show/hide the seconds time picker</td>
-                        <td>boolean</td>
-                        <td>false</td>
-                    </tr>
-                    </tbody>
-                </table>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Options</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>formInputClass</td>
+                    <td>The input class override</td>
+                    <td>String</td>
+                    <td>"form-control cron-gen-input"</td>
+                  </tr>
+                  <tr>
+                    <td>formSelectClass</td>
+                    <td>The select class override</td>
+                    <td>String</td>
+                    <td>"form-control cron-gen-select"</td>
+                  </tr>
+                  <tr>
+                    <td>formRadioClass</td>
+                    <td>The radio class override</td>
+                    <td>String</td>
+                    <td>"cron-gen-radio"</td>
+                  </tr>
+                  <tr>
+                    <td>formCheckboxClass</td>
+                    <td>The checkbox class override</td>
+                    <td>String</td>
+                    <td>"cron-gen-checkbox"</td>
+                  </tr>
+                  <tr>
+                    <td>hideMinutesTab</td>
+                    <td>Whether the minutes tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideHourlyTab</td>
+                    <td>Whether the hourly tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideDailyTab</td>
+                    <td>Whether the daily tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideWeeklyTab</td>
+                    <td>Whether the weekly tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideMonthlyTab</td>
+                    <td>Whether the monthly tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideYearlyTab</td>
+                    <td>Whether the yearly tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideAdvancedTab</td>
+                    <td>Whether the advanced tab should be hidden</td>
+                    <td>boolean</td>
+                    <td>true</td>
+                  </tr>
+                  <tr>
+                    <td>use24HourTime</td>
+                    <td>Whether to show AM/PM on the time selectors</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>hideSeconds</td>
+                    <td>Whether to show/hide the seconds time picker</td>
+                    <td>boolean</td>
+                    <td>false</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
-
+      </div>
     </div>
-</div>
-
+  </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
