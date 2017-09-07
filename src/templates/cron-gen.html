@@ -1,78 +1,71 @@
 <!doctype html>
 <div class="cron-gen-main" ng-cloak>
     <ul class="nav nav-tabs tab-nav" role="tablist">
-        <li ng-class="{'active': $ctrl.activeTab === 'minutes'}"
+        <li ng-class="{'active': $ctrl.activeTab === 'minutes', 'disabled': $ctrl.ngDisabled}"
             ng-show="!$ctrl.parsedOptions.hideMinutesTab"
             role="presentation">
             <a href="#"
                aria-controls="minutes"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'minutes')">
                 Minutes
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideHourlyTab"
-            ng-class="{'active': $ctrl.activeTab === 'hourly'}">
+            ng-class="{'active': $ctrl.activeTab === 'hourly', 'disabled': $ctrl.ngDisabled}">
             <a href="#"
                aria-controls="hourly"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'hourly')">
                 Hourly
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideDailyTab"
-            ng-class="{'active': $ctrl.activeTab === 'daily'}">
+            ng-class="{'active': $ctrl.activeTab === 'daily', 'disabled': $ctrl.ngDisabled}">
             <a href="#"
                aria-controls="daily"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'daily')">
                 Daily
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
-            ng-class="{'active': $ctrl.activeTab === 'weekly'}">
+            ng-class="{'active': $ctrl.activeTab === 'weekly', 'disabled': $ctrl.ngDisabled}">
             <a href="#" aria-controls="weekly"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'weekly')">
                 Weekly
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideMonthlyTab"
-            ng-class="{'active': $ctrl.activeTab === 'monthly'}">
+            ng-class="{'active': $ctrl.activeTab === 'monthly', 'disabled': $ctrl.ngDisabled}">
             <a href="#"
                aria-controls="monthly"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'monthly')">
                 Monthly
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideYearlyTab"
-            ng-class="{'active': $ctrl.activeTab === 'yearly'}">
+            ng-class="{'active': $ctrl.activeTab === 'yearly', 'disabled': $ctrl.ngDisabled}">
             <a href="#"
                aria-controls="yearly"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'yearly')">
                 Yearly
             </a>
         </li>
         <li role="presentation"
             ng-show="!$ctrl.parsedOptions.hideAdvancedTab"
-            ng-class="{'active': $ctrl.activeTab === 'advanced'}">
+            ng-class="{'active': $ctrl.activeTab === 'advanced', 'disabled': $ctrl.ngDisabled}">
             <a href="#"
                aria-controls="advanced"
                role="tab"
-               data-toggle="tab"
                ng-click="$ctrl.setActiveTab($event, 'advanced')">
                 Advanced
             </a>
