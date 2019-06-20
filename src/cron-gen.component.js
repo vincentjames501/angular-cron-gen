@@ -1,71 +1,34 @@
 const ACCEPTABLE_CRON_FORMATS = ['quartz'];
 const DAY_LOOKUPS = {
-    'en': {
-        'SUN': 'Sunday',
-        'MON': 'Monday',
-        'TUE': 'Tuesday',
-        'WED': 'Wednesday',
-        'THU': 'Thursday',
-        'FRI': 'Friday',
-        'SAT': 'Saturday'
-    },
-    'it': {
-        'SUN': 'Domenica',
-        'MON': "Lunedi'",
-        'TUE': "Martedi'",
-        'WED': "Mercoledi'",
-        'THU': "Giovedi'",
-        'FRI': "Venerdi'",
-        'SAT': 'Sabato'
-    }
+    'SUN': this.filter('translate')('SUNDAY'),
+    'MON': this.filter('translate')('MONDAY'),
+    'TUE': this.filter('translate')('TUESDAY'),
+    'WED': this.filter('translate')('WEDNESDAY'),
+    'THU': this.filter('translate')('THURSDAY'),
+    'FRI': this.filter('translate')('FRIDAY'),
+    'SAT': this.filter('translate')('SATURDAY')
 };
 const MONTH_WEEK_LOOKUPS = {
-    'en': {
-        '#1': 'First',
-        '#2': 'Second',
-        '#3': 'Third',
-        '#4': 'Fourth',
-        '#5': 'Fifth',
-        'L': 'Last'
-    },
-    'it': {
-        '#1': 'Primo',
-        '#2': 'Secondo',
-        '#3': 'Terzo',
-        '#4': 'Quarto',
-        '#5': 'Quinto',
-        'L': 'Ultimo'
-    }
+    '#1': this.filter('translate')('FIRST'),
+    '#2': this.filter('translate')('SECOND'),
+    '#3': this.filter('translate')('THIRD'),
+    '#4': this.filter('translate')('FOURTH'),
+    '#5': this.filter('translate')('FIFTH'),
+    'L': this.filter('translate')('LAST')
 };
 const MONTH_LOOKUPS = {
-    'en': {
-        '1': 'January',
-        '2': 'February',
-        '3': 'March',
-        '4': 'April',
-        '5': 'May',
-        '6': 'June',
-        '7': 'July',
-        '8': 'August',
-        '9': 'September',
-        '10': 'October',
-        '11': 'November',
-        '12': 'December'
-    },
-    'it': {
-        '1': 'Gennaio',
-        '2': 'Febbraio',
-        '3': 'Marzo',
-        '4': 'Aprile',
-        '5': 'Maggio',
-        '6': 'Giugno',
-        '7': 'Luglio',
-        '8': 'Agosto',
-        '9': 'Settembre',
-        '10': 'Ottobre',
-        '11': 'Novembre',
-        '12': 'Dicembre'
-    }
+        '1': this.filter('translate')('JANUARY'),
+        '2': this.filter('translate')('FEBRUARY'),
+        '3': this.filter('translate')('MARCH'),
+        '4': this.filter('translate')('APRIL'),
+        '5': this.filter('translate')('MAY'),
+        '6': this.filter('translate')('JUNE'),
+        '7': this.filter('translate')('JULY'),
+        '8': this.filter('translate')('AUGUST'),
+        '9': this.filter('translate')('SEPTEMBER'),
+        '10': this.filter('translate')('OCTOBER'),
+        '11': this.filter('translate')('NOVEMBER'),
+        '12': this.filter('translate')('DECEMBER')
 };
 
 const States = {
@@ -220,15 +183,15 @@ export class CronGenComponent {
     }
 
     dayDisplay(day) {
-        return DAY_LOOKUPS[this.parsedOptions.language][day];
+        return DAY_LOOKUPS[day];
     }
 
     monthWeekDisplay(monthWeekNumber) {
-        return MONTH_WEEK_LOOKUPS[this.parsedOptions.language][monthWeekNumber];
+        return MONTH_WEEK_LOOKUPS[monthWeekNumber];
     }
 
     monthDisplay(monthNumber) {
-        return MONTH_LOOKUPS[this.parsedOptions.language][monthNumber];
+        return MONTH_LOOKUPS[monthNumber];
     }
 
     monthDayDisplay(monthDay) {
