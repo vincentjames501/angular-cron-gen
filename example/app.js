@@ -3,7 +3,7 @@ angular.module('ExampleApp', ['angular-cron-gen'])
         $scope.cronExpression = '0 8 9 9 1/8 ? *';
         $scope.cronOptions = {
             hideAdvancedTab: false,
-            language: 'it'
+            language: 'de'
         };
         $scope.isCronDisabled = false;
     }]);
