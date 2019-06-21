@@ -187,29 +187,29 @@ export class CronGenComponent {
 
     monthDisplay(monthNumber) {
         switch (monthNumber) {
-            case "1":
+            case 1:
                 return this.filter('translate')('JANUARY');
-            case "2":
+            case 2:
                 return this.filter('translate')('FEBRUARY');
-            case "3":
+            case 3:
                 return this.filter('translate')('MARCH');
-            case "4":
+            case 4:
                 return this.filter('translate')('APRIL');
-            case "5":
+            case 5:
                 return this.filter('translate')('MAY');
-            case "6":
+            case 6:
                 return this.filter('translate')('JUNE');
-            case "7":
+            case 7:
                 return this.filter('translate')('JULY');
-            case "8":
+            case 8:
                 return this.filter('translate')('AUGUST');
-            case "9":
+            case 9:
                 return this.filter('translate')('SEPTEMBER');
-            case "10":
+            case 10:
                 return this.filter('translate')('OCTOBER');
-            case "11":
+            case 11:
                 return this.filter('translate')('NOVEMBER');
-            case "12":
+            case 12:
                 return this.filter('translate')('DECEMBER');
         }
     }
