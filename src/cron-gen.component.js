@@ -1,47 +1,13 @@
-const ACCEPTABLE_CRON_FORMATS = ['quartz'];
-const DAY_LOOKUPS = {
-    'SUN': this.filter('translate')('SUNDAY'),
-    'MON': this.filter('translate')('MONDAY'),
-    'TUE': this.filter('translate')('TUESDAY'),
-    'WED': this.filter('translate')('WEDNESDAY'),
-    'THU': this.filter('translate')('THURSDAY'),
-    'FRI': this.filter('translate')('FRIDAY'),
-    'SAT': this.filter('translate')('SATURDAY')
-};
-const MONTH_WEEK_LOOKUPS = {
-    '#1': this.filter('translate')('FIRST'),
-    '#2': this.filter('translate')('SECOND'),
-    '#3': this.filter('translate')('THIRD'),
-    '#4': this.filter('translate')('FOURTH'),
-    '#5': this.filter('translate')('FIFTH'),
-    'L': this.filter('translate')('LAST')
-};
-const MONTH_LOOKUPS = {
-        '1': this.filter('translate')('JANUARY'),
-        '2': this.filter('translate')('FEBRUARY'),
-        '3': this.filter('translate')('MARCH'),
-        '4': this.filter('translate')('APRIL'),
-        '5': this.filter('translate')('MAY'),
-        '6': this.filter('translate')('JUNE'),
-        '7': this.filter('translate')('JULY'),
-        '8': this.filter('translate')('AUGUST'),
-        '9': this.filter('translate')('SEPTEMBER'),
-        '10': this.filter('translate')('OCTOBER'),
-        '11': this.filter('translate')('NOVEMBER'),
-        '12': this.filter('translate')('DECEMBER')
-};
-
-const States = {
-    INIT: 1,
-    DIRTY: 2,
-    CLEAN: 3,
-};
-
 export class CronGenComponent {
-
     constructor($scope, $translate, $filter, cronGenService) {
         'ngInject';
 
+        const ACCEPTABLE_CRON_FORMATS = ['quartz'];
+        const States = {
+            INIT: 1,
+            DIRTY: 2,
+            CLEAN: 3,
+        };
         this.parsedOptions = this.mergeDefaultOptions(this.options);
 
         $translate.use(this.parsedOptions.language);
@@ -183,14 +149,45 @@ export class CronGenComponent {
     }
 
     dayDisplay(day) {
+        const DAY_LOOKUPS = {
+            'SUN': this.filter('translate')('SUNDAY'),
+            'MON': this.filter('translate')('MONDAY'),
+            'TUE': this.filter('translate')('TUESDAY'),
+            'WED': this.filter('translate')('WEDNESDAY'),
+            'THU': this.filter('translate')('THURSDAY'),
+            'FRI': this.filter('translate')('FRIDAY'),
+            'SAT': this.filter('translate')('SATURDAY')
+        };
         return DAY_LOOKUPS[day];
     }
 
     monthWeekDisplay(monthWeekNumber) {
+        const MONTH_WEEK_LOOKUPS = {
+            '#1': this.filter('translate')('FIRST'),
+            '#2': this.filter('translate')('SECOND'),
+            '#3': this.filter('translate')('THIRD'),
+            '#4': this.filter('translate')('FOURTH'),
+            '#5': this.filter('translate')('FIFTH'),
+            'L': this.filter('translate')('LAST')
+        };
         return MONTH_WEEK_LOOKUPS[monthWeekNumber];
     }
 
     monthDisplay(monthNumber) {
+        const MONTH_LOOKUPS = {
+            '1': this.filter('translate')('JANUARY'),
+            '2': this.filter('translate')('FEBRUARY'),
+            '3': this.filter('translate')('MARCH'),
+            '4': this.filter('translate')('APRIL'),
+            '5': this.filter('translate')('MAY'),
+            '6': this.filter('translate')('JUNE'),
+            '7': this.filter('translate')('JULY'),
+            '8': this.filter('translate')('AUGUST'),
+            '9': this.filter('translate')('SEPTEMBER'),
+            '10': this.filter('translate')('OCTOBER'),
+            '11': this.filter('translate')('NOVEMBER'),
+            '12': this.filter('translate')('DECEMBER')
+        };
         return MONTH_LOOKUPS[monthNumber];
     }
 
