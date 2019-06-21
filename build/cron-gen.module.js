@@ -133,6 +133,7 @@ var CronGenComponent = function () {
         angular.extend(this, {
             cronGenService: cronGenService,
             filter: $filter,
+            translate: $translate,
             cronFormat: 'quartz',
             currentState: States.INIT,
             activeTab: function () {
@@ -250,9 +251,7 @@ var CronGenComponent = function () {
         });
 
         // Watch for option changes
-        $scope.$watch('$ctrl.options', function (options) {
-            return _this.parsedOptions = _this.mergeDefaultOptions(options);
-        }, true);
+        $scope.$watch('$ctrl.options', this.optionsChanged.bind(this), true);
     }
 
     createClass(CronGenComponent, [{
@@ -266,6 +265,12 @@ var CronGenComponent = function () {
                     return _this2.cronGenService.isValid(_this2.cronFormat, expression);
                 };
             }
+        }
+    }, {
+        key: 'optionsChanged',
+        value: function optionsChanged(options) {
+            this.parsedOptions = this.mergeDefaultOptions(options);
+            this.translate.use(this.parsedOptions.language);
         }
     }, {
         key: 'setActiveTab',

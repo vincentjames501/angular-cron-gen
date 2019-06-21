@@ -16,6 +16,7 @@ export class CronGenComponent {
         angular.extend(this, {
             cronGenService,
             filter: $filter,
+            translate: $translate,
             cronFormat: 'quartz',
             currentState: States.INIT,
             activeTab: (() => {
@@ -131,7 +132,7 @@ export class CronGenComponent {
         $scope.$watch('$ctrl.ngModel', (cron) => this.handleModelChange(cron));
 
         // Watch for option changes
-        $scope.$watch('$ctrl.options', (options) => this.parsedOptions = this.mergeDefaultOptions(options), true);
+        $scope.$watch('$ctrl.options', this.optionsChanged.bind(this), true);
     }
 
     $onInit() {
@@ -139,6 +140,11 @@ export class CronGenComponent {
         if (this.formCtrl && this.name) {
             this.ngModelCtrl.$validators.testCronExpr = expression => this.cronGenService.isValid(this.cronFormat, expression);
         }
+    }
+
+    optionsChanged(options) {
+        this.parsedOptions = this.mergeDefaultOptions(options);
+        this.translate.use(this.parsedOptions.language);
     }
 
     setActiveTab($event, tab) {
