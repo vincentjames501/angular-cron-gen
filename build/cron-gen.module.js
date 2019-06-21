@@ -111,6 +111,13 @@ var toConsumableArray = function (arr) {
   }
 };
 
+var ACCEPTABLE_CRON_FORMATS = ['quartz'];
+var States = {
+    INIT: 1,
+    DIRTY: 2,
+    CLEAN: 3
+};
+
 var CronGenComponent = function () {
     CronGenComponent.$inject = ["$scope", "$translate", "$filter", "cronGenService"];
     function CronGenComponent($scope, $translate, $filter, cronGenService) {
@@ -119,12 +126,6 @@ var CronGenComponent = function () {
         var _this = this;
 
         classCallCheck(this, CronGenComponent);
-        var ACCEPTABLE_CRON_FORMATS = ['quartz'];
-        var States = {
-            INIT: 1,
-            DIRTY: 2,
-            CLEAN: 3
-        };
         this.parsedOptions = this.mergeDefaultOptions(this.options);
 
         $translate.use(this.parsedOptions.language);

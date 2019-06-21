@@ -1,13 +1,14 @@
+const ACCEPTABLE_CRON_FORMATS = ['quartz'];
+const States = {
+    INIT: 1,
+    DIRTY: 2,
+    CLEAN: 3,
+};
+
 export class CronGenComponent {
     constructor($scope, $translate, $filter, cronGenService) {
         'ngInject';
 
-        const ACCEPTABLE_CRON_FORMATS = ['quartz'];
-        const States = {
-            INIT: 1,
-            DIRTY: 2,
-            CLEAN: 3,
-        };
         this.parsedOptions = this.mergeDefaultOptions(this.options);
 
         $translate.use(this.parsedOptions.language);
