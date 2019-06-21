@@ -111,45 +111,6 @@ var toConsumableArray = function (arr) {
   }
 };
 
-var ACCEPTABLE_CRON_FORMATS = ['quartz'];
-var DAY_LOOKUPS = {
-    'SUN': undefined.filter('translate')('SUNDAY'),
-    'MON': undefined.filter('translate')('MONDAY'),
-    'TUE': undefined.filter('translate')('TUESDAY'),
-    'WED': undefined.filter('translate')('WEDNESDAY'),
-    'THU': undefined.filter('translate')('THURSDAY'),
-    'FRI': undefined.filter('translate')('FRIDAY'),
-    'SAT': undefined.filter('translate')('SATURDAY')
-};
-var MONTH_WEEK_LOOKUPS = {
-    '#1': undefined.filter('translate')('FIRST'),
-    '#2': undefined.filter('translate')('SECOND'),
-    '#3': undefined.filter('translate')('THIRD'),
-    '#4': undefined.filter('translate')('FOURTH'),
-    '#5': undefined.filter('translate')('FIFTH'),
-    'L': undefined.filter('translate')('LAST')
-};
-var MONTH_LOOKUPS = {
-    '1': undefined.filter('translate')('JANUARY'),
-    '2': undefined.filter('translate')('FEBRUARY'),
-    '3': undefined.filter('translate')('MARCH'),
-    '4': undefined.filter('translate')('APRIL'),
-    '5': undefined.filter('translate')('MAY'),
-    '6': undefined.filter('translate')('JUNE'),
-    '7': undefined.filter('translate')('JULY'),
-    '8': undefined.filter('translate')('AUGUST'),
-    '9': undefined.filter('translate')('SEPTEMBER'),
-    '10': undefined.filter('translate')('OCTOBER'),
-    '11': undefined.filter('translate')('NOVEMBER'),
-    '12': undefined.filter('translate')('DECEMBER')
-};
-
-var States = {
-    INIT: 1,
-    DIRTY: 2,
-    CLEAN: 3
-};
-
 var CronGenComponent = function () {
     CronGenComponent.$inject = ["$scope", "$translate", "$filter", "cronGenService"];
     function CronGenComponent($scope, $translate, $filter, cronGenService) {
@@ -158,6 +119,12 @@ var CronGenComponent = function () {
         var _this = this;
 
         classCallCheck(this, CronGenComponent);
+        var ACCEPTABLE_CRON_FORMATS = ['quartz'];
+        var States = {
+            INIT: 1,
+            DIRTY: 2,
+            CLEAN: 3
+        };
         this.parsedOptions = this.mergeDefaultOptions(this.options);
 
         $translate.use(this.parsedOptions.language);
@@ -311,16 +278,47 @@ var CronGenComponent = function () {
     }, {
         key: 'dayDisplay',
         value: function dayDisplay(day) {
+            var DAY_LOOKUPS = {
+                'SUN': this.filter('translate')('SUNDAY'),
+                'MON': this.filter('translate')('MONDAY'),
+                'TUE': this.filter('translate')('TUESDAY'),
+                'WED': this.filter('translate')('WEDNESDAY'),
+                'THU': this.filter('translate')('THURSDAY'),
+                'FRI': this.filter('translate')('FRIDAY'),
+                'SAT': this.filter('translate')('SATURDAY')
+            };
             return DAY_LOOKUPS[day];
         }
     }, {
         key: 'monthWeekDisplay',
         value: function monthWeekDisplay(monthWeekNumber) {
+            var MONTH_WEEK_LOOKUPS = {
+                '#1': this.filter('translate')('FIRST'),
+                '#2': this.filter('translate')('SECOND'),
+                '#3': this.filter('translate')('THIRD'),
+                '#4': this.filter('translate')('FOURTH'),
+                '#5': this.filter('translate')('FIFTH'),
+                'L': this.filter('translate')('LAST')
+            };
             return MONTH_WEEK_LOOKUPS[monthWeekNumber];
         }
     }, {
         key: 'monthDisplay',
         value: function monthDisplay(monthNumber) {
+            var MONTH_LOOKUPS = {
+                '1': this.filter('translate')('JANUARY'),
+                '2': this.filter('translate')('FEBRUARY'),
+                '3': this.filter('translate')('MARCH'),
+                '4': this.filter('translate')('APRIL'),
+                '5': this.filter('translate')('MAY'),
+                '6': this.filter('translate')('JUNE'),
+                '7': this.filter('translate')('JULY'),
+                '8': this.filter('translate')('AUGUST'),
+                '9': this.filter('translate')('SEPTEMBER'),
+                '10': this.filter('translate')('OCTOBER'),
+                '11': this.filter('translate')('NOVEMBER'),
+                '12': this.filter('translate')('DECEMBER')
+            };
             return MONTH_LOOKUPS[monthNumber];
         }
     }, {
