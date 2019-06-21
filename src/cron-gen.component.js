@@ -149,46 +149,68 @@ export class CronGenComponent {
     }
 
     dayDisplay(day) {
-        const DAY_LOOKUPS = {
-            'SUN': this.filter('translate')('SUNDAY'),
-            'MON': this.filter('translate')('MONDAY'),
-            'TUE': this.filter('translate')('TUESDAY'),
-            'WED': this.filter('translate')('WEDNESDAY'),
-            'THU': this.filter('translate')('THURSDAY'),
-            'FRI': this.filter('translate')('FRIDAY'),
-            'SAT': this.filter('translate')('SATURDAY')
-        };
-        return DAY_LOOKUPS[day];
+        switch (day) {
+            case "SUN":
+                return this.filter('translate')('SUNDAY');
+            case "MON":
+                return this.filter('translate')('MONDAY');
+            case "TUE":
+                return this.filter('translate')('TUESDAY');
+            case "WED":
+                return this.filter('translate')('WEDNESDAY');
+            case "THU":
+                return this.filter('translate')('THURSDAY');
+            case "FRI":
+                return this.filter('translate')('FRIDAY');
+            case "SAT":
+                return this.filter('translate')('SATURDAY');
+        }
     }
 
     monthWeekDisplay(monthWeekNumber) {
-        const MONTH_WEEK_LOOKUPS = {
-            '#1': this.filter('translate')('FIRST'),
-            '#2': this.filter('translate')('SECOND'),
-            '#3': this.filter('translate')('THIRD'),
-            '#4': this.filter('translate')('FOURTH'),
-            '#5': this.filter('translate')('FIFTH'),
-            'L': this.filter('translate')('LAST')
-        };
-        return MONTH_WEEK_LOOKUPS[monthWeekNumber];
+        switch (monthWeekNumber) {
+            case "#1":
+                return this.filter('translate')('FIRST');
+            case "#2":
+                return this.filter('translate')('SECOND');
+            case "#3":
+                return this.filter('translate')('THIRD');
+            case "#4":
+                return this.filter('translate')('FOURTH');
+            case "#5":
+                return this.filter('translate')('FIFTH');
+            case "L":
+                return this.filter('translate')('LAST');
+        }
     }
 
     monthDisplay(monthNumber) {
-        const MONTH_LOOKUPS = {
-            '1': this.filter('translate')('JANUARY'),
-            '2': this.filter('translate')('FEBRUARY'),
-            '3': this.filter('translate')('MARCH'),
-            '4': this.filter('translate')('APRIL'),
-            '5': this.filter('translate')('MAY'),
-            '6': this.filter('translate')('JUNE'),
-            '7': this.filter('translate')('JULY'),
-            '8': this.filter('translate')('AUGUST'),
-            '9': this.filter('translate')('SEPTEMBER'),
-            '10': this.filter('translate')('OCTOBER'),
-            '11': this.filter('translate')('NOVEMBER'),
-            '12': this.filter('translate')('DECEMBER')
-        };
-        return MONTH_LOOKUPS[monthNumber];
+        switch (monthNumber) {
+            case "1":
+                return this.filter('translate')('JANUARY');
+            case "2":
+                return this.filter('translate')('FEBRUARY');
+            case "3":
+                return this.filter('translate')('MARCH');
+            case "4":
+                return this.filter('translate')('APRIL');
+            case "5":
+                return this.filter('translate')('MAY');
+            case "6":
+                return this.filter('translate')('JUNE');
+            case "7":
+                return this.filter('translate')('JULY');
+            case "8":
+                return this.filter('translate')('AUGUST');
+            case "9":
+                return this.filter('translate')('SEPTEMBER');
+            case "10":
+                return this.filter('translate')('OCTOBER');
+            case "11":
+                return this.filter('translate')('NOVEMBER');
+            case "12":
+                return this.filter('translate')('DECEMBER');
+        }
     }
 
     monthDayDisplay(monthDay) {
