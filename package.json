@@ -43,6 +43,6 @@
     "rollup-plugin-babel": "^2.6.1"
   },
   "dependencies": {
-    "angular-translate": "^2.15.2"
+    "angular-translate": "^2.18.1"
   }
 }
