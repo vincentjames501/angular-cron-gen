@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/khauth/angular-cron-gen.git"
+    "url": "git://github.com/vincentjames501/angular-cron-gen.git"
   },
   "keywords": [
     "angular",
@@ -21,9 +21,9 @@
   "author": "Vincent Pizzo",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/khauth/angular-cron-gen/issues"
+    "url": "https://github.com/vincentjames501/angular-cron-gen/issues"
   },
-  "homepage": "https://khauth.github.io/angular-cron-gen",
+  "homepage": "https://vincentjames.github.io/angular-cron-gen",
   "devDependencies": {
     "add-stream": "^1.0.0",
     "babel-plugin-external-helpers": "^6.18.0",
@@ -43,6 +43,6 @@
     "rollup-plugin-babel": "^2.6.1"
   },
   "dependencies": {
-    "angular-translate": "^2.18.1"
+    "angular-translate": "^2.15.2"
   }
 }
