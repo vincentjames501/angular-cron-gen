@@ -159,7 +159,7 @@
                                    ng-model="$ctrl.state.daily.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    checked="checked">
-                            {{ 'EVERY' | translate}}
+                            {{ 'EVERY_DAY_YEAR' | translate}}
                             <select class="days"
                                     name="dailyEveryDaysDays"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
@@ -388,7 +388,7 @@
                                    ng-model="$ctrl.state.yearly.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="yearly-radio">
-                            {{ 'EVERY' | translate}}
+                            {{ 'EVERY_DAY_YEAR' | translate}}
                             <select class="months"
                                     name="yearlySpecificMonthDayMonth"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
@@ -398,7 +398,7 @@
                                     ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
                                     ng-class="$ctrl.parsedOptions.formSelectClass">
                             </select>
-                            {{ 'ON_THE' | translate}}
+                            {{ 'ON_THE_SMALL' | translate}}
                             <select class="month-days"
                                     name="yearlySpecificMonthDayDay"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
