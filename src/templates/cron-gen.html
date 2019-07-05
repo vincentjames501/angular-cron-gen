@@ -159,7 +159,7 @@
                                    ng-model="$ctrl.state.daily.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    checked="checked">
-                            {{ 'EVERY_DAY_YEAR' | translate}}
+                            {{ 'EVERY' | translate}}
                             <select class="days"
                                     name="dailyEveryDaysDays"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
@@ -388,7 +388,7 @@
                                    ng-model="$ctrl.state.yearly.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="yearly-radio">
-                            {{ 'EVERY_DAY_YEAR' | translate}}
+                            {{ 'EVERY_MONTH' | translate}}
                             <select class="months"
                                     name="yearlySpecificMonthDayMonth"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
@@ -428,7 +428,7 @@
                                    ng-model="$ctrl.state.yearly.subTab"
                                    ng-class="$ctrl.state.formRadioClass"
                                    name="yearly-radio">
-                            {{ 'ON_THE' | translate}}
+                            {{ 'EVERY_MONTH' | translate}}
                             <select class="day-order-in-month"
                                     name="yearlySpecificMonthWeekMonthWeek"
                                     ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
@@ -482,10 +482,6 @@
                                ng-model="$ctrl.state.advanced.expression"
                                ng-required="$ctrl.activeTab === 'advanced'"
                                ng-class="$ctrl.parsedOptions.formInputClass">
-
-                        <p>{{ 'MORE_DETAILS' | translate}} <a
-                                href="http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/tutorials/tutorial-lesson-06.html"
-                                target="_blank">{{ 'HERE' | translate}}</a>.</p>
                     </div>
                 </div>
             </div>
