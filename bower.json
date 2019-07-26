@@ -1,9 +1,8 @@
 {
   "name": "angular-cron-gen",
   "main": [
-    "src/cron-gen.html",
-    "src/cron-gen.js",
-    "src/cron-gen.less"
+    "build/cron-gen.min.js",
+    "build/cron-gen.min.css"
   ],
   "ignore": [
     "**/.*",
