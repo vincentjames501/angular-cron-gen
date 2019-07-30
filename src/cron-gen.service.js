@@ -5,6 +5,9 @@ export class CronGenService {
     }
 
     isValid(cronFormat, expression) {
+        // toUpperCase() is undefined if expression is undefined
+        if(!expression)
+            return false;
         const formattedExpression = expression.toUpperCase();
         switch (cronFormat) {
             case 'quartz':
