@@ -5,6 +5,9 @@ export class CronGenService {
     }
 
     isValid(cronFormat, expression) {
+        if (!expression) {
+          return false;
+        }
         const formattedExpression = expression.toUpperCase();
         switch (cronFormat) {
             case 'quartz':
@@ -39,8 +42,8 @@ export class CronGenService {
         return `${number}`.length === 1 ? `0${number}` : `${number}`;
     }
 
-    range(start, end){
-        if(typeof end === 'undefined') {
+    range(start, end) {
+        if (typeof end === 'undefined') {
             end = start;
             start = 0;
         }
@@ -48,19 +51,17 @@ export class CronGenService {
         if (start < 0 || end < 0)
             throw 'Range values must be positive values';
 
-        if (end > start){
+        if (end > start) {
             return [...new Array(end-start)].map(function (val, idx){return idx + start;});
-        }
-        else if (start < end)
-        {
+        } else if (start < end) {
             return [...new Array(start-end)].map(function (val, idx){return end - idx;});
+        } else {
+            return [];
         }
-        else
-            return new Array();
     }
 
-    selectOptions(){
-            return {
+    selectOptions() {
+        return {
             months: this.range(1, 13),
             monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
             days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],

@@ -307,6 +307,10 @@ export class CronGenComponent {
             this.currentState = States.CLEAN;
         }
 
+        if (!cron) {
+            return;
+        }
+
         const segments = cron.split(' ');
         if (segments.length === 6 || segments.length === 7) {
             const [seconds, minutes, hours, dayOfMonth, month, dayOfWeek] = segments;
