@@ -29,7 +29,7 @@
     </select>
     <select class="hour-types"
             name="{{namePrefix}}HourType"
-            ng-show="!$ctrl.use24HourTime"
+            ng-if="!$ctrl.use24HourTime"
             ng-disabled="$ctrl.isDisabled"
             ng-change="$ctrl.onChange()"
             ng-model="$ctrl.model.hourType"
