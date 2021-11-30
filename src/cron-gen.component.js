@@ -190,7 +190,7 @@ export class CronGenComponent {
         return MONTH_LOOKUPS[monthNumber];
     }
 
-    getMonthDaysWithLasts(yearly, month){
+    getMonthDaysWithLasts(month, yearly=new Date().getFullYear()){
         return ['1W', ...[...new Array(new Date(yearly, month, 0).getDate())].map((val, idx) => `${idx + 1}`), 'LW', 'L']
     }
 
