@@ -190,6 +190,10 @@ export class CronGenComponent {
         return MONTH_LOOKUPS[monthNumber];
     }
 
+    getMonthDaysWithLasts(month, yearly=new Date().getFullYear()){
+        return ['1W', ...[...new Array(new Date(yearly, month, 0).getDate())].map((val, idx) => `${idx + 1}`), 'LW', 'L']
+    }
+
     monthDayDisplay(monthDay) {
         if (monthDay === 'L') {
             return 'Last Day';
